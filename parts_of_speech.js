@@ -75,23 +75,31 @@ const PronounsList = [
 let randNum = (upto)=> Math.floor(Math.random() * upto);
 let randPron = ()=> Pronouns[PronounsList[randNum(PronounsList.length)]];
 
+let nouns = ['potatoes', 'basketball', 'stabbing knife', "elbows"];
+let adjs = ["amazing", 'dirty', 'funky', 'brownish-red'];
 
 for(var i = 0; i < 10; i++) {
-  var pron1 = randPron();
-  var pron2 = randPron();
-  var pron3 = randPron();
+  let pron1 = randPron();
+  let pron2 = randPron();
+  let pron3 = randPron();
+  let noun1 = nouns[randNum(nouns.length)];
+  let adj1 = adjs[randNum(adjs.length)];
+
+  // I gots ghetto shit right here
   let aux1 = pron1.getRandomAuxiliary();
   if (["do", "does", "been"].indexOf(aux1) !== -1) {
-    aux1 = aux1 === "does" ? "plays" : "play";
-  } else if (["are", "is", "am", "was", "were", "been"].indexOf(aux1) !== -1) {
+    aux1 = (["he", "she", "it"].indexOf(pron1.I) === -1 ? "play" : "plays");
+  } else if (["are", "is", "am", "was", "were", "be"].indexOf(aux1) !== -1) {
     aux1 += " playing";
   } else if(["may", "must", "might", "should", "could", "would", "shall", "will", "can"].indexOf(aux1) !== -1) {
     aux1 += " be playing"
+  } else if (aux1 === "did") {
+    aux1 = "played"
   } else {
     aux1 += " been playing"
   }
   // console.log('\n\t', pron1)
-  console.log(pron1.I, aux1, "with", pron2.my, "potatoes");
+  console.log(pron1.I, aux1, "with", pron2.my, adj1, noun1);
 }
 
 
