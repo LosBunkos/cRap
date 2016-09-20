@@ -20,9 +20,23 @@ const singularAuxiliaryVerbs = {
     "may", "must", "might", "should", "could", "would", "shall", "will", "can" 
   ],
   you: [
-    "do", "did", "have", "had", "are", "was", "were", "be", "been",
-    "may", "must", "might", "should", "could", "would", "shall", "will", "can"
+    "do", "did", "have", "had", "are", "were", "be", "been", "may", 
+    "must", "might", "should", "could", "would", "shall", "will", "can"
   ]
+}
+
+const pluralAuxiliaryVerbs = {
+  all: [
+    "do", "does", "did", "has", "have", "had",
+    "is", "am", "are", "was", "were", "be", "been",
+    "may", "must", "might", "should", "could", "would", "shall", "will", "can"
+  ],
+  we: [
+    "do", "did", "have", "had", "are", "were", "be", "been",
+    "may", "must", "might", "should", "could", "would", "shall", "will", "can"
+  ],
+  they: this.we,
+  you: this.we
 }
 
 class PronounGroup {
