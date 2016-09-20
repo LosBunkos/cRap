@@ -98,7 +98,7 @@ for(var i = 0; i < 10; i++) {
   } else {
     aux1 += " been playing"
   }
-  // console.log('\n\t', pron1)
+  noun1 = pron1.I == "it" ? noun1 + "!" : noun1
   console.log(pron1.I, aux1, "with", pron2.my, adj1, noun1);
 }
 
