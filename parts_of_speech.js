@@ -1,6 +1,12 @@
 // they because they *have*
 // followd 
 
+var auxiliary_verbs = [
+  "do", "does", "did", "has", "have", "had", "is", "am", "are", 
+  "was", "were", "be", "being", "been", "may", "must", "might", 
+  "should", "could", "would", "shall", "will", "can"
+]
+
 class PronounGroup {
   constructor(I, me, my, myself) {
     this.I = I;
@@ -24,3 +30,6 @@ const plural_pronouns = [
   new PronounGroup("they", "them", "their", "themselves"),
   new PronounGroup("you", "you", "your", "yourselves")
 ]
+
+
+
