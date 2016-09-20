@@ -1,11 +1,29 @@
-// they because they *have*
-// followd 
+// full list from https://english109mercy.wordpress.com/2012/10/22/23-auxiliary-verbs/
+// removed from list: "being"
 
-var auxiliary_verbs = [
-  "do", "does", "did", "has", "have", "had", "is", "am", "are", 
-  "was", "were", "be", "being", "been", "may", "must", "might", 
-  "should", "could", "would", "shall", "will", "can"
-]
+const singularAuxiliaryVerbs = {
+  all: [
+    "do", "does", "did", "has", "have", "had",
+    "is", "am", "are", "was", "were", "be", "been",
+    "may", "must", "might", "should", "could", "would", "shall", "will", "can"
+  ],
+  he: [
+    "does", "did", "has", "had", "is", "was", "be", "been",
+    "may", "must", "might", "should", "could", "would", "shall", "will", "can"
+  ],
+  // Does this work? haha, this joke.
+  she: this.he,
+  it: this.he,
+
+  i: [
+    "do", "did", "have", "had", "am", "was", "be", "been",
+    "may", "must", "might", "should", "could", "would", "shall", "will", "can" 
+  ],
+  you: [
+    "do", "did", "have", "had", "are", "was", "were", "be", "been",
+    "may", "must", "might", "should", "could", "would", "shall", "will", "can"
+  ]
+}
 
 class PronounGroup {
   constructor(I, me, my, myself) {
@@ -31,5 +49,5 @@ const plural_pronouns = [
   new PronounGroup("you", "you", "your", "yourselves")
 ]
 
-
+let randNum = (upto)=> Math.floor(Math.random() * upto);
 
