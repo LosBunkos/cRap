@@ -11,9 +11,10 @@ const singularAuxiliaryVerbs = {
     "does", "did", "has", "had", "is", "was", "be", "been",
     "may", "must", "might", "should", "could", "would", "shall", "will", "can"
   ],
-  // Does this work? haha, this joke.
-  she: this.he,
-  it: this.he,
+
+  // allows neat object self-reference
+  get she () { return singularAuxiliaryVerbs.he },
+  get it () { return singularAuxiliaryVerbs.he },
 
   i: [
     "do", "did", "have", "had", "am", "was", "be", "been",
@@ -35,8 +36,9 @@ const pluralAuxiliaryVerbs = {
     "do", "did", "have", "had", "are", "were", "be", "been",
     "may", "must", "might", "should", "could", "would", "shall", "will", "can"
   ],
-  they: this.we,
-  you: this.we
+  // allows neat object self-reference
+  get they () { return pluralAuxiliaryVerbs.we },
+  get you () { return pluralAuxiliaryVerbs.we },
 }
 
 class PronounGroup {
