@@ -12,7 +12,7 @@ const singularAuxiliaryVerbs = {
     "may", "must", "might", "should", "could", "would", "shall", "will", "can"
   ],
 
-  // allows neat object self-reference
+  // see comment on {pluralAuxiliaryVerbs} 
   get she () { return singularAuxiliaryVerbs.he },
   get it () { return singularAuxiliaryVerbs.he },
 
@@ -36,7 +36,9 @@ const pluralAuxiliaryVerbs = {
     "do", "did", "have", "had", "are", "were", "be", "been",
     "may", "must", "might", "should", "could", "would", "shall", "will", "can"
   ],
+  
   // allows neat object self-reference
+  // http://stackoverflow.com/a/4616262/5660689
   get they () { return pluralAuxiliaryVerbs.we },
   get you () { return pluralAuxiliaryVerbs.we },
 }
