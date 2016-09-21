@@ -2,6 +2,7 @@
   margin-top: 20px;
   font-family: 'Inconsolata', monospace;
   font-weight: strong;
+  text-align: center;
 }
 
 .rotate {
@@ -21,6 +22,11 @@
 /* Internet Explorer */
 filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 
+}
+
+.textbox{
+  height:200px;
+  width:80%;
 }
 
 .myButton {

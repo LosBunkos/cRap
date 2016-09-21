@@ -4,12 +4,10 @@ const toIng = require('./prog-verbs');
 const toSimple = require('verbutils')();
 // simple to past
 const toPast = require('tensify');
+var ext = require('./word-extractor');
+console.log(ext);
 
-class Word {
-  constructor(type) {
-    this.type = type;
-  }
-}
+
 
 // types:
 // -verb:

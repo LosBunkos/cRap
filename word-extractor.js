@@ -9,6 +9,11 @@ var tense = require('tense');
 var tensify = require('tensify'); //words from present to past
 
 
+function init(str){
+  str = str.removeStopWords();
+  return str;
+}
+
 //the stopwords list
 const stopWords = stopwords.toString();
 
@@ -36,82 +41,86 @@ String.prototype.removeStopWords = function() {
 }
 
 
-function removeStopwords(str) {
-  const separateSentancesWithoutStopWords = [];
-  for (s in strToSentences){
-  separateSentancesWithoutStopWords.push(strToSentences[s].removeStopWords());
-  }
-  return separateSentancesWithoutStopWords;
-}
+// function removeStopwords(str) {
+//   let str = [str];
+//   const strWithoutStopWords = [];
+//   for (s in str){
+//   strWithoutStopWords.push(str[s].removeStopWords());
+//   }
+//   return strWithoutStopWords;
+// }
 
 //split the text into complete sentences
-function tokenizeString(str) {
-  tokenizer.setEntry(str);
-  return tokenizer.getSentences();
-}
+// function tokenizeString(str) {
+//   tokenizer.setEntry(str);
+//   return tokenizer.getSentences();
+// }
 
-//user text input, for now with sample text
-const str = 'A short story is a piece of prose fiction that can be read in one sitting.\
-  Emerging from earlier oral storytelling traditions in the 17th century, the short story\
-  has grown to encompass a body of work so diverse as to defy easy characterization';
+let str = init("Once you think you have what it takes you can battle other members on the site. \
+You can choose a specific member or request someone to challenge you. You can also specify \
+rules and limits on the length of the battle. Once the battle begins, other members can vote for who wins.")
 
-const Words = {
+const pass = getWordsAndRhymes(str);
+// getUnclassifiedWords(str, pass)
+
+//get words and request rhymes
+function getWordsAndRhymes(str){
+  const Words = {
   nouns: [],
   adjectives: [],
   verbs: [],
   names: []
-};
-
-//get words and request rhymes
-function getWordsAndRhymes(separateSentancesWithoutStopWords){
-  for (s in separateSentancesWithoutStopWords) {
-    wordpos.getAdjectives(separateSentancesWithoutStopWords[s], function(adj){
-      for (let n = 0 ; n < adj.length ; n++){
-        let word = new Word(adj[n], "adjective");
-        // word.getRhymes(()=>{
-        //   Words.adjectives.push(word);
-        // });
-      }
-    })
-
-    wordpos.getVerbs(separateSentancesWithoutStopWords[s], function(verb){
-      for (let n = 0 ; n < verb.length ; n++){
-        let word = new Word(verb[n], "verb");
-        // word.getRhymes(()=>{
-        //   Words.verbs.push(word);
-        // });
-      }
-    })   
-
-    wordpos.getNouns(separateSentancesWithoutStopWords[s], function(noun){
-      for (let n = 0 ; n < noun.length ; n++){
-        let word = new Word(noun[n], "noun");
-        // word.getRhymes(()=>{
-        //   Words.nouns.push(word)
-        // });
-      }
-    })     
   }
-}
 
-function getUnclassifiedWords (strToSentences) {
-  let words = strToSentences.join(" ").split(" ");
+  wordpos.getAdjectives(str, function(adj){
+    for (let n = 0 ; n < adj.length ; n++){
+      let word = new Word(adj[n], "adjective");
+      Words.adjectives.push(word);
+    }
+  })
+
+  wordpos.getVerbs(str, function(verb){
+    for (let n = 0 ; n < verb.length ; n++){
+      let word = new Word(verb[n], "verb");
+      Words.verbs.push(word);
+    }
+  })   
+
+  wordpos.getNouns(str, function(noun){
+    for (let n = 0 ; n < noun.length ; n++){
+      let word = new Word(noun[n], "noun");
+      Words.nouns.push(word);
+    }
+  })
+
+  let words = [str].join(" ").split(" ");
   for (let i = 0; i < words.length ; i++){
     wordpos.getPOS(words[i], function(result) {
       let word = result.rest.toString();
       if (word.length > 0){ 
         let input = new Word(word, "name");
-        // input.getRhymes(()=>{
-        //   Words.names.push(input);
-        // })
+        Words.names.push(input);
       }
     })
   }
+
+  setTimeout(()=> {
+     return Words;
+  }, 500);
 }
 
+
 //for short inputs get the words and then find 2 synonyms for each
-function extractForShortSentances() {
-  wordpos.getPOS("hi, my name is john and i like to fish fish every day. bitch.", function(result){
+function extractForShortSentances(str) {
+
+  const Words = {
+  nouns: [],
+  adjectives: [],
+  verbs: [],
+  names: []
+  }
+
+  wordpos.getPOS(str, function(result){
     nouns = result.nouns;
     verbs = result.verbs;
     adjectives = result.adjectives;
@@ -142,17 +151,14 @@ function extractForShortSentances() {
       });
     }  
   })
+  return Words;
 }
 
 
 
-//tokenize the input str and clean out the stopwords
-const strToSentences = tokenizeString(str);
-const separateSentancesWithoutStopWords = removeStopwords(strToSentences);
-
 //get the verbs, nouns, adjs and rest and make Word classes that will be pushed into the Words obj by arrays.
-getWordsAndRhymes(separateSentancesWithoutStopWords);
-getUnclassifiedWords(separateSentancesWithoutStopWords);
+// getWordsAndRhymes(separateSentancesWithoutStopWords);
+// getUnclassifiedWords(separateSentancesWithoutStopWords);
 // extractForShortSentances(str) //if the sentence is short
 
 //create a word class
@@ -199,6 +205,12 @@ class Word{
     })
   }
 }
+
+
+module.exports = {init : init, getWordsAndRhymes : getWordsAndRhymes, extractForShortSentances : extractForShortSentances, Word:Word}
+
+
+
 
 
 
