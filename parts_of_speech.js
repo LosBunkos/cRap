@@ -47,6 +47,8 @@ const AuxiliaryVerbs = {
   get it () { return AuxiliaryVerbs.he },
   get they () { return AuxiliaryVerbs.we },
   get you () { return AuxiliaryVerbs.we },
+  get youSingular () { return AuxiliaryVerbs.we },
+  get youPlural () { return AuxiliaryVerbs.we },
 }
 
 class PronounGroup {
@@ -98,38 +100,75 @@ const PronounsList = [
 ];
 
 let randNum = (upto)=> Math.floor(Math.random() * upto);
-let randPron = ()=> Pronouns[PronounsList[randNum(PronounsList.length)]];
+let randFrom = (list) => list[randNum(list.length)]
+let randPron = (list = PronounsList)=> Pronouns[randFrom(list)];
 
-let nouns = ['potatoes', 'basketball', 'stabbing knife', "elbows"];
-let adjs = ["amazing", 'dirty', 'funky', 'brownish-red'];
 
   // I gots ghetto shit right here
   // PAV == Pronoun-auxiliary-verb
-  const genPAV = (pron, verb, changeItTo = "it")=> {
-    // if verb is past tense, make it present tense
-    verb = toSimple.toBaseForm(verb);
-    originalPronI = pron.I;
-    pron.I = (pron.I === 'it') ? changeItTo : pron.I
+const IAuxVerb = (pronList, verbList, changePronTo) => {
+  // if verb is past tense, make it present tense
+  let pron = randPron(pronList);
+  let verb = randFrom(verbList);
+  // verb = toSimple.toBaseForm(verb);
+  let aux = pron.getRandomAuxiliary();
+  let l = console.log
 
-    let aux = pron.getRandomAuxiliary();
-    if (["do", "does", "been"].indexOf(aux) !== -1) {
-      aux = (["he", "she", "it"].indexOf(pron.I) === -1 ? verb : verb + 's');
-    } else if (["are", "is", "am", "was", "were", "be"].indexOf(aux) !== -1) {
-      aux += ` ${toIng(verb)}`;
-    } else if(["may", "must", "might", "should", "could", "would", "shall", "will", "can"].indexOf(aux) !== -1) {
-      aux += ` be ${toIng(verb)}`
-    } else if (aux === "did") {
-      aux = ` ${toPast(verb)}`
-    } else {
-      aux += ` been ${toIng(verb)}`
-    }
-    let toReturn = pron.I;
-    pron.I = originalPronI;
-    return `${toReturn} ${aux}`;
-    
+  if (["do", "does", "been"].indexOf(aux) !== -1) {
+    // l(1);
+    aux = (["he", "she", "it"].indexOf(pron.I) === -1 ? verb : verb + 's');
+  } else if (["are", "is", "am", "was", "were", "be"].indexOf(aux) !== -1) {
+    // l(2)
+    aux += ` ${toIng(verb)}`;
+  } else if(["may", "must", "might", "should", "could", "would", "shall", "will", "can"].indexOf(aux) !== -1) {
+    // l(3)
+    aux += ` be ${toIng(verb)}`
+  } else if (aux === "did") {
+    // l(4)
+    aux = `${toPast(verb).past}`
+  } else {
+    // l(5)
+    aux += ` been ${toIng(verb)}`
   }
+  
+  if (pron.I === "it" && typeof changeItTo !== 'undefined'){
+    return `${changeItTo} ${aux}`
+  } else {
+    return `${pron["I"]} ${aux}`;
+  }
+  
+}
+
+const myNoun = (pronList, nounList, adjList = [""]) => {
+  let pron = randPron(pronList);
+  let noun = randFrom(nounList);
+  if (adjList.length != 0) {
+    noun = randFrom(adjList) + ' ' + noun;
+  }
+  return `${pron["my"]} ${noun}`
+}
+
+const simpleSentence = (pronList, nounList, verbList, adjList = [""]) => {
+  let sentence = IAuxVerb(pronList, verbList, nounList) + ' ' +
+                 myNoun(pronList, nounList, adjList);
+  return sentence;
+}
 ///////////////////////////////////
 
-console.log(genPAV(randPron(), 'played', 'nigguz'));
 
+Words1 = {
+  nouns: ["bitch", "snitch"],
+  verbs: ["run", "tan", "cun"],
+}
+
+Words2 = {
+  nouns: ["rhyme", "time", "thyme"],
+  verbs: ["build", "yield"],
+}
+
+let adjs = [];
+console.log(simpleSentence(PronounsList, Words1.nouns, Words1.verbs, adjs));
+console.log(simpleSentence(PronounsList, Words2.nouns, Words2.verbs, adjs));
+console.log(simpleSentence(PronounsList, Words1.nouns, Words1.verbs, adjs));
+console.log(simpleSentence(PronounsList, Words2.nouns, Words2.verbs, adjs));
 
