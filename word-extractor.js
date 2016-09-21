@@ -7,6 +7,7 @@ var tokenizer = new Tokenizer('Chuck');
 var stopwords = require('stopwords').english;
 var tense = require('tense');
 var tensify = require('tensify'); //words from present to past
+var q = require('q');
 
 
 function init(str){
@@ -56,15 +57,15 @@ String.prototype.removeStopWords = function() {
 //   return tokenizer.getSentences();
 // }
 
-let str = init("Once you think you have what it takes you can battle other members on the site. \
-You can choose a specific member or request someone to challenge you. You can also specify \
-rules and limits on the length of the battle. Once the battle begins, other members can vote for who wins.")
+// let str = init("Once you think you have what it takes you can battle other members on the site. \
+// You can choose a specific member or request someone to challenge you. You can also specify \
+// rules and limits on the length of the battle. Once the battle begins, other members can vote for who wins.")
 
-const pass = getWordsAndRhymes(str);
+// const pass = getWordsAndRhymes(str);
 // getUnclassifiedWords(str, pass)
 
 //get words and request rhymes
-function getWordsAndRhymes(str){
+function getWordsAndRhymes(str, fn){
   const Words = {
   nouns: [],
   adjectives: [],
@@ -94,6 +95,7 @@ function getWordsAndRhymes(str){
   })
 
   let words = [str].join(" ").split(" ");
+  setTimeout(()=> {
   for (let i = 0; i < words.length ; i++){
     wordpos.getPOS(words[i], function(result) {
       let word = result.rest.toString();
@@ -103,15 +105,13 @@ function getWordsAndRhymes(str){
       }
     })
   }
-
-  setTimeout(()=> {
-     return Words;
-  }, 500);
+  fn(Words);
+}, 0)
 }
 
 
 //for short inputs get the words and then find 2 synonyms for each
-function extractForShortSentances(str) {
+function extractForShortSentances(str, fn) {
 
   const Words = {
   nouns: [],
@@ -142,16 +142,21 @@ function extractForShortSentances(str) {
       let word = new Word(adjectives[a], "adjective");
       word.getSyns(()=> {
         Words.adjectives.push(word);
+
       });
     }
+
+    setTimeout(() => {
     for(n in names){
       let word = new Word(names[n], "names");
       word.getSyns(()=> {
         Words.names.push(word);
+        fn(Words)  
       });
-    }  
+    }
+  }, 0)
+  
   })
-  return Words;
 }
 
 
@@ -207,7 +212,10 @@ class Word{
 }
 
 
-module.exports = {init : init, getWordsAndRhymes : getWordsAndRhymes, extractForShortSentances : extractForShortSentances, Word:Word}
+module.exports = {init : init,
+                  getWordsAndRhymes : getWordsAndRhymes, 
+                  extractForShortSentances : extractForShortSentances, 
+                  Word:Word}
 
 
 
