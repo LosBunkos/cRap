@@ -4,12 +4,16 @@ const toIng = require('./prog-verbs');
 const toSimple = require('verbutils')();
 // simple to past
 const toPast = require('tensify');
+
 // const extractor = require('./word-extractor');
 class Word {
   constructor(type) {
     this.type = type;
   }
 }
+var ext = require('./word-extractor');
+var q = require('q');
+
 
 // types:
 // -verb:
@@ -167,11 +171,31 @@ Words2 = {
 }
 
 let adjs = [];
-console.log(simpleSentence(PronounsList, Words1.nouns, Words1.verbs, adjs));
-console.log(simpleSentence(PronounsList, Words2.nouns, Words2.verbs, adjs));
-console.log(simpleSentence(PronounsList, Words1.nouns, Words1.verbs, adjs));
-console.log(simpleSentence(PronounsList, Words2.nouns, Words2.verbs, adjs));
-console.log(simpleSentence(PronounsList, Words2.nouns, Words2.verbs, adjs));
-console.log(simpleSentence(PronounsList, Words2.nouns, Words2.verbs, adjs));
-console.log(simpleSentence(PronounsList, Words2.nouns, Words2.verbs, adjs));
 
+// console.log(simpleSentence(PronounsList, Words1.nouns, Words1.verbs, adjs));
+// console.log(simpleSentence(PronounsList, Words2.nouns, Words2.verbs, adjs));
+// console.log(simpleSentence(PronounsList, Words1.nouns, Words1.verbs, adjs));
+// console.log(simpleSentence(PronounsList, Words2.nouns, Words2.verbs, adjs));
+
+
+// test
+////////////
+let str = "If you have an author's name, but can't remember the title of the particular story\
+ you are looking for, click on the above button to navigate to a page where you will be confronted\
+  by a list of the authors whose works appear here.";
+str = ext.init(str);
+var Words;
+
+// ext.getWordsAndRhymes(str, (werds)=> {
+//   setTimeout(function(){
+//     Words = werds;
+//     console.log(Words)
+//   }, 100)
+// })
+
+ext.extractForShortSentances(str, (werds) => {
+  setTimeout(function(){
+    Words = werds;
+    console.log(werds)
+  }, 100)
+})
