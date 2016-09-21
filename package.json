@@ -22,6 +22,7 @@
     "font-awesome": "^4.6.3",
     "json-parser": "^1.1.5",
     "mongoose": "^4.6.0",
+    "q": "^1.4.1",
     "request": "^2.75.0",
     "rhyme-plus": "0.0.7",
     "sentence-tokenizer": "0.0.7",
