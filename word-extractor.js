@@ -68,27 +68,27 @@ function getWordsAndRhymes(separateSentancesWithoutStopWords){
     wordpos.getAdjectives(separateSentancesWithoutStopWords[s], function(adj){
       for (let n = 0 ; n < adj.length ; n++){
         let word = new Word(adj[n], "adjective");
-        word.getRhymes(()=>{
-          Words.adjectives.push(word);
-        });
+        // word.getRhymes(()=>{
+        //   Words.adjectives.push(word);
+        // });
       }
     })
 
     wordpos.getVerbs(separateSentancesWithoutStopWords[s], function(verb){
       for (let n = 0 ; n < verb.length ; n++){
         let word = new Word(verb[n], "verb");
-        word.getRhymes(()=>{
-          Words.verbs.push(word);
-        });
+        // word.getRhymes(()=>{
+        //   Words.verbs.push(word);
+        // });
       }
     })   
 
     wordpos.getNouns(separateSentancesWithoutStopWords[s], function(noun){
       for (let n = 0 ; n < noun.length ; n++){
         let word = new Word(noun[n], "noun");
-        word.getRhymes(()=>{
-          Words.nouns.push(word)
-        });
+        // word.getRhymes(()=>{
+        //   Words.nouns.push(word)
+        // });
       }
     })     
   }
@@ -101,13 +101,47 @@ function getUnclassifiedWords (strToSentences) {
       let word = result.rest.toString();
       if (word.length > 0){ 
         let input = new Word(word, "name");
-        input.getRhymes(()=>{
-          Words.names.push(input);
-        })
+        // input.getRhymes(()=>{
+        //   Words.names.push(input);
+        // })
       }
     })
   }
 }
+
+//for short inputs get the words and then find 2 synonyms for each
+wordpos.getPOS("hi, my name is john and i like to fish fish every day. bitch.", function(result){
+  nouns = result.nouns;
+  verbs = result.verbs;
+  adjectives = result.adjectives;
+  names = result.rest;
+
+  for(n in nouns){
+    let word = new Word(nouns[n], "noun");
+    word.getSyns(()=> {
+      Words.nouns.push(word);
+    });
+  }
+  for(v in verbs){
+    let word = new Word(verbs[v], "verb");
+    word.getSyns(()=> {
+      Words.verbs.push(word);
+    });
+  }
+  for(a in adjectives){
+    let word = new Word(adjectives[a], "adjective");
+    word.getSyns(()=> {
+      Words.adjectives.push(word);
+    });
+  }
+  for(n in names){
+    let word = new Word(names[n], "names");
+    word.getSyns(()=> {
+      Words.names.push(word);
+    });
+  }  
+})
+
 
 
 //tokenize the input str and clean out the stopwords
@@ -121,7 +155,7 @@ getUnclassifiedWords(separateSentancesWithoutStopWords);
 
 //create a word class
 class Word{
-  constructor(word, type){
+  constructor(word, type, syns){
     this.word = word,
     this.pos = type
   }
@@ -131,12 +165,11 @@ class Word{
     that.rhymes = [];
     request('https://api.datamuse.com/words?rel_rhy=' + that.word, function(err, res, body){
       if (err){
-        console.log(err);
+        console.log("there was an error:", err);
         throw new Error(err, "cannot connect to API");
       }
-      // empty response: '[]'.length === 2
       if (body.length === 2) {
-        console.log("no rhymes bitch:", body)
+        console.log("no rhymes found:", that.word, body)
         return;
       }
       for (let i = 0; i < 6 ; i++){
@@ -147,6 +180,22 @@ class Word{
       fn();
     })
   }
+
+  getSyns(fn) {
+    let that = this;
+    that.syns =[];
+    request('https://api.datamuse.com/words?rel_syn='+that.word, function(err, res, body){
+      // console.log(searchWord)
+      for(let i = 0; i < 2; i++){
+        let syn = JSON.parse(body)[i];
+        if (typeof syn !== 'undefined'){
+          that.syns.push(syn);
+        }
+      }
+    this.syns = that.syns;
+    fn();
+  })
+}
 }
 
 
