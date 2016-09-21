@@ -41,28 +41,6 @@ String.prototype.removeStopWords = function() {
 }
 
 
-// function removeStopwords(str) {
-//   let str = [str];
-//   const strWithoutStopWords = [];
-//   for (s in str){
-//   strWithoutStopWords.push(str[s].removeStopWords());
-//   }
-//   return strWithoutStopWords;
-// }
-
-//split the text into complete sentences
-// function tokenizeString(str) {
-//   tokenizer.setEntry(str);
-//   return tokenizer.getSentences();
-// }
-
-// let str = init("Once you think you have what it takes you can battle other members on the site. \
-// You can choose a specific member or request someone to challenge you. You can also specify \
-// rules and limits on the length of the battle. Once the battle begins, other members can vote for who wins.")
-
-// const pass = getWordsAndRhymes(str);
-// getUnclassifiedWords(str, pass)
-
 //get words and request rhymes
 function getWordsAndRhymes(str, fn){
   const Words = {
@@ -158,13 +136,6 @@ function extractForShortSentances(str, fn) {
   })
 }
 
-
-
-//get the verbs, nouns, adjs and rest and make Word classes that will be pushed into the Words obj by arrays.
-// getWordsAndRhymes(separateSentancesWithoutStopWords);
-// getUnclassifiedWords(separateSentancesWithoutStopWords);
-// extractForShortSentances(str) //if the sentence is short
-
 //create a word class
 class Word{
   constructor(word, type, syns){
@@ -184,7 +155,7 @@ class Word{
         console.log("no rhymes found:", that.word, body)
         return;
       }
-      for (let i = 0; i < 6 ; i++){
+      for (let i = 4; i < 8 ; i++){
         let rhyme = JSON.parse(body)[i];
         that.rhymes.push(rhyme);
       }
