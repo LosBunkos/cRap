@@ -110,37 +110,39 @@ function getUnclassifiedWords (strToSentences) {
 }
 
 //for short inputs get the words and then find 2 synonyms for each
-wordpos.getPOS("hi, my name is john and i like to fish fish every day. bitch.", function(result){
-  nouns = result.nouns;
-  verbs = result.verbs;
-  adjectives = result.adjectives;
-  names = result.rest;
+function extractForShortSentances() {
+  wordpos.getPOS("hi, my name is john and i like to fish fish every day. bitch.", function(result){
+    nouns = result.nouns;
+    verbs = result.verbs;
+    adjectives = result.adjectives;
+    names = result.rest;
 
-  for(n in nouns){
-    let word = new Word(nouns[n], "noun");
-    word.getSyns(()=> {
-      Words.nouns.push(word);
-    });
-  }
-  for(v in verbs){
-    let word = new Word(verbs[v], "verb");
-    word.getSyns(()=> {
-      Words.verbs.push(word);
-    });
-  }
-  for(a in adjectives){
-    let word = new Word(adjectives[a], "adjective");
-    word.getSyns(()=> {
-      Words.adjectives.push(word);
-    });
-  }
-  for(n in names){
-    let word = new Word(names[n], "names");
-    word.getSyns(()=> {
-      Words.names.push(word);
-    });
-  }  
-})
+    for(n in nouns){
+      let word = new Word(nouns[n], "noun");
+      word.getSyns(()=> {
+        Words.nouns.push(word);
+      });
+    }
+    for(v in verbs){
+      let word = new Word(verbs[v], "verb");
+      word.getSyns(()=> {
+        Words.verbs.push(word);
+      });
+    }
+    for(a in adjectives){
+      let word = new Word(adjectives[a], "adjective");
+      word.getSyns(()=> {
+        Words.adjectives.push(word);
+      });
+    }
+    for(n in names){
+      let word = new Word(names[n], "names");
+      word.getSyns(()=> {
+        Words.names.push(word);
+      });
+    }  
+  })
+}
 
 
 
@@ -151,7 +153,7 @@ const separateSentancesWithoutStopWords = removeStopwords(strToSentences);
 //get the verbs, nouns, adjs and rest and make Word classes that will be pushed into the Words obj by arrays.
 getWordsAndRhymes(separateSentancesWithoutStopWords);
 getUnclassifiedWords(separateSentancesWithoutStopWords);
-
+// extractForShortSentances(str) //if the sentence is short
 
 //create a word class
 class Word{
@@ -194,8 +196,8 @@ class Word{
       }
     this.syns = that.syns;
     fn();
-  })
-}
+    })
+  }
 }
 
 
