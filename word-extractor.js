@@ -7,7 +7,6 @@ var tokenizer = new Tokenizer('Chuck');
 var stopwords = require('stopwords').english;
 var tense = require('tense');
 var tensify = require('tensify'); //words from present to past
-var q = require('q');
 
 
 function init(str){

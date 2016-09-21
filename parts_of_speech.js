@@ -4,6 +4,7 @@ const toIng = require('./prog-verbs');
 const toSimple = require('verbutils')();
 // simple to past
 const toPast = require('tensify');
+var ext = require('./word-extractor');
 
 // const extractor = require('./word-extractor');
 class Word {
@@ -11,8 +12,6 @@ class Word {
     this.type = type;
   }
 }
-var ext = require('./word-extractor');
-var q = require('q');
 
 
 // types:
@@ -113,7 +112,7 @@ let randPron = (list = PronounsList)=> Pronouns[randFrom(list)];
 const IAuxVerb = (pronList, verbList, changePronTo) => {
   // if verb is past tense, make it present tense
   let pron = randPron(pronList);
-  let verb = randFrom(verbList);
+  let verb = randFrom(verbList).word;
   // verb = toSimple.toBaseForm(verb);
   let aux = pron.getRandomAuxiliary();
   let l = console.log
@@ -145,9 +144,9 @@ const IAuxVerb = (pronList, verbList, changePronTo) => {
 
 const myNoun = (pronList, nounList, adjList = [""]) => {
   let pron = randPron(pronList);
-  let noun = randFrom(nounList);
+  let noun = randFrom(nounList).word;
   if (adjList.length != 0) {
-    noun = randFrom(adjList) + ' ' + noun;
+    noun = randFrom(adjList).word + ' ' + noun;
   }
   return `${pron["my"]} ${noun}`
 }
@@ -193,9 +192,18 @@ var Words;
 //   }, 100)
 // })
 
+
+var genSentence = (words)=> {
+  let nouns = words.nouns.concat(words.names);
+  let adjs = words.adjectives;
+  let verbs = words.verbs;
+  // console.log(words.verbs)
+  nouns[0].getRhymes(()=>{
+      console.log(simpleSentence(PronounsList, [nouns[0]], verbs, adjs));
+      console.log(simpleSentence(PronounsList, nouns[0].rhymes, verbs, adjs));
+    })
+}
 ext.extractForShortSentances(str, (werds) => {
-  setTimeout(function(){
-    Words = werds;
-    console.log(werds)
-  }, 100)
+  setTimeout(()=>{genSentence(werds)}, 100)
 })
+
