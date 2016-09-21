@@ -27,6 +27,7 @@
     "sentence-tokenizer": "0.0.7",
     "tense": "^1.0.0",
     "tensify": "0.0.2",
+    "verbutils": "0.0.1",
     "wordpos": "^1.1.0"
   }
 }
