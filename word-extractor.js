@@ -157,6 +157,8 @@ class Word{
       }
       for (let i = 4; i < 8 ; i++){
         let rhyme = JSON.parse(body)[i];
+        let assJob = 'is' + that.type.charAt(0).toUpperCase() + string.slice(1);
+        console.log(assJob)
         that.rhymes.push(rhyme);
       }
       this.rhymes = that.rhymes;
