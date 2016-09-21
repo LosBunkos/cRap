@@ -1,5 +1,5 @@
 // simple to ing
-const toIng = require('prog-verb');
+const toIng = require('./prog-verbs');
 // past to simple
 const toSimple = require('verbutils')();
 // simple to past
@@ -107,7 +107,7 @@ let adjs = ["amazing", 'dirty', 'funky', 'brownish-red'];
   // PAV == Pronoun-auxiliary-verb
   const genPAV = (pron, verb, changeItTo = "it")=> {
     // if verb is past tense, make it present tense
-    verb = verbutils.toBaseForm(verb);
+    verb = toSimple.toBaseForm(verb);
     originalPronI = pron.I;
     pron.I = (pron.I === 'it') ? changeItTo : pron.I
 
@@ -123,8 +123,9 @@ let adjs = ["amazing", 'dirty', 'funky', 'brownish-red'];
     } else {
       aux += ` been ${toIng(verb)}`
     }
+    let toReturn = pron.I;
     pron.I = originalPronI;
-    return `${pron.I} ${aux}`;
+    return `${toReturn} ${aux}`;
     
   }
 ///////////////////////////////////
