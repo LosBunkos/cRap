@@ -1,0 +1,32 @@
+{
+  "name": "crap",
+  "version": "1.0.0",
+  "description": "",
+  "main": "word-extractor.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LosBunkos/cRap.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LosBunkos/cRap/issues"
+  },
+  "homepage": "https://github.com/LosBunkos/cRap#readme",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "express": "^4.14.0",
+    "font-awesome": "^4.6.3",
+    "json-parser": "^1.1.5",
+    "mongoose": "^4.6.0",
+    "request": "^2.75.0",
+    "rhyme-plus": "0.0.7",
+    "sentence-tokenizer": "0.0.7",
+    "tense": "^1.0.0",
+    "tensify": "0.0.2",
+    "wordpos": "^1.1.0"
+  }
+}

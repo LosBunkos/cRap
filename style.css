@@ -1,0 +1,30 @@
+.title{
+  margin-top: 20px;
+  font-family: 'Inconsolata', monospace;
+  font-weight: strong;
+}
+
+.rotate {
+
+/* Safari */
+-webkit-transform: rotate(-90deg);
+
+/* Firefox */
+-moz-transform: rotate(-90deg);
+
+/* IE */
+-ms-transform: rotate(-90deg);
+
+/* Opera */
+-o-transform: rotate(-90deg);
+
+/* Internet Explorer */
+filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+
+}
+
+.myButton {
+  width:200px;
+  margin-top:10px;
+  background-color: lightblue;
+}
