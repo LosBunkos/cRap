@@ -1,3 +1,10 @@
+// simple to ing
+const toIng = require('prog-verb');
+// past to simple
+const toSimple = require('verbutils')();
+// simple to past
+const toPast = require('tensify');
+
 class Word {
   constructor(type) {
     this.type = type;
@@ -67,9 +74,27 @@ const Pronouns = {
   "youSingular": new PronounGroup("you", "you", "your", "yourself"),
 }
 
+
+const getRandom = (str) => {
+  const list = [];
+  if (str === "pronoun") {
+    return Pronouns[PronounsList[randNum(PronounsList.length)]]
+  } else {
+    throw new Error(`No list found for "${str}"`);
+  }
+}
+
+
+const sentence = {
+
+}
+
+
+
+
 // Below this line is just goofin' around
 const PronounsList = [
-  "I", "it", "he", "we", "she", "they", "youSingular"
+  "I", "it", "he", "we", "she", "they", "youSingular", "youPlural"
 ];
 
 let randNum = (upto)=> Math.floor(Math.random() * upto);
@@ -78,28 +103,32 @@ let randPron = ()=> Pronouns[PronounsList[randNum(PronounsList.length)]];
 let nouns = ['potatoes', 'basketball', 'stabbing knife', "elbows"];
 let adjs = ["amazing", 'dirty', 'funky', 'brownish-red'];
 
-for(var i = 0; i < 10; i++) {
-  let pron1 = randPron();
-  let pron2 = randPron();
-  let pron3 = randPron();
-  let noun1 = nouns[randNum(nouns.length)];
-  let adj1 = adjs[randNum(adjs.length)];
-
   // I gots ghetto shit right here
-  let aux1 = pron1.getRandomAuxiliary();
-  if (["do", "does", "been"].indexOf(aux1) !== -1) {
-    aux1 = (["he", "she", "it"].indexOf(pron1.I) === -1 ? "play" : "plays");
-  } else if (["are", "is", "am", "was", "were", "be"].indexOf(aux1) !== -1) {
-    aux1 += " playing";
-  } else if(["may", "must", "might", "should", "could", "would", "shall", "will", "can"].indexOf(aux1) !== -1) {
-    aux1 += " be playing"
-  } else if (aux1 === "did") {
-    aux1 = "played"
-  } else {
-    aux1 += " been playing"
+  // PAV == Pronoun-auxiliary-verb
+  const genPAV = (pron, verb, changeItTo = "it")=> {
+    // if verb is past tense, make it present tense
+    verb = verbutils.toBaseForm(verb);
+    originalPronI = pron.I;
+    pron.I = (pron.I === 'it') ? changeItTo : pron.I
+
+    let aux = pron.getRandomAuxiliary();
+    if (["do", "does", "been"].indexOf(aux) !== -1) {
+      aux = (["he", "she", "it"].indexOf(pron.I) === -1 ? verb : verb + 's');
+    } else if (["are", "is", "am", "was", "were", "be"].indexOf(aux) !== -1) {
+      aux += ` ${toIng(verb)}`;
+    } else if(["may", "must", "might", "should", "could", "would", "shall", "will", "can"].indexOf(aux) !== -1) {
+      aux += ` be ${toIng(verb)}`
+    } else if (aux === "did") {
+      aux = ` ${toPast(verb)}`
+    } else {
+      aux += ` been ${toIng(verb)}`
+    }
+    pron.I = originalPronI;
+    return `${pron.I} ${aux}`;
+    
   }
-  noun1 = pron1.I == "it" ? noun1 + "!" : noun1
-  console.log(pron1.I, aux1, "with", pron2.my, adj1, noun1);
-}
+///////////////////////////////////
+
+console.log(genPAV(randPron(), 'played', 'nigguz'));
 
 
