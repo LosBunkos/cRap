@@ -4,7 +4,7 @@ const toIng = require('./prog-verbs');
 const toSimple = require('verbutils')();
 // simple to past
 const toPast = require('tensify');
-
+// const extractor = require('./word-extractor');
 class Word {
   constructor(type) {
     this.type = type;
@@ -157,18 +157,21 @@ const simpleSentence = (pronList, nounList, verbList, adjList = [""]) => {
 
 
 Words1 = {
-  nouns: ["bitch", "snitch"],
+  nouns: ["bitch", "snitch", "peach", "ditch", "rich"],
   verbs: ["run", "tan", "cun"],
 }
 
 Words2 = {
-  nouns: ["rhyme", "time", "thyme"],
-  verbs: ["build", "yield"],
+  nouns: ["rhyme", "time", "thyme", "slime", "dime"],
+  verbs: ["build", "yield", "shield"],
 }
 
 let adjs = [];
 console.log(simpleSentence(PronounsList, Words1.nouns, Words1.verbs, adjs));
 console.log(simpleSentence(PronounsList, Words2.nouns, Words2.verbs, adjs));
 console.log(simpleSentence(PronounsList, Words1.nouns, Words1.verbs, adjs));
+console.log(simpleSentence(PronounsList, Words2.nouns, Words2.verbs, adjs));
+console.log(simpleSentence(PronounsList, Words2.nouns, Words2.verbs, adjs));
+console.log(simpleSentence(PronounsList, Words2.nouns, Words2.verbs, adjs));
 console.log(simpleSentence(PronounsList, Words2.nouns, Words2.verbs, adjs));
 
