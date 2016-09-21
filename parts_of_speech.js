@@ -47,6 +47,8 @@ const AuxiliaryVerbs = {
   get it () { return AuxiliaryVerbs.he },
   get they () { return AuxiliaryVerbs.we },
   get you () { return AuxiliaryVerbs.we },
+  get youSingular () { return AuxiliaryVerbs.we },
+  get youPlural () { return AuxiliaryVerbs.we },
 }
 
 class PronounGroup {
@@ -98,38 +100,54 @@ const PronounsList = [
 ];
 
 let randNum = (upto)=> Math.floor(Math.random() * upto);
-let randPron = ()=> Pronouns[PronounsList[randNum(PronounsList.length)]];
+let randFrom = (list) => list[randNum(list.length)]
+let randPron = (list = PronounsList)=> Pronouns[randFrom(list)];
 
 let nouns = ['potatoes', 'basketball', 'stabbing knife', "elbows"];
 let adjs = ["amazing", 'dirty', 'funky', 'brownish-red'];
 
   // I gots ghetto shit right here
   // PAV == Pronoun-auxiliary-verb
-  const genPAV = (pron, verb, changeItTo = "it")=> {
+  const genPAV = (pron, part = "I", verb, changePronTo)=> {
     // if verb is past tense, make it present tense
     verb = toSimple.toBaseForm(verb);
-    originalPronI = pron.I;
-    pron.I = (pron.I === 'it') ? changeItTo : pron.I
-
     let aux = pron.getRandomAuxiliary();
+    let l = console.log
+
     if (["do", "does", "been"].indexOf(aux) !== -1) {
+      l(1);
       aux = (["he", "she", "it"].indexOf(pron.I) === -1 ? verb : verb + 's');
     } else if (["are", "is", "am", "was", "were", "be"].indexOf(aux) !== -1) {
+      l(2)
       aux += ` ${toIng(verb)}`;
     } else if(["may", "must", "might", "should", "could", "would", "shall", "will", "can"].indexOf(aux) !== -1) {
+      l(3)
       aux += ` be ${toIng(verb)}`
     } else if (aux === "did") {
-      aux = ` ${toPast(verb)}`
+      l(4)
+      aux = `${toPast(verb).past}`
     } else {
+      l(5)
       aux += ` been ${toIng(verb)}`
     }
-    let toReturn = pron.I;
-    pron.I = originalPronI;
-    return `${toReturn} ${aux}`;
+    
+    if (pron.I === "it" && typeof changeItTo !== 'undefined'){
+      console.log(changeItTo, aux)
+      return `${changeItTo} ${aux}`
+    } else {
+      console.log(pron[part], aux)
+      return `${pron[part]} ${aux}`;
+    }
     
   }
 ///////////////////////////////////
 
-console.log(genPAV(randPron(), 'played', 'nigguz'));
+// console.log(genPAV(randPron(["they", "we", "youPlural"]), randFrom(["taken", "knife", "cry"]), randFrom(['nigguz', 'whities'])));
+Words = {nouns: ["niggue", "playah", "wife", "husband", "goat", "bureaucracy"], verbs: ["fuck", "lick", "eat", "stab"]}
+console.log(genPAV(randPron(["youSingular"]), "I", randFrom(["claim"])),
+  "to be a", randFrom(Words.nouns), "But",
+  genPAV(randPron("I"), "I", randFrom(Words.verbs)),
+  genPAV(randPron(["youSingular"]), "my", randFrom(Words.verbs)) 
+  );
 
 
