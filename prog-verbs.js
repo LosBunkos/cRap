@@ -8,7 +8,7 @@ function makeIng(verb){
 
   if ((c.indexOf(letters[0]) !== -1) && (v.indexOf(letters[1]) !== -1) && (c.indexOf(letters[2]) !== -1)){
 
-    if(letters[2] === "w" || letters[2] === "y" || if letter[2] === "r"){
+    if(letters[2] === "w" || letters[2] === "y" || letters[2] === "r"){
       verb = verb + 'in\''
     } else {
       verb = verb + verb.substring(verb.length-1) + 'in\'';
