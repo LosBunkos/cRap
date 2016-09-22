@@ -28,4 +28,4 @@ function makeIng(verb){
   return verb;
 }
 
-module.exports = makeIng
+module.exports = makeIng;

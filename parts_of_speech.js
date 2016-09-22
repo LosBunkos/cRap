@@ -25,6 +25,7 @@ var port = process.env.PORT || '4000';
 
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
+  
   next();
 });
 
@@ -298,6 +299,11 @@ app.post('/getRap', (req, res, next) => {
 
 
 })
+
+// app.get('/', function(req, res){
+//   res.sendFile(__dirname + "/public/index.html");
+// });
+
 
 console.log('Running server on http://localhost:' + port);
 app.listen(port);
