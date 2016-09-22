@@ -1,16 +1,28 @@
+body {
+    background-image: url("compton.jpg");
+      -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
 .spinner{
-  z-index: 1;
-  /*position: absolute;*/
-  width: 200px;
-  height: 70px;
+
+    margin: auto;  
+  position: absolute;
+  left:0;
+  right: 0;
+  top: 0;
+  bottom: 0;
 
 }
 
 .title{
   margin-top: 20px;
   margin-bottom: 20px;
+  font-size: 200%;
   font-family: 'Inconsolata', monospace;
-  font-weight: strong;
+  font-weight: bold;
   text-align: center;
 }
 
