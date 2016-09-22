@@ -155,10 +155,8 @@ class Word{
         console.log("no rhymes found:", that.word, body)
         return;
       }
-      for (let i = 4; i < 8 ; i++){
+      for (let i = 5; i < 10 ; i++){
         let rhyme = JSON.parse(body)[i];
-        let assJob = 'is' + that.type.charAt(0).toUpperCase() + string.slice(1);
-        console.log(assJob)
         that.rhymes.push(rhyme);
       }
       this.rhymes = that.rhymes;
