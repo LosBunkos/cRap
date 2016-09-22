@@ -7,8 +7,12 @@ body {
 }
 
 .spinner{
-
-    margin: auto;  
+  z-index: 1;
+  color: white;
+  -webkit-text-fill-color: lightblue; /* Will override color (regardless of order) */
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: darkblue;
+  margin: auto;  
   position: absolute;
   left:0;
   right: 0;
