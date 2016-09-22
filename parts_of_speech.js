@@ -218,38 +218,28 @@ let adjs = [];
 //   }, 100)
 // })
 
-let defaultVerbs = [
-  {word:"run"}, {word:"kill"}, {word:"smother"},
-  {word:"try"}, {word:"go"}, {word:"fly"}
-]
+
 var genSentence = (words, callback)=> {
   let nouns = words.nouns;
   let adjs = words.adjectives;
   let verbs = words.verbs;
-  if (typeof verbs === 'undefined' || verbs.length == 0) {
-    verbs = defaultVerbs;
-  }
-  // verbs.concat((verbs.length == 0) ? defaultVerbs : [])
+  let all = '';
+  // console.log(words.verbs)
+  console.time("Got rhymes")
   let start = new Date().getTime();
-  let noun1 = randFrom(nouns);
-  let noun2 = randFrom(nouns);
-  let noun3 = randFrom(nouns);
-  let noun4 = randFrom(nouns);
 
-  // dirty af
-  if (noun1 == noun2) {
-    noun1 = noun3;
-  }
-  noun1.getRhymes(()=>{
-    noun2.getRhymes(()=> {
-      let sen1 = simpleSentence(PronounsList, [noun1], verbs, adjs);
-      let sen2 = simpleSentence(PronounsList, [noun2], verbs, adjs);
-      let sen3 = simpleSentence(PronounsList, noun1.rhymes, verbs, adjs);
-      let sen4 = simpleSentence(PronounsList, noun2.rhymes, verbs, adjs);
+  nouns[0].getRhymes(()=>{
+    nouns[1].getRhymes(()=> {
+
+      let sen1 = simpleSentence(PronounsList, [nouns[0]], verbs, adjs);
+      let sen2 = simpleSentence(PronounsList, [nouns[1]], verbs, adjs);
+      console.log('\n\t\t', nouns[0].rhymes, '\n');
+      let sen3 = simpleSentence(PronounsList, nouns[0].rhymes, verbs, adjs);
+      let sen4 = simpleSentence(PronounsList, nouns[1].rhymes, verbs, adjs);
       let sens = sen1 + '\n' + sen2 + '\n' + sen3 + '\n' + sen4;
       let end = new Date().getTime();
       let time = end - start;
-      console.log('req took ' + time + 'ms');
+      console.timeEnd("Got rhymes");
       callback({sentences: [sen1, sen2, sen3, sen4], took: time + 'ms'});
 
     })
@@ -279,17 +269,14 @@ app.post('/getRap', (req, res, next) => {
     console.log('got a req with no req.body');
     next('f u no req.body');
   }
-    console.log('=====req start=====');
     let str = req.body.text;
-    console.log("Got text:\n\t", str);
+    console.log("\nGot text:\n\t", str);
     let tokens = ext.init(req.body.text);
     console.log("\nTokenized to:\n\t", tokens);
     ext.getWordsAndRhymes(tokens, (werds) => {
       setTimeout(()=> {
         genSentence(werds, (sentences)=> {
           sentences.tokens = tokens.split(' ');
-          console.log(`\ngenerated:\n${sentences.sentences}]`);
-          console.log('=====req end=====\n\nFrom:');
           sentences.original = str;
           res.json(sentences);
           })
