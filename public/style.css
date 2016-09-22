@@ -7,18 +7,22 @@ body {
 }
 
 .spinner{
-  z-index: 1;
-  color: white;
-  -webkit-text-fill-color: lightblue; /* Will override color (regardless of order) */
-  -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: darkblue;
-  margin: auto;  
+  z-index: 1000000;
+   color: white;
+   -webkit-text-fill-color: gray; /* Will override color (regardless of order) */
+   -webkit-text-stroke-width: 1px;
+   -webkit-text-stroke-color: black;
+    margin: auto;  
   position: absolute;
   left:0;
   right: 0;
   top: 0;
   bottom: 0;
 
+}
+
+.spinner h3 {
+  background-color:lightgray;
 }
 
 .title{
