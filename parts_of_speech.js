@@ -270,26 +270,20 @@ app.post('/getRap', (req, res, next) => {
     next('f u no req.body');
   }
     let str = req.body.text;
-    console.log("\nGot text:\n\t", str);
+    console.log("\nGot text:\n ", str);
     let tokens = ext.init(req.body.text);
-    console.log("\nTokenized to:\n\t", tokens);
+    console.log("\nTokenized to:\n ", tokens);
     ext.getWordsAndRhymes(tokens, (werds) => {
       setTimeout(()=> {
         genSentence(werds, (sentences)=> {
           sentences.tokens = tokens.split(' ');
+          console.log(sentences);
           sentences.original = str;
           res.json(sentences);
           })
         }, 100);
     })
-
-
 })
-
-// app.get('/', function(req, res){
-//   res.sendFile(__dirname + "/public/index.html");
-// });
-
 
 console.log('Running server on http://localhost:' + port);
 app.listen(port);
