@@ -18,6 +18,7 @@
   "homepage": "https://github.com/LosBunkos/cRap#readme",
   "dependencies": {
     "body-parser": "^1.15.2",
+    "angular": "^1.5.8",
     "bootstrap": "^3.3.7",
     "express": "^4.14.0",
     "font-awesome": "^4.6.3",
