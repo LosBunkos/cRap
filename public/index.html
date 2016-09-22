@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <link rel="stylesheet" type="text/css" href="bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" type="text/css" href="font-awesome/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Inconsolata:700" rel="stylesheet">
+</head>
+<body ng-app="crapApp">
+  <div ng-controller="crapCtrl">
+    <div class = "container">
+      <div class = "row title">
+        <div class = "col-md-8 col-md-offset-2">
+          <h1><i class="fa fa-headphones rotate" aria-hidden="true"></i>-RAP</h1>
+        </div>
+      </div>
+    </div>
+
+    <div class = "container">
+      <div class = "row input">
+        <div class = "col-md-8 col-md-offset-2"> 
+          <center>
+            <form ng-submit = sendRap()>
+              <div class="form-group">
+                <label for="text">Input your text here to c-RAPpify it!</label>
+                <textarea class="form-control" rows="5" class="textbox" id="comment"  placeholder="Write your text in here" ng-model="getText"></textarea>                
+                  <button type="submit" class="btn myButton"><b>Submit</b></button>
+                
+              </div>
+            </form>
+          </center>
+        </div>
+      </div>
+                       
+      <div class = "row">
+        <div class = "col-md-12">
+           <center><div class="spinner" ng-show="loading">
+             Calculating Rhymes...
+              <div class="sk-cube-grid">
+                <div class="sk-cube sk-cube1"></div>
+                <div class="sk-cube sk-cube2"></div>
+                <div class="sk-cube sk-cube3"></div>
+                <div class="sk-cube sk-cube4"></div>
+                <div class="sk-cube sk-cube5"></div>
+                <div class="sk-cube sk-cube6"></div>
+                <div class="sk-cube sk-cube7"></div>
+                <div class="sk-cube sk-cube8"></div>
+                <div class="sk-cube sk-cube9"></div>
+              </div>
+
+           </div></center>
+        </div>
+
+        <div class = "col-md-8 outputbox col-md-offset-3"> 
+          <div class = "output" ng-repeat = "text in texts">{{text}}</div>
+        </div>
+      </div>    
+
+    </div>
+  </div>
+  <script src="angular/angular.min.js"></script>
+  <script src="javascript/app.js"></script>
+  <script src="javascript/services.js"></script>
+  <script src="javascript/controller.js"></script>
+</body>
+</html>
