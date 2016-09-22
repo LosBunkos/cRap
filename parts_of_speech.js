@@ -12,8 +12,8 @@ var morgan = require('morgan')
 
 var app = express();
 
-app.use(express.static('javascript'));
-app.use(express.static('/node_modules'));
+app.use(express.static('node_modules'));
+app.use(express.static('public'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -25,7 +25,6 @@ var port = process.env.PORT || '4000';
 
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
-  
   next();
 });
 
