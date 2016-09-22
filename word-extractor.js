@@ -65,25 +65,28 @@ function getWordsAndRhymes(str, fn){
   })   
 
   wordpos.getNouns(str, function(noun){
-    for (let n = 0 ; n < noun.length ; n++){
-      let word = new Word(noun[n], "noun");
-      Words.nouns.push(word);
-    }
+    setTimeout(()=> {
+      for (let n = 0 ; n < noun.length ; n++){
+        let word = new Word(noun[n], "noun");
+        Words.nouns.push(word);
+      }
+      fn(Words);
+    }, 0)
   })
 
-  let words = [str].join(" ").split(" ");
-  setTimeout(()=> {
-  for (let i = 0; i < words.length ; i++){
-    wordpos.getPOS(words[i], function(result) {
-      let word = result.rest.toString();
-      if (word.length > 0){ 
-        let input = new Word(word, "name");
-        Words.names.push(input);
-      }
-    })
-  }
-  fn(Words);
-}, 0)
+//   let words = [str].join(" ").split(" ");
+//   setTimeout(()=> {
+//   for (let i = 0; i < words.length ; i++){
+//     wordpos.getPOS(words[i], function(result) {
+//       let word = result.rest.toString();
+//       if (word.length > 0){ 
+//         let input = new Word(word, "name");
+//         Words.names.push(input);
+//       }
+//     })
+//   }
+//   fn(Words);
+// }, 20)
 }
 
 

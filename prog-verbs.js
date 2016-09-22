@@ -5,7 +5,9 @@ const c = ['b','c','d','f','g','h','j','k','l','m','n','p','q','r','s','t','v','
 function makeIng(verb){
   var verbLength = verb.length;
   const letters = verb.substring(verb.length-3, verb.length);
-
+  if (verb.length < 3) {
+    return verb + 'in\'';
+  }
   if ((c.indexOf(letters[0]) !== -1) && (v.indexOf(letters[1]) !== -1) && (c.indexOf(letters[2]) !== -1)){
 
     if(letters[2] === "w" || letters[2] === "y" || letters[2] === "r"){
