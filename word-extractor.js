@@ -10,7 +10,7 @@ var tensify = require('tensify'); //words from present to past
 var toSimple = require('verbutils')();
 const stopWords = stopwords.toString();
 
-let str = "There are predictions that Monday night’s presidential debate will shatter records,\
+let str = "There are predictions that Monday night’s debate will shatter records,\
  as one recent headline put it, drawing a Super Bowl-size audience of more than million viewers\
  goes went stayed flayed.";
 
@@ -52,13 +52,14 @@ str = init(str);
 
 
 
-getWordsAndRhymes(str,fn)
+getWordsAndRhymes(str, (Words)=> {
+  howManyWordsMissing(Words);
+})
 
 //get words and request rhymes
 function getWordsAndRhymes(str, fn){
   //this is for checking if there are enough words after getting them all into the words obj
   const wordAmount = 10;
-
 
   const Words = {
   nouns: [],
@@ -104,110 +105,74 @@ function getWordsAndRhymes(str, fn){
       })
     }
 
-    //don't forget synamount
-    setTimeout(function(){
-      if (Words.nouns.length < wordAmount){
-        let synamount = wordAmount - Words.nouns.length;
-        console.log("missing nouns",synamount)
-      }   
-      if (Words.adjectives.length < wordAmount){
-        let synamount = wordAmount - Words.adjectives.length;
-        console.log("missing adjs",synamount)
-        for (i = 0 ; i < Words.adjectives.length ; i++){
-          console.log(Words.adjectives[i])
-          console.log(i)
-          // getSyns(Words.adjectives[i])
-        }
-
-      }  
-      if (Words.verbs.length < wordAmount){
-        let synamount = wordAmount - Words.verbs.length;
-        console.log("missing verbs",synamount)
-      }               
-    }, 50)
+    setTimeout(()=>fn(Words), 100);
   })
 }
 
-function getSyns(word, Words, synamount, fn) {
-  let that = this;
-  that.syns =[];
-  request('https://api.datamuse.com/words?rel_syn='+that.word+'&max=1', function(err, res, body){
-    // console.log(searchWord)
-    for(let i = 0; i < 3; i++){
-      let syn = JSON.parse(body)[i];
-      if (typeof syn !== 'undefined'){
-        that.syns.push(syn);
+
+//don't forget synMissing
+function howManyWordsMissing(Words){  
+  let neededAmount = 10;
+
+  //check missing verbs
+  if (Words.verbs.length < neededAmount){
+    let missing = neededAmount - Words.verbs.length;
+    let getPerWord = Math.round(missing /Words.verbs.length);
+    let getFirst = (missing%Words.verbs.length) + getPerWord;
+
+    if (getFirst !== 0){
+    getSyns(Words.verbs[0].word, Words, getFirst)
+    }
+
+    for (let i = 1; i < missing; i++){     
+      if (getPerWord === 0){return}
+      getSyns(Words.verbs[i].word, Words, getPerWord)
+    }
+  }
+    // for (let i = 0; i<missing ; i++){
+    //   if (i === 0){
+    //     getSyns(Words.verbs[0].word, Words, )
+    //   }
+    //   getSyns(Words.verbs[i].word, Words, missing)
+    // }
+  }
+
+
+//this function checks the syns coming back and shoves them where they need to go
+function checkType(synArr, Words){
+  var check = synArr.toString();
+  wordpos.getPOS(check, function(result){
+    let count = result.adjectives.length;
+    if(count > 0){
+      for (let i = 0; i < count; i++){
+        let word = result.adjectives[i];
+        word = new Word(word, "adjective")
+        Words.adjectives.push(word);
       }
     }
-  this.syns = that.syns;
-  fn();
+  })
+
+}
+
+
+function getSyns(word, Words, howmanytoget, fn) {
+  let synArr = [];
+  console.log("this is how many", howmanytoget)
+  request('https://api.datamuse.com/words?ml='+word.word+'&max=10', function(err, res, body){
+    // console.log(searchWord)
+      for (let i = 0; i < howmanytoget; i++){
+        let syn = JSON.parse(body)[i];
+        // console.log(syn)
+        if (typeof syn !== 'undefined'){
+          synArr.push(syn.word)
+          // console.log(synArr)
+       }
+      }
+  // fn();
+  setTimeout(function(){checkType(synArr, Words)},1000)
   })
 }
 
-//   let words = [str].join(" ").split(" ");
-//   setTimeout(()=> {
-//   for (let i = 0; i < words.length ; i++){
-//     wordpos.getPOS(words[i], function(result) {
-//       let word = result.rest.toString();
-//       if (word.length > 0){ 
-//         let input = new Word(word, "name");
-//         Words.rest.push(input);
-//       }
-//     })
-//   }
-//   fn(Words);
-// }, 20)
-
-
-
-//for short inputs get the words and then find 2 synonyms for each
-// function extractForShortSentances(str, fn) {
-
-//   const Words = {
-//   nouns: [],
-//   adjectives: [],
-//   verbs: [],
-//   rest: []
-//   }
-
-//   wordpos.getPOS(str, function(result){
-//     nouns = result.nouns;
-//     verbs = result.verbs;
-//     adjectives = result.adjectives;
-//     rest = result.rest;
-
-//     for(n in nouns){
-//       let word = new Word(nouns[n], "noun");
-//       word.getSyns(()=> {
-//         Words.nouns.push(word);
-//       });
-//     }
-//     for(v in verbs){
-//       let word = new Word(verbs[v], "verb");
-//       word.getSyns(()=> {
-//         Words.verbs.push(word);
-//       });
-//     }
-//     for(a in adjectives){
-//       let word = new Word(adjectives[a], "adjective");
-//       word.getSyns(()=> {
-//         Words.adjectives.push(word);
-
-//       });
-//     }
-
-//     // setTimeout(() => {
-//     for(n in rest){
-//       let word = new Word(rest[n], "rest");
-//       word.getSyns(()=> {
-//         Words.rest.push(word);
-//         fn(Words)  
-//       });
-//     }
-//   // }, 0)
-  
-//   })
-// }
 
 //create a word class
 class Word{
@@ -237,10 +202,6 @@ class Word{
     })
   }
 }
-
-
-
-
 
 module.exports = {init : init,
                   getWordsAndRhymes : getWordsAndRhymes, 
