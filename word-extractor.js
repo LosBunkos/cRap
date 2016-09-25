@@ -19,13 +19,8 @@ const stopWords = stopwords.toString();
 
 String.isStopWord = function(word) {
   let regex = new RegExp("\\b"+word+"\\b","i");
-  if(stopWords.search(regex) < 0)
-  {
-    return false;
-  }else
-  {
-    return true;  
-  }
+  let badWordsArr = ["couldn't", "mustn't"]
+  return !(stopWords.search(regex) < 0 && badWordsArr.indexOf(word) === -1)
 }
 
 String.prototype.removeStopWords = function() {
@@ -65,13 +60,13 @@ function getWordsAndRhymes(str, fn){
   })   
 
   wordpos.getNouns(str, function(noun){
-    setTimeout(()=> {
+    // setTimeout(()=> {
       for (let n = 0 ; n < noun.length ; n++){
         let word = new Word(noun[n], "noun");
         Words.nouns.push(word);
       }
-      fn(Words);
-    }, 0)
+      fn(Words)
+    // }, 0)
   })
 
 //   let words = [str].join(" ").split(" ");
@@ -126,7 +121,7 @@ function extractForShortSentances(str, fn) {
       });
     }
 
-    setTimeout(() => {
+    // setTimeout(() => {
     for(n in names){
       let word = new Word(names[n], "names");
       word.getSyns(()=> {
@@ -134,7 +129,7 @@ function extractForShortSentances(str, fn) {
         fn(Words)  
       });
     }
-  }, 0)
+  // }, 0)
   
   })
 }

@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // log requests
-app.use(morgan('tiny'))
+app.use(morgan('combined'))
 
 var port = process.env.PORT || '4000';
 
@@ -218,32 +218,44 @@ let adjs = [];
 //   }, 100)
 // })
 
-
+let defaultVerbs = [
+  {word:"run"}, {word:"kill"}, {word:"smother"},
+  {word:"try"}, {word:"go"}, {word:"fly"}
+]
 var genSentence = (words, callback)=> {
   let nouns = words.nouns;
   let adjs = words.adjectives;
   let verbs = words.verbs;
-  let all = '';
-  // console.log(words.verbs)
-  console.time("Got rhymes")
+  if (typeof verbs === 'undefined' || verbs.length == 0) {
+    verbs = defaultVerbs;
+  }
+  // verbs.concat((verbs.length == 0) ? defaultVerbs : [])
   let start = new Date().getTime();
+  let noun1 = randFrom(nouns);
+  let noun2 = randFrom(nouns);
+  let noun3 = randFrom(nouns);
+  let noun4 = randFrom(nouns);
 
-  nouns[0].getRhymes(()=>{
-    nouns[1].getRhymes(()=> {
+  // dirty af
+  if (noun1 == noun2) {
+    noun1 = noun3;
+  }
 
-      let sen1 = simpleSentence(PronounsList, [nouns[0]], verbs, adjs);
-      let sen2 = simpleSentence(PronounsList, [nouns[1]], verbs, adjs);
-      let sen3 = simpleSentence(PronounsList, nouns[0].rhymes, verbs, adjs);
-      let sen4 = simpleSentence(PronounsList, nouns[1].rhymes, verbs, adjs);
-      let sen5 = simpleSentence(PronounsList, [nouns[0]], verbs, adjs);
-      let sen6 = simpleSentence(PronounsList, [nouns[1]], verbs, adjs);
-      let sen7 = simpleSentence(PronounsList, nouns[0].rhymes, verbs, adjs);
-      let sen8 = simpleSentence(PronounsList, nouns[1].rhymes, verbs, adjs);      
-      // let sens = sen1 + '\n' + sen2 + '\n' + sen3 + '\n' + sen4;
+  noun1.getRhymes(()=>{
+    noun2.getRhymes(()=> {
+      let sen1 = simpleSentence(PronounsList, [noun1], verbs, adjs);
+      let sen2 = simpleSentence(PronounsList, [noun2], verbs, adjs);
+      let sen3 = simpleSentence(PronounsList, noun1.rhymes, verbs, adjs);
+      let sen4 = simpleSentence(PronounsList, noun2.rhymes, verbs, adjs);
+      let sen5 = simpleSentence(PronounsList, [noun1], verbs, adjs);
+      let sen6 = simpleSentence(PronounsList, [noun2], verbs, adjs);
+      let sen7 = simpleSentence(PronounsList, noun1.rhymes, verbs, adjs);
+      let sen8 = simpleSentence(PronounsList, noun2.rhymes, verbs, adjs);
+      let sens = sen1 + '\n' + sen2 + '\n' + sen3 + '\n' + sen4;
       let end = new Date().getTime();
       let time = end - start;
-      console.log("Took: ", time, 'ms');
-      callback({sentences: [sen1, sen2, sen3, sen4, " ", sen5,sen6,sen7,sen8], took: time + 'ms'});
+      console.log('req took ' + time + 'ms');
+      callback({sentences: [sen1, sen2, sen3, sen4, sen5, sen6, sen7, sen8], took: time + 'ms'});
 
     })
   })
@@ -259,11 +271,11 @@ app.get('/getRap', (req, res, next) => {
     // let str2 = ext.init(req.body.text);
     console.log("\nTokenized to:", str)
     ext.getWordsAndRhymes(str, (werds) => {
-      setTimeout(()=> {
+      // setTimeout(()=> {
         genSentence(werds, (sentences)=> {
           res.json(sentences);
           })
-        }, 100);
+        // }, 0);
     })
 })
 
@@ -272,21 +284,21 @@ app.post('/getRap', (req, res, next) => {
     console.log('got a req with no req.body');
     next('f u no req.body');
   }
-    console.log("\n=======req.start=========");
+    console.log('=====req start=====');
     let str = req.body.text;
-    console.log("Got text:\n ", str);
+    console.log("Got text:\n  ", str);
     let tokens = ext.init(req.body.text);
+    console.log("\nTokenized to:\n ", tokens);
     ext.getWordsAndRhymes(tokens, (werds) => {
-      setTimeout(()=> {
+      // setTimeout(()=> {
         genSentence(werds, (sentences)=> {
           sentences.tokens = tokens.split(' ');
-          console.log("\nTokenized to:\n ", tokens);
-          console.log("\nGenerated:\n ", sentences)
-          console.log("=======req.end=========");
+          console.log(`\ngenerated:\n${sentences.sentences}]`);
+          console.log('=====req end=====\n\nFrom:');
           sentences.original = str;
           res.json(sentences);
           })
-        }, 100);
+        // }, 100);
     })
 
 
