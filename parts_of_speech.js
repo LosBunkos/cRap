@@ -1,19 +1,19 @@
+var sentencer = require('sentencer');
+var ext = require('./word-extractor');
+var morgan = require('morgan')
+const express = require('express');
+var app = express();
+const bodyParser = require('body-parser');
 // simple to ing
 const toIng = require('./prog-verbs');
 // past to simple
 const toSimple = require('verbutils')();
 // simple to past
 const toPast = require('tensify');
-var ext = require('./word-extractor');
 
-const express = require('express');
-const bodyParser = require('body-parser');
-var morgan = require('morgan')
 
-var app = express();
-
-app.use(express.static('node_modules'));
-app.use(express.static('public'));
+app.use(express.static(`${__dirname}/node_modules`));
+app.use(express.static(`${__dirname}/public`));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -26,21 +26,7 @@ var port = process.env.PORT || '4000';
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   next();
-});
-
-class Word {
-  constructor(type) {
-    this.type = type;
-  }
-}
-
-
-// types:
-// -verb:
-// --simple
-// --progressive
-// --past
-//-
+}); 
 
 // full list from https://english109mercy.wordpress.com/2012/10/22/23-auxiliary-verbs/
 // removed from list: "being"
@@ -111,13 +97,6 @@ const getRandom = (str) => {
 }
 
 
-const sentence = {
-
-}
-
-
-
-
 // Below this line is just goofin' around
 const PronounsList = [
   "I", "it", "he", "we", "she", "they", "youSingular", "youPlural"
@@ -126,7 +105,6 @@ const PronounsList = [
 let randNum = (upto)=> Math.floor(Math.random() * upto);
 let randFrom = (list) => list[randNum(list.length)]
 let randPron = (list = PronounsList)=> Pronouns[randFrom(list)];
-
 
   // I gots ghetto shit right here
   // PAV == Pronoun-auxiliary-verb
@@ -172,94 +150,9 @@ const myNoun = (pronList, nounList, adjList = [""]) => {
   return `${pron["my"]} ${noun}`
 }
 
-const simpleSentence = (pronList, nounList, verbList, adjList = [""]) => {
-  let sentence = IAuxVerb(pronList, verbList, nounList) + ' ' +
-                 myNoun(pronList, nounList, adjList) + '\n';
-  return sentence;
-}
-///////////////////////////////////
-
-
-Words1 = {
-  nouns: ["bitch", "snitch", "peach", "ditch", "rich"],
-  verbs: ["run", "tan", "cun"],
-}
-
-Words2 = {
-  nouns: ["rhyme", "time", "thyme", "slime", "dime"],
-  verbs: ["build", "yield", "shield"],
-}
-
-let adjs = [];
-
-// console.log(simpleSentence(PronounsList, Words1.nouns, Words1.verbs, adjs));
-// console.log(simpleSentence(PronounsList, Words2.nouns, Words2.verbs, adjs));
-// console.log(simpleSentence(PronounsList, Words1.nouns, Words1.verbs, adjs));
-// console.log(simpleSentence(PronounsList, Words2.nouns, Words2.verbs, adjs));
-
-
-// test
-////////////
-// let str = "In the beginning I humoured him, yes, that I can admit, but then a\
-//  little voice in the back of my head began to whisper 'what if?' And that's when\
-//   I started to over think the whole thing. I would have the opportunity to see him\
-//    again. Maybe even follow and find him. Just go to the day before he left. \
-//    That's all I would need. One last, long lingering look at his beautiful face so I \
-//    could burn the image into my mind for good. I could even say goodbye. Hell, if I went \
-//    back a week further I could stop the whole birthday incident. It almost felt unhealthy \
-//    to even think these thoughts, but that didn't stop me. In fact I was beginning to feel \
-//    something close to excitement. Like I was really going to get to see him again.";
-// str = ext.init(str);
-
-// ext.getWordsAndRhymes(str, (werds)=> {
-//   setTimeout(function(){
-//     Words = werds;
-//     console.log(Words)
-//   }, 100)
-// })
-
-let defaultVerbs = [
-  {word:"run"}, {word:"kill"}, {word:"smother"},
-  {word:"try"}, {word:"go"}, {word:"fly"}
-]
-var genSentence = (words, callback)=> {
-  let nouns = words.nouns;
-  let adjs = words.adjectives;
-  let verbs = words.verbs;
-  if (typeof verbs === 'undefined' || verbs.length == 0) {
-    verbs = defaultVerbs;
-  }
-  // verbs.concat((verbs.length == 0) ? defaultVerbs : [])
-  let start = new Date().getTime();
-  let noun1 = randFrom(nouns);
-  let noun2 = randFrom(nouns);
-  let noun3 = randFrom(nouns);
-  let noun4 = randFrom(nouns);
-
-  // dirty af
-  if (noun1 == noun2) {
-    noun1 = noun3;
-  }
-
-  noun1.getRhymes(()=>{
-    noun2.getRhymes(()=> {
-      let sen1 = simpleSentence(PronounsList, [noun1], verbs, adjs);
-      let sen2 = simpleSentence(PronounsList, [noun2], verbs, adjs);
-      let sen3 = simpleSentence(PronounsList, noun1.rhymes, verbs, adjs);
-      let sen4 = simpleSentence(PronounsList, noun2.rhymes, verbs, adjs);
-      let sen5 = simpleSentence(PronounsList, [noun1], verbs, adjs);
-      let sen6 = simpleSentence(PronounsList, [noun2], verbs, adjs);
-      let sen7 = simpleSentence(PronounsList, noun1.rhymes, verbs, adjs);
-      let sen8 = simpleSentence(PronounsList, noun2.rhymes, verbs, adjs);
-      let sens = sen1 + '\n' + sen2 + '\n' + sen3 + '\n' + sen4;
-      let end = new Date().getTime();
-      let time = end - start;
-      console.log('req took ' + time + 'ms');
-      callback({sentences: [sen1, sen2, sen3, sen4, sen5, sen6, sen7, sen8], took: time + 'ms'});
-
-    })
-  })
-}
+/////////////////////////////////////////////////
+// Move everything below this line to router.js//
+/////////////////////////////////////////////////
 
 app.get('/getRap', (req, res, next) => {
   if (false){//!req.body || !req.body.text) {

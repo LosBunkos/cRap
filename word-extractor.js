@@ -20,7 +20,7 @@ const stopWords = stopwords.toString();
 String.isStopWord = function(word) {
   let regex = new RegExp("\\b"+word+"\\b","i");
   let badWordsArr = ["couldn't", "mustn't"]
-  return !(stopWords.search(regex) < 0 && badWordsArr.indexOf(word) === -1)
+  return !(stopWords.search(regex) < 0 || badWordsArr.indexOf(word) === -1)
 }
 
 String.prototype.removeStopWords = function() {
