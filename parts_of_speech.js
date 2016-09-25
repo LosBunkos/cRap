@@ -174,7 +174,7 @@ const myNoun = (pronList, nounList, adjList = [""]) => {
 
 const simpleSentence = (pronList, nounList, verbList, adjList = [""]) => {
   let sentence = IAuxVerb(pronList, verbList, nounList) + ' ' +
-                 myNoun(pronList, nounList, adjList);
+                 myNoun(pronList, nounList, adjList) + '\n';
   return sentence;
 }
 ///////////////////////////////////
@@ -293,7 +293,7 @@ app.post('/getRap', (req, res, next) => {
       // setTimeout(()=> {
         genSentence(werds, (sentences)=> {
           sentences.tokens = tokens.split(' ');
-          console.log(`\ngenerated:\n${sentences.sentences}]`);
+          console.log(`\ngenerated:\n`, ...sentences.sentences);
           console.log('=====req end=====\n\nFrom:');
           sentences.original = str;
           res.json(sentences);
