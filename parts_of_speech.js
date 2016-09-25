@@ -235,11 +235,15 @@ var genSentence = (words, callback)=> {
       let sen2 = simpleSentence(PronounsList, [nouns[1]], verbs, adjs);
       let sen3 = simpleSentence(PronounsList, nouns[0].rhymes, verbs, adjs);
       let sen4 = simpleSentence(PronounsList, nouns[1].rhymes, verbs, adjs);
-      let sens = sen1 + '\n' + sen2 + '\n' + sen3 + '\n' + sen4;
+      let sen5 = simpleSentence(PronounsList, [nouns[0]], verbs, adjs);
+      let sen6 = simpleSentence(PronounsList, [nouns[1]], verbs, adjs);
+      let sen7 = simpleSentence(PronounsList, nouns[0].rhymes, verbs, adjs);
+      let sen8 = simpleSentence(PronounsList, nouns[1].rhymes, verbs, adjs);      
+      // let sens = sen1 + '\n' + sen2 + '\n' + sen3 + '\n' + sen4;
       let end = new Date().getTime();
       let time = end - start;
       console.log("Took: ", time, 'ms');
-      callback({sentences: [sen1, sen2, sen3, sen4], took: time + 'ms'});
+      callback({sentences: [sen1, sen2, sen3, sen4, " ", sen5,sen6,sen7,sen8], took: time + 'ms'});
 
     })
   })
