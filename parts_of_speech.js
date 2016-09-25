@@ -271,11 +271,11 @@ app.get('/getRap', (req, res, next) => {
     // let str2 = ext.init(req.body.text);
     console.log("\nTokenized to:", str)
     ext.getWordsAndRhymes(str, (werds) => {
-      setTimeout(()=> {
+      // setTimeout(()=> {
         genSentence(werds, (sentences)=> {
           res.json(sentences);
           })
-        }, 100);
+        // }, 0);
     })
 })
 
@@ -290,7 +290,7 @@ app.post('/getRap', (req, res, next) => {
     let tokens = ext.init(req.body.text);
     console.log("\nTokenized to:\n ", tokens);
     ext.getWordsAndRhymes(tokens, (werds) => {
-      setTimeout(()=> {
+      // setTimeout(()=> {
         genSentence(werds, (sentences)=> {
           sentences.tokens = tokens.split(' ');
           console.log(`\ngenerated:\n${sentences.sentences}]`);
@@ -298,7 +298,7 @@ app.post('/getRap', (req, res, next) => {
           sentences.original = str;
           res.json(sentences);
           })
-        }, 100);
+        // }, 100);
     })
 
 
