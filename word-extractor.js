@@ -19,7 +19,10 @@ const stopWords = stopwords.toString();
 
 String.isStopWord = function(word) {
   let regex = new RegExp("\\b"+word+"\\b","i");
-  let badWordsArr = ["couldn't", "mustn't"]
+  let badWordsArr = ["isn't", "aren't", "wasn't","weren't", "haven't", "hasn't", "hadn't",
+                     "hadn't", "won't", "wouldn't", "don't", "doesn't", "didn't", "can't",
+                     "couldn't", "shouldn't", "mightn't", "mustn't", "would've", "should've"
+                     "could've", "might've", "must've"]
   return !(stopWords.search(regex) < 0 && badWordsArr.indexOf(word) === -1)
 }
 
@@ -45,6 +48,8 @@ function getWordsAndRhymes(str, fn){
   names: []
   }
 
+
+/////////////////////////////////////////////
   wordpos.getAdjectives(str, function(adj){
     for (let n = 0 ; n < adj.length ; n++){
       let word = new Word(adj[n], "adjective");
@@ -69,6 +74,7 @@ function getWordsAndRhymes(str, fn){
     // }, 0)
   })
 
+//////////////////////////////////
 //   let words = [str].join(" ").split(" ");
 //   setTimeout(()=> {
 //   for (let i = 0; i < words.length ; i++){
