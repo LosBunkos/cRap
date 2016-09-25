@@ -70,7 +70,7 @@ function getWordsAndRhymes(str, fn){
         let word = new Word(noun[n], "noun");
         Words.nouns.push(word);
       }
-      fn(Words);
+      fn(Words)
     }, 0)
   })
 
