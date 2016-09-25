@@ -7,6 +7,7 @@ var tokenizer = new Tokenizer('Chuck');
 var stopwords = require('stopwords').english;
 var tense = require('tense');
 var tensify = require('tensify'); //words from present to past
+var toSimple = require('./verbutils')();
 
 
 function init(str){
@@ -32,11 +33,14 @@ String.prototype.removeStopWords = function() {
     function($0) {
       if(!String.isStopWord($0))
       {
-        words[words.length] = $0.trim();
+        let word = $0.trim();
+        word = toSimple.toBaseForm(word)
+        words[words.length] = word;
       }
     }); 
     return words.join(" ");
 }
+
 
 
 //get words and request rhymes
