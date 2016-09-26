@@ -1,8 +1,6 @@
-var ext = require('./word-extractor');
-var morgan = require('morgan')
-
+const ext = require('./word-extractor');
 // simple to ing
-const toIng = require('./prog-verbs');
+const toIng = require('./prog-verbs').makeIng;
 // past to simple
 const toSimple = require('verbutils')();
 // simple to past
@@ -77,6 +75,3 @@ exports.PronounsList = [
 exports.randNum = (upto)=> Math.floor(Math.random() * upto);
 exports.randFrom = (list)=> list[this.randNum(list.length)];
 exports.randPron = (list = this.PronounsList)=> this.Pronouns[this.randFrom(list)];
-
-
-
