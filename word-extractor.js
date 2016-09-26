@@ -110,12 +110,12 @@ function getWordsAndRhymes(str, fn){
 }
 
 
-//don't forget synMissing
+//check how many words are missing in every pos for 10 and get syns
 function howManyWordsMissing(Words){  
   let neededAmount = 10;
 
   //check missing verbs
-  if (Words.verbs.length < neededAmount){
+  if (Words.verbs.length <= neededAmount){
     let missing = neededAmount - Words.verbs.length;
     let getPerWord = Math.round(missing /Words.verbs.length);
     let getFirst = (missing%Words.verbs.length) + getPerWord;
@@ -124,23 +124,52 @@ function howManyWordsMissing(Words){
     getSyns(Words.verbs[0].word, Words, getFirst)
     }
 
-    for (let i = 1; i < missing; i++){     
-      if (getPerWord === 0){return}
+    for (let i = 1; i < Words.verbs.length; i++){     
+      if (getPerWord === 0){continue;}
       getSyns(Words.verbs[i].word, Words, getPerWord)
     }
   }
-    // for (let i = 0; i<missing ; i++){
-    //   if (i === 0){
-    //     getSyns(Words.verbs[0].word, Words, )
-    //   }
-    //   getSyns(Words.verbs[i].word, Words, missing)
-    // }
+
+  //check missing nouns
+  if (Words.nouns.length <= neededAmount){
+    let missing = neededAmount - Words.nouns.length;
+    let getPerWord = Math.round(missing /Words.nouns.length);
+    let getFirst = (missing%Words.nouns.length) + getPerWord;
+    console.log("missing nouns", missing)
+
+    if (getFirst !== 0){
+    getSyns(Words.nouns[0].word, Words, getFirst)
+    }
+
+    for (let i = 1; i < missing; i++){     
+      if (getPerWord === 0){return}
+      getSyns(Words.nouns[i].word, Words, getPerWord)
+    }
+  }
+
+  //check missing adjs
+  if (Words.adjectives.length <= neededAmount){
+    let missing = neededAmount - Words.adjectives.length;
+    let getPerWord = Math.round(missing /Words.adjectives.length);
+    let getFirst = (missing%Words.adjectives.length) + getPerWord;
+
+    if (getFirst !== 0){
+    getSyns(Words.adjectives[0].word, Words, getFirst)
+    }
+
+    for (let i = 1; i < Words.adjectives.length; i++){     
+      if (getPerWord === 0){continue;}
+      getSyns(Words.adjectives[i].word, Words, getPerWord)
+    }
+  }  
+
   }
 
 
 //this function checks the syns coming back and shoves them where they need to go
 function checkType(synArr, Words){
   var check = synArr.toString();
+
   wordpos.getPOS(check, function(result){
     let count = result.adjectives.length;
     if(count > 0){
@@ -148,6 +177,24 @@ function checkType(synArr, Words){
         let word = result.adjectives[i];
         word = new Word(word, "adjective")
         Words.adjectives.push(word);
+      }
+    }
+
+    count = result.nouns.length;
+    if (count > 0){
+      for (let i = 0; i < count; i++){
+        let word = result.nouns[i];
+        word = new Word(word, "noun")
+        Words.nouns.push(word);
+      }
+    }
+
+    count = result.verbs.length;
+    if (count > 0){
+      for (let i = 0; i < count; i++){
+        let word = result.verbs[i];
+        word = new Word(word, "verb")
+        Words.verbs.push(word);
       }
     }
   })
