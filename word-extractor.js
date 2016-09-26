@@ -19,7 +19,7 @@ String.isStopWord = function(word) {
   let badWordsArr = ["isn't", "aren't", "wasn't","weren't", "haven't", "hasn't", "hadn't",
                      "hadn't", "won't", "wouldn't", "don't", "doesn't", "didn't", "can't",
                      "couldn't", "shouldn't", "mightn't", "mustn't", "would've", "should've",
-                     "could've", "might've", "must've"]
+                     "could've", "might've", "must've" ]
   return !(stopWords.search(regex) < 0 || badWordsArr.indexOf(word) !== -1)
 }
 
