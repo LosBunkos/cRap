@@ -1,18 +1,15 @@
-var express = require('express');
-var WordPOS = require('wordpos'),
+const WordPOS = require('wordpos'),
     wordpos = new WordPOS();
-var request = require('request');
-var Tokenizer = require('sentence-tokenizer');
-var tokenizer = new Tokenizer('Chuck');
-var stopwords = require('stopwords').english;
-var tense = require('tense');
-var tensify = require('tensify'); //words from present to past
-var toSimple = require('verbutils')();
+const request = require('request');
+const stopwords = require('stopwords').english;
+const toSimple = require('verbutils')();
 
 
-
-//the stopwords list
+const allPos = ["nouns", "verbs", "adjectives"];
+const typeFromArrName = (arr)=> arr.substr(0, arr.length - 1);
+// the stopwords list
 const stopWords = stopwords.toString();
+
 
 String.isStopWord = function(word) {
   let regex = new RegExp("\\b"+word+"\\b","i");
@@ -41,42 +38,33 @@ function init(str){
   return str;
 }
 
-
 //get words and request rhymes
-function getWordsAndRhymes(str, fn){
+function getWordsFromTokens(str, fn){
   //this is for checking if there are enough words after getting them all into the words obj
   const wordAmount = 10;
 
   const Words = {
-  nouns: [],
-  adjectives: [],
-  verbs: [],
-  rest: []
+    nouns: [],
+    adjectives: [],
+    verbs: [],
+    rest: []
   }
 
-  //get the words
+  // get the words
   wordpos.getPOS(str, function(result){
-    let nouns = result.nouns;
-    let verbs = result.verbs;
-    let adjectives = result.adjectives;
     let rest = result.rest;
     
-    for(n in nouns){
-      let word = new Word(nouns[n].toLowerCase(), "noun");
-      Words.nouns.push(word);
-    }
+    allPos.forEach((pos)=> {
+      // "nouns" --> "noun"
+      let type = typeFromArrName(pos);
+      for(i in result[pos]){
+        let word = new Word(result[pos][i].toLowerCase(), type);
+        Words[pos].push(word);
+      }
+    })
 
-    for(v in verbs){
-      let word = new Word(verbs[v].toLowerCase(), "verb");
-      Words.verbs.push(word);
-    }
-
-    for(a in adjectives){
-      let word = new Word(adjectives[a].toLowerCase(), "adjective");
-      Words.adjectives.push(word);
-    }
-
-    //anything that wasn't categorized into a pos, make it present simple and check if a verb
+    // anything that wasn't categorized into a pos, 
+    // make it present simple and check if a verb
     for (r in rest){
       let word = toSimple.toBaseForm(rest[r]);
       wordpos.isVerb(word, function(result){
@@ -95,110 +83,53 @@ function getWordsAndRhymes(str, fn){
 }
 
 
-//check how many words are missing in every pos for 10 and get syns
+// check how many words are missing in every pos for 10 and get syns
 function howManyWordsMissing(Words){  
   let neededAmount = 10;
 
-  //check missing verbs
-  if (Words.verbs.length <= neededAmount){
-    let missing = neededAmount - Words.verbs.length;
-    let getPerWord = Math.round(missing /Words.verbs.length);
-    let getFirst = (missing%Words.verbs.length) + getPerWord;
+// for each allPos do this kaki
+  allPos.forEach((pos)=> {
+    if (Words[pos].length <= neededAmount){
+      let missing = neededAmount - Words[pos].length;
+      let getPerWord = Math.round(missing / Words[pos].length);
+      let getFirst = (missing % Words[pos].length) + getPerWord;
 
-    if (getFirst !== 0){
-    getSyns(Words.verbs[0].word, Words, getFirst)
+      if (getFirst !== 0){
+      getSyns(Words[pos][0].word, Words, getFirst)
+      }
+
+      for (let i = 1; i < Words[pos].length; i++){     
+        if (getPerWord === 0) {
+          break;
+        }
+        getSyns(Words[pos][i].word, Words, getPerWord)
+      }
     }
-
-    for (let i = 1; i < Words.verbs.length; i++){     
-      if (getPerWord === 0){break;}
-      getSyns(Words.verbs[i].word, Words, getPerWord)
-    }
-  }
-
-  //check missing nouns
-  if (Words.nouns.length <= neededAmount){
-    let missing = neededAmount - Words.nouns.length;
-    let getPerWord = Math.round(missing /Words.nouns.length);
-    let getFirst = (missing%Words.nouns.length) + getPerWord;
-
-    if (getFirst !== 0){
-    getSyns(Words.nouns[0].word, Words, getFirst)
-    }
-
-    for (let i = 1; i < Words.nouns.length; i++){     
-      if (getPerWord === 0){continue;}
-      getSyns(Words.nouns[i].word, Words, getPerWord)
-    }
-  }
-
-  //check missing adjs
-  if (Words.adjectives.length <= neededAmount){
-    let missing = neededAmount - Words.adjectives.length;
-    let getPerWord = Math.round(missing /Words.adjectives.length);
-    let getFirst = (missing%Words.adjectives.length) + getPerWord;
-
-    if (getFirst !== 0){
-    getSyns(Words.adjectives[0].word, Words, getFirst)
-    }
-
-    for (let i = 1; i < Words.adjectives.length; i++){     
-      if (getPerWord === 0){}
-      getSyns(Words.adjectives[i].word, Words, getPerWord)
-    }
-  } 
-
-  //check missing verbs 
-  if (Words.verbs.length <= neededAmount){
-    let missing = neededAmount - Words.verbs.length;
-    let getPerWord = Math.round(missing /Words.verbs.length);
-    let getFirst = (missing%Words.verbs.length) + getPerWord;
-
-    if (getFirst !== 0){
-    getSyns(Words.verbs[0].word, Words, getFirst)
-    }
-
-    for (let i = 1; i < Words.verbs.length; i++){     
-      if (getPerWord === 0){}
-      getSyns(Words.verbs[i].word, Words, getPerWord)
-    }
-  } 
-  }
+  })
+}
 
 
 //this function checks the syns coming back and shoves them where they need to go
 function checkType(synArr, Words){
   var check = synArr.toString();
   wordpos.getPOS(check, function(result){
-    let count = result.adjectives.length;
-    if(count > 0){
-      for (let i = 0; i < count; i++){
-        let word = result.adjectives[i];
-        word = new Word(word, "adjective")
-        Words.adjectives.push(word);
+    allPos.forEach((pos)=> {
+      let type = typeFromArrName(pos);
+      let count = result[pos].length;
+      if(count > 0){
+        for (let i = 0; i < count; i++){
+          let word = result[pos][i];
+          word = new Word(word, type);
+          Words[pos].push(word);
+        }
       }
-    }
+    })
 
-    count = result.nouns.length;
-    if (count > 0){
-      for (let i = 0; i < count; i++){
-        let word = result.nouns[i];
-        word = new Word(word, "noun")
-        Words.nouns.push(word);
+    allPos.forEach((pos)=> {
+      if(Words[pos].length > 10) {
+        Words[pos] = Words[pos].splice(0, 10);
       }
-    }
-
-    count = result.verbs.length;
-    if (count > 0){
-      for (let i = 0; i < count; i++){
-        let word = result.verbs[i];
-        word = new Word(word, "verb")
-        Words.verbs.push(word);
-      }
-    }
-
-    if(Words.nouns.length > 10){Words.nouns.splice(10, 999999999)}
-    if(Words.adjectives.length > 10){Words.adjectives.splice(10, 999999999)}
-    if(Words.verbs.length > 10){Words.verbs.splice(10,999999999)}
+    })
   })
 
   setTimeout(function(){console.log(Words, "done logging")}, 3000)
@@ -215,21 +146,12 @@ function getSyns(word, Words, howmanytoget, fn) {
       if (body.length === 2){
         return;
       }
-
       let syn = JSON.parse(body)[i];
-
-      if(checkIfExists(syn, Words) || syn.word.includes(" ")){
-
-        i++
-        }
-       else { 
-        if (typeof syn !== 'undefined'){
-          synArr.push(syn.word)
-        }
+      if(typeof syn !== 'undefined' && checkIfExists(syn, Words) ||  syn.word.includes(" ")) {
+            synArr.push(syn.word)
       }
     }
-  // fn();
-  setTimeout(function(){checkType(synArr, Words)},1000)
+    fn();
   })
 }
 
@@ -248,7 +170,7 @@ function checkIfExists(word, Words){
 
 
 //create a word class
-class Word{
+class Word {
   constructor(word, type, syns){
     this.word = word,
     this.pos = type
@@ -276,11 +198,12 @@ class Word{
   }
 }
 
-module.exports = {init : init,
-                  getWordsAndRhymes : getWordsAndRhymes, 
-                  // extractForShortSentances : extractForShortSentances, 
-                  Word:Word,
-                  getSyns:getSyns}
+module.exports = {
+  init: init,
+  getWordsFromTokens: getWordsFromTokens, 
+  Word: Word,
+  getSyns: getSyns
+}
 
 
 
