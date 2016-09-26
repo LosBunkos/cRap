@@ -28,6 +28,7 @@
     "request": "^2.75.0",
     "rhyme-plus": "0.0.7",
     "sentence-tokenizer": "0.0.7",
+    "sentencer": "^0.1.5",
     "stopwords": "0.0.5",
     "tense": "^1.0.0",
     "tensify": "0.0.2",

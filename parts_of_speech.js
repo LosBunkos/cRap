@@ -1,50 +1,15 @@
+const ext = require('./word-extractor');
 // simple to ing
-const toIng = require('./prog-verbs');
+const toIng = require('./prog-verbs').makeIng;
 // past to simple
 const toSimple = require('verbutils')();
 // simple to past
 const toPast = require('tensify');
-var ext = require('./word-extractor');
 
-const express = require('express');
-const bodyParser = require('body-parser');
-var morgan = require('morgan')
-
-var app = express();
-
-app.use(express.static('node_modules'));
-app.use(express.static('public'));
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-
-// log requests
-app.use(morgan('combined'))
-
-var port = process.env.PORT || '4000';
-
-app.use(function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  next();
-});
-
-class Word {
-  constructor(type) {
-    this.type = type;
-  }
-}
-
-
-// types:
-// -verb:
-// --simple
-// --progressive
-// --past
-//-
-
-// full list from https://english109mercy.wordpress.com/2012/10/22/23-auxiliary-verbs/
+// full list from:
+// https://english109mercy.wordpress.com/2012/10/22/23-auxiliary-verbs/
 // removed from list: "being"
-const AuxiliaryVerbs = {
+exports.AuxiliaryVerbs = {
   all: [
     "do", "does", "did", "has", "have", "had",
     "is", "am", "are", "was", "were", "be", "been",
@@ -67,247 +32,46 @@ const AuxiliaryVerbs = {
 
   // allows neat object self-reference
   // http://stackoverflow.com/a/4616262/5660689
-  get she () { return AuxiliaryVerbs.he },
-  get it () { return AuxiliaryVerbs.he },
-  get they () { return AuxiliaryVerbs.we },
-  get you () { return AuxiliaryVerbs.we },
-  get youSingular () { return AuxiliaryVerbs.we },
-  get youPlural () { return AuxiliaryVerbs.we },
+  get she () { return exports.AuxiliaryVerbs.he },
+  get it () { return exports.AuxiliaryVerbs.he },
+  get they () { return exports.AuxiliaryVerbs.we },
+  get you () { return exports.AuxiliaryVerbs.we },
+  get youSingular () { return exports.AuxiliaryVerbs.we },
+  get youPlural () { return exports.AuxiliaryVerbs.we },
 }
 
-class PronounGroup {
+exports.PronounGroup = class {
   constructor(I, me, my, myself, him) {
     this.I = I;
     this.me = me;
     this.my = my;
     this.myself = myself;
-    this.aux = AuxiliaryVerbs[this.I];
+    this.aux = exports.AuxiliaryVerbs[this.I];
   }
 
   getRandomAuxiliary () {
     return this.aux[Math.floor(Math.random() * this.aux.length)];
   }
-}
+},
 
-const Pronouns = {
-  "I": new PronounGroup("I", "me", "my", "myself"),
-  "it": new PronounGroup("it", "it", "its", "itself"),
-  "he": new PronounGroup("he", "him", "his", "himself"),
-  "we": new PronounGroup("we", "us", "our", "ourselves"),
-  "she": new PronounGroup("she", "her", "her", "herself"),
-  "they": new PronounGroup("they", "them", "their", "themselves"),
-  "youPlural": new PronounGroup("you", "you", "your", "yourselves"),
-  "youSingular": new PronounGroup("you", "you", "your", "yourself"),
-}
-
-
-const getRandom = (str) => {
-  const list = [];
-  if (str === "pronoun") {
-    return Pronouns[PronounsList[randNum(PronounsList.length)]]
-  } else {
-    throw new Error(`No list found for "${str}"`);
-  }
+exports.Pronouns = {
+  "I": new exports.PronounGroup("I", "me", "my", "myself"),
+  "it": new exports.PronounGroup("it", "it", "its", "itself"),
+  "he": new exports.PronounGroup("he", "him", "his", "himself"),
+  "we": new exports.PronounGroup("we", "us", "our", "ourselves"),
+  "she": new exports.PronounGroup("she", "her", "her", "herself"),
+  "they": new exports.PronounGroup("they", "them", "their", "themselves"),
+  "youPlural": new exports.PronounGroup("you", "you", "your", "yourselves"),
+  "youSingular": new exports.PronounGroup("you", "you", "your", "yourself"),
 }
 
 
-const sentence = {
-
-}
-
-
-
-
-// Below this line is just goofin' around
-const PronounsList = [
+// For Randomizing shiet
+exports.PronounsList = [
   "I", "it", "he", "we", "she", "they", "youSingular", "youPlural"
-];
-
-let randNum = (upto)=> Math.floor(Math.random() * upto);
-let randFrom = (list) => list[randNum(list.length)]
-let randPron = (list = PronounsList)=> Pronouns[randFrom(list)];
-
-
-  // I gots ghetto shit right here
-  // PAV == Pronoun-auxiliary-verb
-const IAuxVerb = (pronList, verbList, changePronTo) => {
-  // if verb is past tense, make it present tense
-  let pron = randPron(pronList);
-  let verb = randFrom(verbList).word;
-  // verb = toSimple.toBaseForm(verb);
-  let aux = pron.getRandomAuxiliary();
-  let l = console.log
-
-  if (["do", "does", "been"].indexOf(aux) !== -1) {
-    // l(1);
-    aux = (["he", "she", "it"].indexOf(pron.I) === -1 ? verb : verb + 's');
-  } else if (["are", "is", "am", "was", "were", "be"].indexOf(aux) !== -1) {
-    // l(2)
-    aux += ` ${toIng(verb)}`;
-  } else if(["may", "must", "might", "should", "could", "would", "shall", "will", "can"].indexOf(aux) !== -1) {
-    // l(3)
-    aux += ` be ${toIng(verb)}`
-  } else if (aux === "did") {
-    // l(4)
-    aux = `${toPast(verb).past}`
-  } else {
-    // l(5)
-    aux += ` been ${toIng(verb)}`
-  }
-  
-  if (pron.I === "it" && typeof changeItTo !== 'undefined'){
-    return `${changeItTo} ${aux}`
-  } else {
-    return `${pron["I"]} ${aux}`;
-  }
-  
-}
-
-const myNoun = (pronList, nounList, adjList = [""]) => {
-  let pron = randPron(pronList);
-  let noun = randFrom(nounList).word;
-  if (adjList.length != 0) {
-    noun = randFrom(adjList).word + ' ' + noun;
-  }
-  return `${pron["my"]} ${noun}`
-}
-
-const simpleSentence = (pronList, nounList, verbList, adjList = [""]) => {
-  let sentence = IAuxVerb(pronList, verbList, nounList) + ' ' +
-                 myNoun(pronList, nounList, adjList);
-  return sentence;
-}
-///////////////////////////////////
-
-
-Words1 = {
-  nouns: ["bitch", "snitch", "peach", "ditch", "rich"],
-  verbs: ["run", "tan", "cun"],
-}
-
-Words2 = {
-  nouns: ["rhyme", "time", "thyme", "slime", "dime"],
-  verbs: ["build", "yield", "shield"],
-}
-
-let adjs = [];
-
-// console.log(simpleSentence(PronounsList, Words1.nouns, Words1.verbs, adjs));
-// console.log(simpleSentence(PronounsList, Words2.nouns, Words2.verbs, adjs));
-// console.log(simpleSentence(PronounsList, Words1.nouns, Words1.verbs, adjs));
-// console.log(simpleSentence(PronounsList, Words2.nouns, Words2.verbs, adjs));
-
-
-// test
-////////////
-// let str = "In the beginning I humoured him, yes, that I can admit, but then a\
-//  little voice in the back of my head began to whisper 'what if?' And that's when\
-//   I started to over think the whole thing. I would have the opportunity to see him\
-//    again. Maybe even follow and find him. Just go to the day before he left. \
-//    That's all I would need. One last, long lingering look at his beautiful face so I \
-//    could burn the image into my mind for good. I could even say goodbye. Hell, if I went \
-//    back a week further I could stop the whole birthday incident. It almost felt unhealthy \
-//    to even think these thoughts, but that didn't stop me. In fact I was beginning to feel \
-//    something close to excitement. Like I was really going to get to see him again.";
-// str = ext.init(str);
-
-// ext.getWordsAndRhymes(str, (werds)=> {
-//   setTimeout(function(){
-//     Words = werds;
-//     console.log(Words)
-//   }, 100)
-// })
-
-let defaultVerbs = [
-  {word:"run"}, {word:"kill"}, {word:"smother"},
-  {word:"try"}, {word:"go"}, {word:"fly"}
 ]
-var genSentence = (words, callback)=> {
-  let nouns = words.nouns;
-  let adjs = words.adjectives;
-  let verbs = words.verbs;
-  if (typeof verbs === 'undefined' || verbs.length == 0) {
-    verbs = defaultVerbs;
-  }
-  // verbs.concat((verbs.length == 0) ? defaultVerbs : [])
-  let start = new Date().getTime();
-  let noun1 = randFrom(nouns);
-  let noun2 = randFrom(nouns);
-  let noun3 = randFrom(nouns);
-  let noun4 = randFrom(nouns);
 
-  // dirty af
-  if (noun1 == noun2) {
-    noun1 = noun3;
-  }
-
-  noun1.getRhymes(()=>{
-    noun2.getRhymes(()=> {
-      let sen1 = simpleSentence(PronounsList, [noun1], verbs, adjs);
-      let sen2 = simpleSentence(PronounsList, [noun2], verbs, adjs);
-      let sen3 = simpleSentence(PronounsList, noun1.rhymes, verbs, adjs);
-      let sen4 = simpleSentence(PronounsList, noun2.rhymes, verbs, adjs);
-      let sen5 = simpleSentence(PronounsList, [noun1], verbs, adjs);
-      let sen6 = simpleSentence(PronounsList, [noun2], verbs, adjs);
-      let sen7 = simpleSentence(PronounsList, noun1.rhymes, verbs, adjs);
-      let sen8 = simpleSentence(PronounsList, noun2.rhymes, verbs, adjs);
-      let sens = sen1 + '\n' + sen2 + '\n' + sen3 + '\n' + sen4;
-      let end = new Date().getTime();
-      let time = end - start;
-      console.log('req took ' + time + 'ms');
-      callback({sentences: [sen1, sen2, sen3, sen4, sen5, sen6, sen7, sen8], took: time + 'ms'});
-
-    })
-  })
-}
-
-app.get('/getRap', (req, res, next) => {
-  if (false){//!req.body || !req.body.text) {
-    console.log('got a req with no req.body');
-    next(new Error('f u no req.body'));
-  }
-
-    // console.log("Got text:", req.body.text)
-    // let str2 = ext.init(req.body.text);
-    console.log("\nTokenized to:", str)
-    ext.getWordsAndRhymes(str, (werds) => {
-      // setTimeout(()=> {
-        genSentence(werds, (sentences)=> {
-          res.json(sentences);
-          })
-        // }, 0);
-    })
-})
-
-app.post('/getRap', (req, res, next) => {
-  if (!req.body || !req.body.text) {
-    console.log('got a req with no req.body');
-    next('f u no req.body');
-  }
-    console.log('=====req start=====');
-    let str = req.body.text;
-    console.log("Got text:\n  ", str);
-    let tokens = ext.init(req.body.text);
-    console.log("\nTokenized to:\n ", tokens);
-    ext.getWordsAndRhymes(tokens, (werds) => {
-      // setTimeout(()=> {
-        genSentence(werds, (sentences)=> {
-          sentences.tokens = tokens.split(' ');
-          console.log(`\ngenerated:\n${sentences.sentences}]`);
-          console.log('=====req end=====\n\nFrom:');
-          sentences.original = str;
-          res.json(sentences);
-          })
-        // }, 100);
-    })
-
-
-})
-
-// app.get('/', function(req, res){
-//   res.sendFile(__dirname + "/public/index.html");
-// });
-
-
-console.log('Running server on http://localhost:' + port);
-app.listen(port);
+// Randomizers
+exports.randNum = (upto)=> Math.floor(Math.random() * upto);
+exports.randFrom = (list)=> list[this.randNum(list.length)];
+exports.randPron = (list = this.PronounsList)=> this.Pronouns[this.randFrom(list)];
