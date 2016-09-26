@@ -8,16 +8,11 @@ var stopwords = require('stopwords').english;
 var tense = require('tense');
 var tensify = require('tensify'); //words from present to past
 var toSimple = require('verbutils')();
-const stopWords = stopwords.toString();
-
-let str = "He was apparently not altogether serious; it certainly did not seem a place where any\
- artillerist, however brave, would like to put a gun.";
-
 
 
 
 //the stopwords list
-
+const stopWords = stopwords.toString();
 
 String.isStopWord = function(word) {
   let regex = new RegExp("\\b"+word+"\\b","i");
