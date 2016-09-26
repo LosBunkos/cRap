@@ -8,18 +8,23 @@ var toPast = require('tensify');
 var POS = require('./parts_of_speech');
 
 module.exports = {
-  myNoun : (pronList, nounList, adjList = [""]) => {
-    let pron = POS.randPron(pronList);
+  myNoun: (Words) => {
+    let nounList = Words.nouns;
+    let adjList = Words.adjectives;
+    let pronList = POS.pronounList;
+    let pron = POS.randPron(POS.pronList);
     let noun = POS.randFrom(nounList).word;
-    if (adjList.length != 0) {
-      noun = POS.randFrom(adjList).word + ' ' + noun;
-    }
+    // add adjective
+    noun = POS.randFrom(adjList).word + ' ' + noun;
     return `${pron["my"]} ${noun}`
   },
 
   // I gots ghetto shit right here
   // PAV == Pronoun-auxiliary-verb
-  IAuxVerb: function (pronList, verbList, changePronTo) {
+  IAuxVerb: function (Words) {
+    const nounList = Words.list;
+    const verbList = Words.verbs;
+    const pronList = POS.pronounList;
     let pron = POS.randPron(pronList);
     let verb = POS.randFrom(verbList).word;
     let aux = pron.getRandomAuxiliary();

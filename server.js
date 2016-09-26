@@ -1,6 +1,8 @@
 const express = require('express');
-var app = express();
 const bodyParser = require('body-parser');
+
+var app = express();
+app.use(morgan('dev'));
 
 app.use(express.static(`${__dirname}/node_modules`));
 app.use(express.static(`${__dirname}/public`));
@@ -9,7 +11,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // log requests
-app.use(morgan('combined'))
 
 var port = process.env.PORT || '4000';
 

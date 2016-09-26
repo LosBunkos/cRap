@@ -1,12 +1,5 @@
-const actions = require('./sentencer_actions');
-const pos = require('./parts_of_speech');
-const ext = require('./word-extractor');
-// simple to ing
-const toIng = require('./prog-verbs');
-// past to simple
-const toSimple = require('verbutils')();
-// simple to past
-const toPast = require('tensify');
+const actions = require('./sentence_actions');
+const POS = require('./parts_of_speech');
 
 class Sentence {
   constructor(...args) {
