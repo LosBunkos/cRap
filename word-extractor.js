@@ -10,9 +10,8 @@ var tensify = require('tensify'); //words from present to past
 var toSimple = require('verbutils')();
 const stopWords = stopwords.toString();
 
-let str = "There are predictions that Monday night’s debate will shatter records,\
- as one recent headline put it, drawing a Super Bowl-size audience of more than million viewers\
- goes went stayed flayed.";
+let str = "He was apparently not altogether serious; it certainly did not seem a place where any\
+ artillerist, however brave, would like to put a gun.";
 
 
 
@@ -70,7 +69,6 @@ function getWordsAndRhymes(str, fn){
 
   //get the words
   wordpos.getPOS(str, function(result){
-    // console.log(result)
     let nouns = result.nouns;
     let verbs = result.verbs;
     let adjectives = result.adjectives;
@@ -125,7 +123,7 @@ function howManyWordsMissing(Words){
     }
 
     for (let i = 1; i < Words.verbs.length; i++){     
-      if (getPerWord === 0){continue;}
+      if (getPerWord === 0){break;}
       getSyns(Words.verbs[i].word, Words, getPerWord)
     }
   }
@@ -135,14 +133,13 @@ function howManyWordsMissing(Words){
     let missing = neededAmount - Words.nouns.length;
     let getPerWord = Math.round(missing /Words.nouns.length);
     let getFirst = (missing%Words.nouns.length) + getPerWord;
-    console.log("missing nouns", missing)
 
     if (getFirst !== 0){
     getSyns(Words.nouns[0].word, Words, getFirst)
     }
 
-    for (let i = 1; i < missing; i++){     
-      if (getPerWord === 0){return}
+    for (let i = 1; i < Words.nouns.length; i++){     
+      if (getPerWord === 0){continue;}
       getSyns(Words.nouns[i].word, Words, getPerWord)
     }
   }
@@ -158,18 +155,32 @@ function howManyWordsMissing(Words){
     }
 
     for (let i = 1; i < Words.adjectives.length; i++){     
-      if (getPerWord === 0){continue;}
+      if (getPerWord === 0){}
       getSyns(Words.adjectives[i].word, Words, getPerWord)
     }
-  }  
+  } 
 
+  //check missing verbs 
+  if (Words.verbs.length <= neededAmount){
+    let missing = neededAmount - Words.verbs.length;
+    let getPerWord = Math.round(missing /Words.verbs.length);
+    let getFirst = (missing%Words.verbs.length) + getPerWord;
+
+    if (getFirst !== 0){
+    getSyns(Words.verbs[0].word, Words, getFirst)
+    }
+
+    for (let i = 1; i < Words.verbs.length; i++){     
+      if (getPerWord === 0){}
+      getSyns(Words.verbs[i].word, Words, getPerWord)
+    }
+  } 
   }
 
 
 //this function checks the syns coming back and shoves them where they need to go
 function checkType(synArr, Words){
   var check = synArr.toString();
-
   wordpos.getPOS(check, function(result){
     let count = result.adjectives.length;
     if(count > 0){
@@ -197,27 +208,55 @@ function checkType(synArr, Words){
         Words.verbs.push(word);
       }
     }
+
+    if(Words.nouns.length > 10){Words.nouns.splice(10, 999999999)}
+    if(Words.adjectives.length > 10){Words.adjectives.splice(10, 999999999)}
+    if(Words.verbs.length > 10){Words.verbs.splice(10,999999999)}
   })
 
+  setTimeout(function(){console.log(Words, "done logging")}, 3000)
 }
 
 
 function getSyns(word, Words, howmanytoget, fn) {
   let synArr = [];
-  console.log("this is how many", howmanytoget)
-  request('https://api.datamuse.com/words?ml='+word.word+'&max=10', function(err, res, body){
-    // console.log(searchWord)
-      for (let i = 0; i < howmanytoget; i++){
-        let syn = JSON.parse(body)[i];
-        // console.log(syn)
+  let search = word;
+  request('https://api.datamuse.com/words?ml='+search + '&max=100', function(err, res, body){
+
+    for (let i = 0; i < howmanytoget; i++){
+      //if body is empty returns as [] which is length 2, in this case return
+      if (body.length === 2){
+        return;
+      }
+
+      let syn = JSON.parse(body)[i];
+
+      if(checkIfExists(syn, Words) || syn.word.includes(" ")){
+
+        i++
+        }
+       else { 
         if (typeof syn !== 'undefined'){
           synArr.push(syn.word)
-          // console.log(synArr)
-       }
+        }
       }
+    }
   // fn();
   setTimeout(function(){checkType(synArr, Words)},1000)
   })
+}
+
+function checkIfExists(word, Words){
+  var types = ["nouns", "verbs", "adjectives"];
+  for(let j = 0; j < types.length; j++) {
+    let wordList =  Words[types[j]];
+    for (let i = 0; i < wordList.length ; i++) {
+      if (word === wordList[i].word) {
+        return true
+      }
+    }
+  }
+  return false;  
 }
 
 
