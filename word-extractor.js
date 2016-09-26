@@ -46,14 +46,6 @@ function init(str){
   return str;
 }
 
-let fn = "kaki";
-str = init(str);
-
-
-
-getWordsAndRhymes(str, (Words)=> {
-  howManyWordsMissing(Words);
-})
 
 //get words and request rhymes
 function getWordsAndRhymes(str, fn){
