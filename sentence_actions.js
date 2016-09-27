@@ -25,9 +25,7 @@ module.exports = {
     const nounList = Words.list;
     const verbList = Words.verbs;
     const pronList = POS.pronounList;
-    console.log("VERBefore\n", Words.verbs)
     let verb = Words.verbs.splice(0,1)[0].word;
-    console.log("VERBeyond -", verb, "\n", Words.verbs)
     let pron = POS.randPron(pronList);
     let aux = pron.getRandomAuxiliary();
     // lol
