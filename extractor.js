@@ -27,9 +27,8 @@ class Word {
 
   getRhymes(fn) {
     let that = this;
-    console.log("yo sup", that.word)
     that.rhymes = [];
-    request('https://api.datamuse.com/words?rel_rhy=' + that.word+'&max=20', function(err, res, body) {
+    request('https://api.datamuse.com/words?rel_rhy=' + that.word +'&max=20', function(err, res, body) {
       if (err) {
         console.log("there was an error:", err);
         throw new Error(err, "cannot connect to API");
