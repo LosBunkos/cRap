@@ -8,6 +8,7 @@ app.service('crapService', ['$http', function($http){
       return $http.post('/getRap', {text:text}).success(function(data){
         // console.log(data.sentences)
         angular.copy(data.sentences, texts.text);
+        console.log("from the service", texts.text)
         loading = false;
       })
     }
