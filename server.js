@@ -6,7 +6,7 @@ const sa = require('./sentence_actions');
 const ex = require('./extractor');
 
 var app = express();
-// app.use(morgan('dev'));
+app.use(morgan('dev'));
 
 app.use(express.static(`${__dirname}/node_modules`));
 app.use(express.static(`${__dirname}/public`));
