@@ -47,12 +47,16 @@ body {
 /*STYLES FOR RAP.HTML*/
 
 .rapcontainer{
-  border: solid 1px black;
   height: 400px;
   margin-top: 5px;
 }
 .intext{
-  margin: 3% 0 10% 0;
+  margin: 2% 0 10% 0;
+  height: 400px;
+}
+
+.rapbox {
+  height:351px;
 }
 
 .intext button {
@@ -128,10 +132,6 @@ span {
           animation-delay: 0.2s; }
 
 
-
-.outtext{
-  margin-top: 9%;
-}
 
 @-webkit-keyframes sk-cubeGridScaleDelay {
   0%, 70%, 100% {
