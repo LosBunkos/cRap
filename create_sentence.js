@@ -47,9 +47,8 @@ class Sentencer {
   rhyme(sentenceObj, Words = this.Words) {
     let self = this;
     let sen = self.make();
-    sen.fillRhymes(()=> {
-      sen.lastWord = sentenceObj.lastWord;
-    });
+    sen.lastWord = POS.randFrom(sentenceObj.rhymes).word;
+    return sen;
   }
 }
 
