@@ -117,46 +117,50 @@ function _getAmountOfMissing (Words, needed = 10) {
 
 function _getSimilarWords (word, count, fn) {
   let similarWords = new WordsObj();
-  request('https://api.datamuse.com/words?ml=' + word + '&max=' + count, function(err, res, body){
-
+  request('https://api.datamuse.com/words?ml=' + word.word + '&max=' + count, function(err, res, body){
   for (let i = 0 ; i < count ; i++){
     //if the res empty - return
     if (body.length === 2 ) {
       return false;
     } else {
+
       let syn = JSON.parse(body)[i];
-      if (syn.tags.indexOf('adj') !== -1){
+
+      if (typeof syn.tags !== 'undefined' && syn.tags.indexOf('adj') > -1){
         syn = new Word(syn.word);
         similarWords.adjectives.push(syn);
-      } else if (syn.tags.indexOf('v') !== -1) {
+        
+      }
+       if (typeof syn.tags !== 'undefined' && syn.tags.indexOf('v') > -1) {
         syn = new Word(syn.word);
         similarWords.verbs.push(syn);
-      } else if (syn.tags.indexOf('n') !== -1) {
+      }
+       if (typeof syn.tags !== 'undefined' && syn.tags.indexOf('n') > -1) {
         syn = new Word(syn.word);
         similarWords.nouns.push(syn);
-      }      
+      }     
     }
+
   }
   fn(similarWords)
+
   })
 }
 
 function getMissingWords(Words, fn){
-  console.log('words.len in line 144 is', Words.nouns.length)
   for (let i = 0; i < Words.nouns.length; i++) {
-    console.log('i', i)
     let missingObj = _getAmountOfMissing(Words);
+    console.log("original", Words)
     _getSimilarWords(Words.nouns[i], 20, (result)=>{
       _joinWithoutDupes(Words, result);
       if(missingObj.total === 0) {
-        setTimeout(()=>fn(Words), 1000);
-        console.log('getMissingWords: Got \'nuff werds');
+        fn(Words);
         return true;
       }
     })
   }
-  console.log('getMissingWords: Din\'t get \'nuff werds omg wtf bbq');
-  setTimeout(()=>fn(Words), 5000);
+  // console.log('getMissingWords: Din\'t get \'nuff werds omg wtf bbq');
+  fn(Words);
 }
 
 function _joinWithoutDupes(Words, toAdd) {
