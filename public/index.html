@@ -2,10 +2,13 @@
 <html>
 <head>
   <title></title>
-  <link rel="stylesheet" type="text/css" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="style.css">
-  <link rel="stylesheet" type="text/css" href="../node_modules/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="font-awesome/css/font-awesome.min.css">
   <link href="https://fonts.googleapis.com/css?family=Inconsolata:700" rel="stylesheet">
+  <!--FONTS-->
+  <link href="https://fonts.googleapis.com/css?family=Black+Ops+One|Bungee+Inline|Bungee+Shade|Faster+One|Kumar+One+Outline|Monoton" rel="stylesheet">
+
 </head>
 <body ng-app="crapApp" ng-controller="crapCtrl">
 
@@ -13,7 +16,8 @@
     <div class="container-fluid">
       <div class="navbar-header">
         <a class="navbar-brand" href="#">
-          <h3 class = "blarg">C-rap</h3>
+          <h3 class = "navtitle">¢-r=ap</h3>
+
         </a>
       </div>
       <ul class="nav navbar-nav">
@@ -25,11 +29,12 @@
   </nav>
 
 
-  <div class = "well well-sm allContainer" ui-view>
+  <div class = "well well-sm allContainer col-md-10 col-md-offset-1" ui-view>
 
   </div>
 
-  <script src="../node_modules/angular/angular.min.js"></script>
+  <script src="angular/angular.min.js"></script>
+  <script src="angular-ui-router/release/angular-ui-router.min.js"></script>
   <script src="javascript/app.js"></script>
   <script src="javascript/services.js"></script>
   <script src="javascript/controller.js"></script>
