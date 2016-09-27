@@ -13,15 +13,13 @@ let str = 'The woman had died without pain, quietly, as a woman should whose lif
 str = wordExtractor.init(str);
 wordExtractor.extractWords(str, (Words) => {
   wordExtractor.getMissingWords(Words, (Words2) => {
-    wordExtractor.getRhymesForAll(Words2, (WordsAndRhymes) => {
       let sen1 = new createSentence.Sentence(sentenceActions.IAuxVerb, sentenceActions.myNoun);
-      console.log(sen1.make(WordsAndRhymes))
-      console.log(sen1.make(WordsAndRhymes))
-      console.log(sen1.make(WordsAndRhymes))
-      console.log(sen1.make(WordsAndRhymes))
-      console.log(sen1.make(WordsAndRhymes))
-      console.log(sen1.make(WordsAndRhymes))
-    })
+      let builtSentence = sen1.make(Words2);
+      // console.log(builtSentence.split(" "));
+      sen1.rhyme(Words2, builtSentence, (Reim)=> {
+        console.log(builtSentence)
+        console.log(Reim);
+      })
   })
 })
 
