@@ -1,77 +1,31 @@
 body {
-    background-image: url("compton.jpg");
-      -webkit-background-size: cover;
+  background-image: url("compton.jpg");
+  -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-}
-
-.spinner{
-  z-index: 1000000;
-   color: white;
-   -webkit-text-fill-color: gray; /* Will override color (regardless of order) */
-   -webkit-text-stroke-width: 1px;
-   -webkit-text-stroke-color: black;
-    margin: auto;  
-  position: absolute;
-  left:0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-
-}
-
-.spinner h3 {
-  background-color:lightgray;
-}
-
-.title{
-  margin-top: 20px;
-  margin-bottom: 20px;
-  font-size: 200%;
-  font-family: 'Inconsolata', monospace;
-  font-weight: bold;
   text-align: center;
 }
 
-.rotate {
-
-/* Safari */
--webkit-transform: rotate(-90deg);
-
-/* Firefox */
--moz-transform: rotate(-90deg);
-
-/* IE */
--ms-transform: rotate(-90deg);
-
-/* Opera */
--o-transform: rotate(-90deg);
-
-/* Internet Explorer */
-filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-
+.blarg {
+    font-size: 30px;
+    margin-top: -9px;
+    margin-bottom: 0px;
+    margin-right: 40px;
+    margin-left: 20px
 }
 
-.textbox{
-  height:150px;
-  width:80%;
-}
-
-.myButton {
-  width:200px;
-  margin-top:10px;
-  background-color: lightblue;
-}
-
-.outputbox{
-  margin-top: 70px;
-  width: 50%;
-  background-color: lightgray;
-}
-
-.output {
-  text-align: center;
+.allContainer {
+  background: rgba(100,114,114,0.8);
+  position: relative;
+  width: 80%;
+  height: 430px;
+  z-index: 15;
+  top: 50%;
+  left: 18%;
+  margin: 80px 0 0 -8%;
+  border: rgba(100,114,114,0.8);
+  /*border: double 5px white;*/
 }
 
 
@@ -79,64 +33,3 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 
 
 
-.sk-cube-grid {
-  width: 60px;
-  height: 60px;
-/*  margin: 100px auto;*/
-}
-
-.sk-cube-grid .sk-cube {
-  width: 33%;
-  height: 33%;
-  background-color: #333;
-  float: left;
-  -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
-          animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out; 
-}
-.sk-cube-grid .sk-cube1 {
-  -webkit-animation-delay: 0.2s;
-          animation-delay: 0.2s; }
-.sk-cube-grid .sk-cube2 {
-  -webkit-animation-delay: 0.3s;
-          animation-delay: 0.3s; }
-.sk-cube-grid .sk-cube3 {
-  -webkit-animation-delay: 0.4s;
-          animation-delay: 0.4s; }
-.sk-cube-grid .sk-cube4 {
-  -webkit-animation-delay: 0.1s;
-          animation-delay: 0.1s; }
-.sk-cube-grid .sk-cube5 {
-  -webkit-animation-delay: 0.2s;
-          animation-delay: 0.2s; }
-.sk-cube-grid .sk-cube6 {
-  -webkit-animation-delay: 0.3s;
-          animation-delay: 0.3s; }
-.sk-cube-grid .sk-cube7 {
-  -webkit-animation-delay: 0s;
-          animation-delay: 0s; }
-.sk-cube-grid .sk-cube8 {
-  -webkit-animation-delay: 0.1s;
-          animation-delay: 0.1s; }
-.sk-cube-grid .sk-cube9 {
-  -webkit-animation-delay: 0.2s;
-          animation-delay: 0.2s; }
-
-@-webkit-keyframes sk-cubeGridScaleDelay {
-  0%, 70%, 100% {
-    -webkit-transform: scale3D(1, 1, 1);
-            transform: scale3D(1, 1, 1);
-  } 35% {
-    -webkit-transform: scale3D(0, 0, 1);
-            transform: scale3D(0, 0, 1); 
-  }
-}
-
-@keyframes sk-cubeGridScaleDelay {
-  0%, 70%, 100% {
-    -webkit-transform: scale3D(1, 1, 1);
-            transform: scale3D(1, 1, 1);
-  } 35% {
-    -webkit-transform: scale3D(0, 0, 1);
-            transform: scale3D(0, 0, 1);
-  } 
-}

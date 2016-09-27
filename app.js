@@ -17,8 +17,8 @@ wordExtractor.extractWords(str, (Words) => {
       let sen1 = new createSentence.Sentence(sentenceActions.IAuxVerb, sentenceActions.myNoun);
       let builtSentence = sen1.make(WordsAndRhymes);
       // console.log(builtSentence.split(" "));
-
-      console.log(sen1.rhyme(WordsAndRhymes, builtSentence))
+      console.log(builtSentence)
+      // console.log(sen1.rhyme(WordsAndRhymes, builtSentence))
 
 
     })
