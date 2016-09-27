@@ -118,65 +118,75 @@ function _getAmountOfMissing (Words, needed = 10) {
 function _getSimilarWords (word, count, fn) {
   let similarWords = new WordsObj();
   request('https://api.datamuse.com/words?ml=' + word.word + '&max=' + count, function(err, res, body){
+    console.log('request')
+
   for (let i = 0 ; i < count ; i++){
     //if the res empty - return
     if (body.length === 2 ) {
       return false;
-    } else {
-
-      let syn = JSON.parse(body)[i];
-
-      if (typeof syn.tags !== 'undefined' && syn.tags.indexOf('adj') > -1){
-        syn = new Word(syn.word);
-        similarWords.adjectives.push(syn);
-        
-      }
-       if (typeof syn.tags !== 'undefined' && syn.tags.indexOf('v') > -1) {
-        syn = new Word(syn.word);
-        similarWords.verbs.push(syn);
-      }
-       if (typeof syn.tags !== 'undefined' && syn.tags.indexOf('n') > -1) {
-        syn = new Word(syn.word);
-        similarWords.nouns.push(syn);
-      }     
     }
+    let syn = JSON.parse(body)[i];
 
-  }
-  fn(similarWords)
-
+    if (typeof syn.tags !== 'undefined' && syn.tags.indexOf('v') > -1) {
+       syn = new Word(syn.word);
+       similarWords.verbs.push(syn);
+    }
+    if (typeof syn.tags !== 'undefined' && syn.tags.indexOf('adj') > -1){
+       syn = new Word(syn.word);
+       similarWords.adjectives.push(syn);  
+    }
+    if (typeof syn.tags !== 'undefined' && syn.tags.indexOf('n') > -1) {
+       syn = new Word(syn.word);
+       similarWords.nouns.push(syn);
+     }     
+   } 
+  // setTimeout(()=>fn(similarWords), 0);
+  fn(similarWords);
   })
 }
 
 function getMissingWords(Words, fn){
-  for (let i = 0; i < Words.nouns.length; i++) {
-    let missingObj = _getAmountOfMissing(Words);
-    console.log("original", Words)
-    _getSimilarWords(Words.nouns[i], 20, (result)=>{
-      _joinWithoutDupes(Words, result);
-      if(missingObj.total === 0) {
-        fn(Words);
-        return true;
-      }
+  let missingObj = _getAmountOfMissing(Words);
+  console.log('words.len in line 144 is', Words.nouns.length)
+  for (let i = 0; i < Words.nouns.length && i < 3; i++) {
+    console.log('i', i)
+    _getSimilarWords(Words.nouns[i].word, 40, (result)=> {
+      Words = _joinWithoutDupes(Words, result);
+      missingObj = _getAmountOfMissing(Words);
+      // if(missingObj.total === 0) {
+      //   console.log('getMissingWords: Got \'nuff werds');
+      //   setTimeout(()=>fn(Words), 1500);
+      //   return true;
+      // }
     })
   }
-  // console.log('getMissingWords: Din\'t get \'nuff werds omg wtf bbq');
-  fn(Words);
+  setTimeout(()=>{
+    console.log('getMissingWords: Din\'t get \'nuff werds omg wtf bbq');
+    fn(Words)
+    return;
+  }, 1500);
 }
 
 function _joinWithoutDupes(Words, toAdd) {
-  allPos.forEach((pos) => {
-    Words[pos] = Words[pos].concat(toAdd[pos]);
-    for (let i = 0 ; i < Words[pos].length; i++){
-      let check = Words[pos][i].word;
-      for (let j = 0; j < Words[pos].length; j++){
-        if (check === Words[pos][j].word && i !== j){
-          Words[pos].splice(j,1);
-        }
+  allPos.forEach((pos)=> {
+    toAdd[pos].forEach((wordToAdd)=> {
+      // console.log('\n------------\n', Words)
+      if (idxInArr(wordToAdd, Words[pos]) === -1) {
+        Words[pos].push(wordToAdd)
       }
-    }
+    })
   })
+  return Words;
 }
 
+function idxInArr(word, wordArr) {
+  for (let i = 0; i < wordArr.length; i++) {
+    if (word.word === wordArr[i].word) {
+      return i;
+    }
+  }
+  return -1;
+}
 
 module.exports = {
   init: init,
