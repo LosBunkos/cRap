@@ -21,12 +21,9 @@ class Sentence {
 
   rhyme(Words, string) {
     let self = this;
-    let word = string
-      .split(' ')
-      .splice(string.length - 2, 1);
-    console.log('word was', word)
+    string = string.split(' ');
+    let word = string.splice(string.length - 2, 1);
     word = new we.Word(word);
-    console.log('word is now', word)
     word.getRhymes(()=> {
       let sentence = self.make(Words);
       return sentence
