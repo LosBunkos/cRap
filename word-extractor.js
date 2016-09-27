@@ -207,10 +207,12 @@ class Word {
     this.pos = type
   }
 
-  getRhymes(fn){
+  getRhymes(fn, max = 10){
+    // offest: how many rhymes to ignore
+    let offset = 5;
     let that = this;
     that.rhymes = [];
-    request('https://api.datamuse.com/words?rel_rhy=' + that.word+'&max=10', function(err, res, body){
+    request('https://api.datamuse.com/words?rel_rhy='+that.word+'&max='+(max+offset), function(err, res, body){
       if (err){
         console.log("there was an error:", err);
         throw new Error(err, "cannot connect to API");
@@ -219,7 +221,17 @@ class Word {
         console.log("no rhymes found:", that.word, body)
         return;
       }
-      for (let i = 5; i < 10 ; i++){
+      let rhymeLen = JSON.parse(body).length;
+      let startLoop;
+      let endLoop;
+      if (rhymeLen <= max) {
+        startLoop = 0;
+        endLoop = rhymeLen;
+      } else {
+        startLoop = rhymeLen - max;
+        endLoop = rhymeLen;
+      }
+      for (let i = startLoop; i < endLoop ; i++){
         let rhyme = JSON.parse(body)[i];
         that.rhymes.push(rhyme);
       }

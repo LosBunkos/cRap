@@ -19,17 +19,23 @@ class Sentence {
     return output;
   }
 
-  rhyme(Words, string) {
+  rhyme(Words, string, fn) {
     let self = this;
     string = string.split(' ');
     let word = string.splice(string.length - 2, 1);
     word = new we.Word(word);
     word.getRhymes(()=> {
       let sentence = self.make(Words);
-      return sentence
-        .split(' ')
-        .splice(sentence.length - 2, 1, POS.randFrom(word.rhymes))
-        .join(' ');
+      let sentenceAsArray = sentence.split(' ');
+        sentenceAsArray.splice(
+          sentenceAsArray.length - 2, 
+          1, 
+          POS.randFrom(word.rhymes).word
+        )
+        fn(sentenceAsArray.join(' '));
+
+        // console.log(sentenceAsArray.join(' '));
+
     })
   }
 }
