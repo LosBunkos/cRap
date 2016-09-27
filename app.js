@@ -11,7 +11,9 @@ we._extractWords(str, (Words)=> {
   // })
   // let missing = we._getAmountOfMissing(Words);
   we.getMissingWords(Words, (res)=> {
-      console.log('\n\n\n\n\n========------========')
-      console.log(res);
+      res.nouns[2].getRhymes(()=>{
+        console.log(res.nouns[2])
+      })
     })
+
 })

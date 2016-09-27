@@ -37,8 +37,12 @@ class Word {
         console.log("no rhymes found:", that.word, body)
         return;
       }
-      for (let i = 5; i < 10 ; i++) {
-        let rhyme = JSON.parse(body)[i];
+      //start at i=5 because first words suck
+      let length = JSON.parse(body).length
+
+      for (let i = length-1; i > length-5; i--) {
+        let rhyme = JSON.parse(body)[i].word;
+        rhyme = new Word(rhyme)
         that.rhymes.push(rhyme);
       }
       this.rhymes = that.rhymes;
@@ -195,4 +199,5 @@ module.exports = {
   _getSimilarWords: _getSimilarWords,
   getMissingWords: getMissingWords,
   _joinWithoutDupes: _joinWithoutDupes,
+  Word: Word
 }
