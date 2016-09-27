@@ -28,7 +28,7 @@ class Word {
   getRhymes(fn) {
     let that = this;
     that.rhymes = [];
-    request('https://api.datamuse.com/words?rel_rhy=' + that.word+'&max=10', function(err, res, body) {
+    request('https://api.datamuse.com/words?rel_rhy=' + that.word +'&max=20', function(err, res, body) {
       if (err) {
         console.log("there was an error:", err);
         throw new Error(err, "cannot connect to API");
@@ -39,14 +39,17 @@ class Word {
       }
       //start at i=5 because first words suck
       let length = JSON.parse(body).length
-
+      let json = JSON.parse(body)
+      // console.log("YO YO YO",test)
       for (let i = length-1; i > length-5; i--) {
-        let rhyme = JSON.parse(body)[i].word;
-        rhyme = new Word(rhyme)
-        that.rhymes.push(rhyme);
+        if (typeof json[i] !== 'undefined'){
+          let rhyme = JSON.parse(body)[i].word;
+          rhyme = new Word(rhyme)
+          that.rhymes.push(rhyme);
+        }
       }
       this.rhymes = that.rhymes;
-      fn();
+      setTimeout(function(){fn();}, 1500)
     })
   }
 }
@@ -78,7 +81,7 @@ function init(str) {
   return str;
 }
 
-function _extractWords(str, fn) {
+function extractWords(str, fn) {
   const Words = new WordsObj();
   wordpos.getPOS(str, function(result) {
     let rest = result.rest 
@@ -192,12 +195,29 @@ function idxInArr(word, wordArr) {
   return -1;
 }
 
+
+function getRhymesForAll(Words, fn){
+  allPos.forEach((pos) => {
+    for (let i = 0; i < Words[pos].length ; i++){
+      let word = Words[pos][i];
+      word.getRhymes(() => {
+        Words[pos][i] = word;
+      })
+    }
+  })
+  setTimeout(function(){
+    fn(Words);
+  }, 1000)
+}
+
+
 module.exports = {
   init: init,
-  _extractWords: _extractWords, 
+  extractWords: extractWords, 
   _getAmountOfMissing: _getAmountOfMissing,
   _getSimilarWords: _getSimilarWords,
   getMissingWords: getMissingWords,
   _joinWithoutDupes: _joinWithoutDupes,
-  Word: Word
+  Word: Word,
+  getRhymesForAll: getRhymesForAll
 }

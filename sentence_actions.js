@@ -20,7 +20,6 @@ module.exports = {
   },
 
   // I gots ghetto shit right here
-  // PAV == Pronoun-auxiliary-verb
   IAuxVerb: function (Words) {
     const nounList = Words.list;
     const verbList = Words.verbs;
