@@ -12,6 +12,8 @@ body {
   -o-background-size: cover;
   background-size: cover;
   text-align: center;
+  font-family: 'Comfortaa', cursive;
+  font-size: 1.5em;
 }
 
 .navtitle {
@@ -23,6 +25,7 @@ body {
     margin-right: 40px;
     margin-left: 20px
 }
+
 
 .allContainer {
   background: rgba(100,114,114,0.8);
@@ -49,7 +52,20 @@ body {
   margin-top: 5px;
 }
 .intext{
+  margin: 3% 0 10% 0;
+}
 
+.intext button {
+  margin: 2% 0 0 0;
+  background-color: gray ;
+  font-family:"Comfortaa";
+  font-size: 15px;
+  letter-spacing: 1.5px;
+}
+
+span {
+  font-family:"Painterz";
+  letter-spacing:2px;
 }
 
 .loader{
@@ -114,7 +130,7 @@ body {
 
 
 .outtext{
-
+  margin-top: 3%;
 }
 
 @-webkit-keyframes sk-cubeGridScaleDelay {
