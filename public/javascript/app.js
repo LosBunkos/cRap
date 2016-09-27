@@ -21,7 +21,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
       controller: 'crapCtrl'
       })
     .state('libraries', {
-      url: '/get',
+      url: '/libraries',
       templateUrl: 'libraries.html',
       controller: 'crapCtrl'
       })

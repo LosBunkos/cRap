@@ -31,7 +31,7 @@ body {
 .allContainer {
   background: rgba(100,114,114,0.8);
   position: relative;
-  margin-top: 50px;
+  /*margin-top: 50px;*/
   width: 80%;
   height: 430px;
   z-index: 15;
@@ -157,3 +157,9 @@ span {
 /* END OF RAP.HTML STYLE */
 
 
+/* STYLES FOR LIBRARY.HTML */
+
+.libclass li {
+  list-style: none;
+  margin-top: 3%;
+}
