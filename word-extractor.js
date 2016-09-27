@@ -198,6 +198,8 @@ function checkIfExists(word, Words){
 }
 
 
+
+
 //create a word class
 class Word {
   constructor(word, type, syns){
@@ -227,11 +229,13 @@ class Word {
   }
 }
 
+
 module.exports = {
   init: init,
   getWordsFromTokens: getWordsFromTokens, 
   Word: Word,
-  _getSyns: _getSyns
+  _getSyns: _getSyns,
+  // getRhymesForAll: getRhymesForAll
 }
 
 
