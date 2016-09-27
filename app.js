@@ -9,8 +9,9 @@ we._extractWords(str, (Words)=> {
   // console.log('missing', we._getAmountOfMissing(Words));
   // we._getSimilarWords(Words.nouns[0].word, 50, (result) => {
   // })
-  let missing = we._getAmountOfMissing(Words);
+  // let missing = we._getAmountOfMissing(Words);
   we.getMissingWords(Words, (res)=> {
+      console.log('\n\n\n\n\n========------========')
       console.log(res);
     })
 })
