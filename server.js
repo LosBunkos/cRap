@@ -37,8 +37,8 @@ app.post('/getRap', (req, res, next) => {
       let sen2 = constructor.make();
       sen1.fillRhymes(()=> {
           sen3.fillRhymes(() => {
-          let sen3 = constructor.rhyme(sen2);
-          let sen4 = constructor.rhyme(sen3);
+          let sen3 = constructor.rhyme(sen1);
+          let sen4 = constructor.rhyme(sen2);
           let end = new Date().getTime();
           let time = end - start;
           res.json({
