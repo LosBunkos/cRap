@@ -6,7 +6,7 @@ class Sentence {
   constructor(text) {
     let words = text.split(' ');
     let lastWord = words.splice(words.length - 2, 2)[0];
-    this.body = words;
+    this.body = words.join(' ');
     this.lastWord = lastWord;
     this.rhymes = []
   }
