@@ -15,11 +15,12 @@ wordExtractor.extractWords(str, (Words) => {
   wordExtractor.getMissingWords(Words, (Words2) => {
     wordExtractor.getRhymesForAll(Words2, (WordsAndRhymes) => {
       let sen1 = new createSentence.Sentence(sentenceActions.IAuxVerb, sentenceActions.myNoun);
+      let builtSentence = sen1.make(WordsAndRhymes);
+      console.log(builtSentence.split(" "));
 
-      // console.log(sen1.make(WordsAndRhymes))
-      // console.log(sen1.make(WordsAndRhymes))
-      // console.log(sen1.make(WordsAndRhymes))
-      // console.log(sen1.make(WordsAndRhymes))
+      // console.log(sen1.rhyme(WordsAndRhymes, builtSentence))
+
+
     })
   })
 })
