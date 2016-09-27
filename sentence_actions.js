@@ -48,7 +48,8 @@ module.exports = {
     }
     
     if (pron.I === "it" && typeof changeItTo !== 'undefined'){
-      return `${changeItTo} ${aux}`
+      return `${changeItTo} ${aux}`;
+      
     } else {
       return `${pron["I"]} ${aux}`;
     }
