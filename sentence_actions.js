@@ -13,9 +13,10 @@ module.exports = {
     let adjList = Words.adjectives;
     let pronList = POS.pronounList;
     let pron = POS.randPron(POS.pronList);
-    let noun = POS.randFrom(nounList).word;
+    let noun = Words.nouns.splice(0,1)[0].word;
+    let adj = Words.adjectives.splice(0,1)[0].word;
     // add adjective
-    noun = POS.randFrom(adjList).word + ' ' + noun;
+    noun = adj + ' ' + noun;
     return `${pron["my"]} ${noun}`
   },
 
@@ -24,8 +25,10 @@ module.exports = {
     const nounList = Words.list;
     const verbList = Words.verbs;
     const pronList = POS.pronounList;
+    console.log("VERBefore\n", Words.verbs)
+    let verb = Words.verbs.splice(0,1)[0].word;
+    console.log("VERBeyond -", verb, "\n", Words.verbs)
     let pron = POS.randPron(pronList);
-    let verb = POS.randFrom(verbList).word;
     let aux = pron.getRandomAuxiliary();
     // lol
     let l = console.log;
@@ -47,11 +50,11 @@ module.exports = {
       aux += ` been ${toIng(verb)}`
     }
     
-    if (pron.I === "it" && typeof changeItTo !== 'undefined'){
-      return `${changeItTo} ${aux}`;
-      
-    } else {
+    // if (pron.I === "it" && typeof changeItTo !== 'undefined'){
+    //   return `${changeItTo} ${aux}`
+    // } 
+    // else {
       return `${pron["I"]} ${aux}`;
-    }
+    // }
   }
 }

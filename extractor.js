@@ -37,7 +37,7 @@ class Word {
         console.log("no rhymes found:", that.word, body)
         return;
       }
-      //start at i=5 because first words suck
+      // start at i=5 because first words suck
       let length = JSON.parse(body).length
       let json = JSON.parse(body)
       // console.log("YO YO YO",test)
@@ -49,7 +49,7 @@ class Word {
         }
       }
       this.rhymes = that.rhymes;
-      setTimeout(function(){fn();}, 1500)
+      setTimeout(function(){fn()}, 0)
     })
   }
 }

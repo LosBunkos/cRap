@@ -2,7 +2,7 @@ const v = ['a','e','i','o','u'];
 const c = ['b','c','d','f','g','h','j','k','l','m','n','p','q','r','s','t','v','w','x','y','z']
 
 
-exports.makeIng = (verb, ing = "in'")=> {
+exports.makeIng = (verb, ing = "ing")=> {
   var verbLength = verb.length;
   const letters = verb.substring(verb.length-3, verb.length);
   if (verb.length < 3) {

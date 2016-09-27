@@ -13,57 +13,15 @@ let str = 'The woman had died without pain, quietly, as a woman should whose lif
 str = wordExtractor.init(str);
 wordExtractor.extractWords(str, (Words) => {
   wordExtractor.getMissingWords(Words, (Words2) => {
-    wordExtractor.getRhymesForAll(Words2, (WordsAndRhymes) => {
       let sen1 = new createSentence.Sentence(sentenceActions.IAuxVerb, sentenceActions.myNoun);
-      let builtSentence = sen1.make(WordsAndRhymes);
+      let builtSentence = sen1.make(Words2);
       // console.log(builtSentence.split(" "));
-      console.log(builtSentence)
-      // console.log(sen1.rhyme(WordsAndRhymes, builtSentence))
-
-
-    })
+      sen1.rhyme(Words2, builtSentence, (Reim)=> {
+        console.log(builtSentence)
+        console.log(Reim);
+      })
   })
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// var app = express();
-// app.use(morgan('dev'));
-
-// app.use(express.static(`${__dirname}/node_modules`));
-// app.use(express.static(`${__dirname}/public`));
-
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: false }));
-
-// // log requests
-
-// var port = process.env.PORT || '8000';
-
-// app.use(function(req, res, next) {
-//   res.header('Access-Control-Allow-Origin', '*');
-//   next();
-// }); 
-
-
-
-
-// app.listen(port);
 
 
 
