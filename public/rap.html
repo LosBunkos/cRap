@@ -8,13 +8,17 @@
 
   <div class = "row rapcontainer">
     <div class = "col-md-5 intext">
-      <form ng-submit = sendRap()>
-        <div class="form-group">
-          <label for="text"><span><h2>¢-r=appify it!</h2></span></label>
-          <textarea class="form-control text-center" rows="9" class="textbox" id="comment"  placeholder="Write your text in here" ng-model="getText"></textarea>                
-          <button type="submit" class="btn myButton"><b>Submit</b></button>
+      <div class="panel panel-default">
+        <div class="panel-body">      
+          <form ng-submit = sendRap()>
+            <div class="form-group">
+              <label for="text"><span><h2>¢-r=appify it!</h2></span></label>
+              <textarea class="form-control text-center" rows="9" class="textbox" id="comment"  placeholder="Write your text in here" ng-model="getText"></textarea>                
+              <button type="submit" class="btn myButton"><b>Submit</b></button>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
 
     <div class = "col-md-2 loader" >
@@ -35,9 +39,13 @@
     </div>
 
 
-    <div class = "col-md-5 outtext">
-
-      <div ng-repeat = "text in texts">{{text}}</div>
+    <div class = "col-md-5 intext">
+      <div class="panel panel-default rapbox" ng-show="rapbox">
+        <div class="panel-body">
+          <div ng-repeat = "text in texts">{{text}}</div>
+        </div>
+      </div>
+      
 
     </div>
   </div>

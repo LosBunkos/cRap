@@ -9,6 +9,7 @@ app.controller('crapCtrl', function($scope, crapService){
     crapService.sendRap($scope.getText, $scope.loading).then(function(){
       $scope.texts = crapService.text;
       $scope.loading = false;
+      $scope.rapbox = true;
     });
   }
 
