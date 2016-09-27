@@ -1,95 +1,101 @@
+/*font-family: 'Bungee Shade', cursive;*/
+
+@font-face {
+font-family: "Painterz";
+src: url(Painterz.ttf) format("truetype");
+}
+
 body {
-    background-image: url("compton.jpg");
-      -webkit-background-size: cover;
+  background-image: url("compton.jpg");
+  -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  text-align: center;
+  font-family: 'Comfortaa', cursive;
+  font-size: 1.5em;
 }
 
-.spinner{
+.navtitle {
+    font-family:"Painterz";
+    /*font-family: 'Bungee Shade', cursive;*/
+    font-size: 40px;
+    margin-top: -9px;
+    margin-bottom: 0px;
+    margin-right: 40px;
+    margin-left: 20px
+}
+
+
+.allContainer {
+  background: rgba(100,114,114,0.8);
+  position: relative;
+  margin-top: 50px;
+  width: 80%;
+  height: 430px;
+  z-index: 15;
+  border: rgba(100,114,114,0.8);
+}
+
+
+
+
+
+
+
+
+/*STYLES FOR RAP.HTML*/
+
+.rapcontainer{
+  border: solid 1px black;
+  height: 400px;
+  margin-top: 5px;
+}
+.intext{
+  margin: 3% 0 10% 0;
+}
+
+.intext button {
+  margin: 2% 0 0 0;
+  background-color: gray ;
+  font-family:"Comfortaa";
+  font-size: 15px;
+  letter-spacing: 1.5px;
+}
+
+span {
+  font-family:"Painterz";
+  letter-spacing:2px;
+}
+
+.loader{
   z-index: 1000000;
-   color: white;
-   -webkit-text-fill-color: gray; /* Will override color (regardless of order) */
-   -webkit-text-stroke-width: 1px;
-   -webkit-text-stroke-color: black;
-    margin: auto;  
-  position: absolute;
+  position: relative;
+  color: white;
+  -webkit-text-fill-color: gray; /* Will override color (regardless of order) */
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: gray;
+  margin: auto;  
+  /*position: relative;*/
+  margin: 0 auto;
   left:0;
   right: 0;
-  top: 0;
+  top: 40%;
   bottom: 0;
-
 }
-
-.spinner h3 {
-  background-color:lightgray;
-}
-
-.title{
-  margin-top: 20px;
-  margin-bottom: 20px;
-  font-size: 200%;
-  font-family: 'Inconsolata', monospace;
-  font-weight: bold;
-  text-align: center;
-}
-
-.rotate {
-
-/* Safari */
--webkit-transform: rotate(-90deg);
-
-/* Firefox */
--moz-transform: rotate(-90deg);
-
-/* IE */
--ms-transform: rotate(-90deg);
-
-/* Opera */
--o-transform: rotate(-90deg);
-
-/* Internet Explorer */
-filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-
-}
-
-.textbox{
-  height:150px;
-  width:80%;
-}
-
-.myButton {
-  width:200px;
-  margin-top:10px;
-  background-color: lightblue;
-}
-
-.outputbox{
-  margin-top: 70px;
-  width: 50%;
-  background-color: lightgray;
-}
-
-.output {
-  text-align: center;
-}
-
-
-
-
-
 
 .sk-cube-grid {
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
 /*  margin: 100px auto;*/
 }
 
 .sk-cube-grid .sk-cube {
   width: 33%;
   height: 33%;
-  background-color: #333;
+  background-color: #c2d1f0;
   float: left;
+  border: #5c5c3d 1px solid;
   -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
           animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out; 
 }
@@ -121,6 +127,12 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
   -webkit-animation-delay: 0.2s;
           animation-delay: 0.2s; }
 
+
+
+.outtext{
+  margin-top: 3%;
+}
+
 @-webkit-keyframes sk-cubeGridScaleDelay {
   0%, 70%, 100% {
     -webkit-transform: scale3D(1, 1, 1);
@@ -140,3 +152,7 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
             transform: scale3D(0, 0, 1);
   } 
 }
+
+/* END OF RAP.HTML STYLE */
+
+

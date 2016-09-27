@@ -125,7 +125,6 @@ function _getAmountOfMissing (Words, needed = 10) {
 function _getSimilarWords (word, count, fn) {
   let similarWords = new WordsObj();
   request('https://api.datamuse.com/words?ml=' + word.word + '&max=' + count, function(err, res, body){
-    console.log('request')
 
   for (let i = 0 ; i < count ; i++){
     //if the res empty - return
@@ -154,9 +153,7 @@ function _getSimilarWords (word, count, fn) {
 
 function getMissingWords(Words, fn){
   let missingObj = _getAmountOfMissing(Words);
-  console.log('words.len in line 144 is', Words.nouns.length)
   for (let i = 0; i < Words.nouns.length && i < 3; i++) {
-    console.log('i', i)
     _getSimilarWords(Words.nouns[i].word, 40, (result)=> {
       Words = _joinWithoutDupes(Words, result);
       missingObj = _getAmountOfMissing(Words);
