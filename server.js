@@ -1,5 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const morgan = require('morgan')
+const cs = require('./create_sentence');
+const sa = require('./sentence_actions');
+const ex = require('./extractor');
 
 var app = express();
 app.use(morgan('dev'));
@@ -19,32 +23,35 @@ app.use(function(req, res, next) {
   next();
 }); 
 
-
 app.post('/getRap', (req, res, next) => {
-  if (!req.body || !req.body.text) {
-    console.log('got a req with no req.body');
-    next('f u no req.body');
+  if(!(req && req.body && req.body.text)) {
+    next('Error - Please make sure you\'re sending some text!');
   }
-    console.log('=====req start=====');
-    let str = req.body.text;
-    console.log("Got text:\n  ", str);
-    let tokens = ext.init(req.body.text);
-    console.log("\nTokenized to:\n ", tokens);
-    ext.getWordsFromTokens(tokens, (werds) => {
-      // setTimeout(()=> {
-        genSentence(werds, (sentences)=> {
-          sentences.tokens = tokens.split(' ');
-          console.log(`\ngenerated:\n`, ...sentences.sentences);
-          console.log('=====req end=====\n\nFrom:');
-          sentences.original = str;
-          res.json(sentences);
+  let start = new Date().getTime();
+  let input = req.body.text;
+  input = ex.init(input);
+  ex.extractWords(input, (Words) => {
+    ex.getMissingWords(Words, (Words2) => {
+      let constructor = new cs.Sentencer(Words2, sa.IAuxVerb, sa.myNoun);
+      let sen1 = constructor.make();
+      let sen3 = constructor.make();
+      sen1.fillRhymes(()=> {
+          sen3.fillRhymes(() => {
+          let sen2 = constructor.rhyme(sen1);
+          let sen4 = constructor.rhyme(sen3);
+          let end = new Date().getTime();
+          let time = end - start;
+          res.json({
+            sentences: [sen1.text, sen3.text, sen2.text, sen4.text],
+            tokens: input,
+            took: time + 'ms'
           })
-        // }, 100);
+        })
+      })
     })
-
+  })
 
 })
-
 // app.get('/', function(req, res){
 //   res.sendFile(__dirname + "/public/index.html");
 // });

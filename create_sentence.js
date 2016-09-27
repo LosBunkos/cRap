@@ -3,11 +3,36 @@ const POS = require('./parts_of_speech');
 const we = require('./extractor');
 
 class Sentence {
-  constructor(...args) {
-    this.fns = args;
+  constructor(text) {
+    let words = text.split(' ');
+    let lastWord = words.splice(words.length - 2, 2)[0];
+    this.body = words.join(' ');
+    this.lastWord = lastWord;
+    this.rhymes = []
   }
 
-  make(Words) {
+  // this is a getter
+  get text() {
+    return `${this.body} ${this.lastWord}`
+  }
+
+  fillRhymes(fn = ()=>{}) {
+    let self = this;
+    let word = new we.Word(self.lastWord);
+    word.getRhymes(()=> {
+      self.rhymes = word.rhymes;
+      fn()
+    })
+  }
+}
+
+class Sentencer {
+  constructor(Words, ...args) {
+    this.fns = args;
+    this.source = Words;
+  }
+
+  make(Words = this.source) {
     let temp, output = '';
     this.fns.forEach((fn)=> {
       temp = fn(Words);
@@ -16,28 +41,16 @@ class Sentence {
         temp = null;
       }
     })
-    return output;
+    return new Sentence(output);
   }
 
-  rhyme(Words, string, fn) {
+  rhyme(sentenceObj, Words = this.Words) {
     let self = this;
-    string = string.split(' ');
-    let word = string.splice(string.length - 2, 1);
-    word = new we.Word(word);
-    word.getRhymes(()=> {
-      let sentence = self.make(Words);
-      let sentenceAsArray = sentence.split(' ');
-        sentenceAsArray.splice(
-          sentenceAsArray.length - 2, 
-          1, 
-          POS.randFrom(word.rhymes).word
-        )
-        fn(sentenceAsArray.join(' '));
-
-        // console.log(sentenceAsArray.join(' '));
-
-    })
+    let sen = self.make();
+    sen.lastWord = POS.randFrom(sentenceObj.rhymes).word;
+    return sen;
   }
 }
 
+exports.Sentencer = Sentencer;
 exports.Sentence = Sentence;
