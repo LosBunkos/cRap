@@ -22,6 +22,10 @@ body {
   background-attachment: fixed;
 }
 
+.navigation {
+  height: 60px !important;
+}
+
 .navtitle {
     font-family:"Painterz";
     /*font-family: 'Bungee Shade', cursive;*/
@@ -32,6 +36,29 @@ body {
     margin-left: 20px
 }
 
+.navlinks{
+  padding-top: 5px !important;
+}
+
+ul.share-buttons{
+  list-style: none;
+  padding: 0;
+}
+
+ul.share-buttons li{
+  display: inline;
+}
+
+ul.share-buttons .sr-only {
+  position: absolute;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0;
+  border: 0;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+}
 
 .allContainer {
   background: rgba(100,114,114,0.8);
@@ -50,19 +77,24 @@ body {
 
 
 
+
 /*STYLES FOR RAP.HTML*/
 
 .rapcontainer{
-  height: 400px;
-  margin-top: 5px;
+  max-height: 400px;
 }
+
 .intext{
   margin: 2% 0 10% 0;
   height: 400px;
+  position: relative;
+}
+.pan {
+  height: 480px;
 }
 
 .rapbox {
-  height:351px;
+  height:481px;
 }
 
 .intext button {
@@ -81,17 +113,24 @@ span {
 .loader{
   z-index: 1000000;
   position: relative;
+  height: 500px;
   color: white;
   -webkit-text-fill-color: gray; /* Will override color (regardless of order) */
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: gray;
   margin: auto;  
-  /*position: relative;*/
-  margin: 0 auto;
+  /*margin: 0 auto;*/
   left:0;
   right: 0;
-  top: 40%;
+  top: 50%;
   bottom: 0;
+}
+
+.center-loader{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .sk-cube-grid {
