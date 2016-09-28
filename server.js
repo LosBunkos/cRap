@@ -32,7 +32,9 @@ app.post('/getRap', (req, res, next) => {
   input = ex.init(input);
   ex.extractWords(input, (Words) => {
     ex.getMissingWords(Words, (Words2) => {
-      let constructor = new cs.Sentencer(Words2, sa.IAuxVerb, sa.myNoun);
+      let constructor = new cs.Sentencer(
+        Words2, sa.IUsedToBeANoun, ()=>'but now', sa.IVerbTheNoun
+        );
       let sen1 = constructor.make();
       let sen2 = constructor.make();
       sen1.fillRhymes(()=> {
@@ -42,7 +44,7 @@ app.post('/getRap', (req, res, next) => {
           let end = new Date().getTime();
           let time = end - start;
           res.json({
-            sentences: [sen1.text, sen2.text, sen3.text, sen4.text],
+            sentences: [sen1.text, sen3.text, sen2.text, sen4.text],
             tokens: input,
             took: time + 'ms'
           })
