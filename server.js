@@ -54,7 +54,7 @@ app.post('/getRap', (req, res, next) => {
             sen2.body = 'cuz ' + sen2.body;
             sen4.body = 'but ' + sen4.body;
             sen5.body = 'and ' + sen5.body;
-            sen6.body = 'bitch, ' + sen6.body;
+            sen6.body = 'brotha, ' + sen6.body;
 
             // let sen3 = constructor.rhyme(sen1);
             // let sen4 = constructor.rhyme(sen2);

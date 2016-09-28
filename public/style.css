@@ -261,10 +261,23 @@ span {
 /*STYLES FOR LIBRARY.HTML*/
 
 .innerrow{
-  margin: 10% 0;
+  margin-top: 3%;
+  position:relative;
 }
+
+.name{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
 .abouttext{
-  padding: 15px 0;
+  padding: 10px 0;
+}
+
+.pic{
+  max-height: 200px;
+  box-shadow: 1px 1px 3px black;
 }
 
 /*screen size adjustments*/
