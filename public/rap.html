@@ -7,9 +7,9 @@
   <div class = "container-fluid">
 
   <div class = "row rapcontainer">
-    <div class = "col-md-5 intext">
+    <div class = "col-md-6 intext">
       <div class="panel panel-default pan">
-        <div class="panel-body">      
+        <div class="panel-body rapify">      
           <form ng-submit = sendRap()>
             <div class="form-group">
               <label for="text"><span><h2>¢-r=appify it!</h2></span></label>
@@ -21,10 +21,9 @@
       </div>
     </div>
 
-    <div class = "col-md-2 loader" >
+    <div class = "loader" ng-show="loading">
       <center class = "center-loader">
-
-        <div class="sk-cube-grid" ng-show="loading">
+        <div class="sk-cube-grid" >
           <div class="sk-cube sk-cube1"></div>
           <div class="sk-cube sk-cube2"></div>
           <div class="sk-cube sk-cube3"></div>
@@ -34,14 +33,13 @@
           <div class="sk-cube sk-cube7"></div>
           <div class="sk-cube sk-cube8"></div>
           <div class="sk-cube sk-cube9"></div>
-
         </div> 
       </center>
     </div>
 
-<!-- ng-show="rapbox" -->
-    <div class = "col-md-5 intext">
-      <div class="panel panel-default rapbox" ng-show="rapbox">
+
+    <div class = "col-md-6 intext" ng-show="rapbox">
+      <div class="panel panel-default rapbox" >
         <div class="panel-body rappify">
           <div ng-repeat = "text in texts" ng-model = "sentence">{{text}}</div>
           <div  class = "sharebtn">
