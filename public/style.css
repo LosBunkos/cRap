@@ -1,5 +1,10 @@
 /*font-family: 'Bungee Shade', cursive;*/
 
+/*disable textarea resizing*/
+textarea {
+    resize: none;
+}
+
 @font-face {
 font-family: "Painterz";
 src: url(Painterz.ttf) format("truetype");
