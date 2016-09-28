@@ -4,6 +4,7 @@ const morgan = require('morgan')
 const cs = require('./create_sentence');
 const sa = require('./sentence_actions');
 const ex = require('./extractor');
+const sen = require('./sentences');
 
 var app = express();
 app.use(morgan('dev'));
@@ -37,15 +38,17 @@ app.post('/getRap', (req, res, next) => {
         input = 'No tokens found (got only stopwords)';
       }
     // ex.getMissingWords(Words, (Words2) => {
-      let constructor = new cs.Sentencer(
-         Words, sa.IUsedToBeANoun, ()=>'but now', sa.IVerbTheNoun
-        );
-      let sen1 = constructor.make();
-      let sen2 = constructor.make();
+      let Sentencer = sen.init(Words);
+      let sen1 = Sentencer.DontUVerbMyNoun.make();
+      let sen3 = Sentencer.DontUVerbMyNoun.make();
       sen1.fillRhymes(()=> {
-        sen2.fillRhymes(() => {
-          let sen3 = constructor.rhyme(sen1);
-          let sen4 = constructor.rhyme(sen2);
+        sen3.fillRhymes(() => {
+          let sen2 = ' but ' + Sentencer.myNounIsLikeMyNoun.rhyme(sen1).text;
+          let sen4 = ' but ' + Sentencer.myNounIsLikeMyNoun.rhyme(sen3).text;
+          
+          // let sen3 = constructor.rhyme(sen1);
+          // let sen4 = constructor.rhyme(sen2);
+
           let end = new Date().getTime();
           let time = end - start;
           console.log('\n===<Generated in |'+time+'ms| for ip |'+ip+'|>===\n')
