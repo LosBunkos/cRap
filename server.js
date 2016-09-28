@@ -43,8 +43,10 @@ app.post('/getRap', (req, res, next) => {
       let sen3 = Sentencer.DontUVerbMyNoun.make();
       sen1.fillRhymes(()=> {
         sen3.fillRhymes(() => {
-          let sen2 = ' but ' + Sentencer.myNounIsLikeMyNoun.rhyme(sen1).text;
-          let sen4 = ' but ' + Sentencer.myNounIsLikeMyNoun.rhyme(sen3).text;
+          let sen2 = Sentencer.myNounIsLikeMyNoun.rhyme(sen1);
+          let sen4 = Sentencer.myNounIsLikeMyNoun.rhyme(sen3);
+          sen2.text = 'but ' + sen2.text;
+          sen4.text = 'but ' + sen4.text;
           
           // let sen3 = constructor.rhyme(sen1);
           // let sen4 = constructor.rhyme(sen2);
