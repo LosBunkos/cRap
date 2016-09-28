@@ -8,9 +8,9 @@ var toPast = require('tensify');
 var POS = require('./parts_of_speech');
 
 let selectWordAndRemove = (list) => {
-  if(list.length == 0) {
-    list.push({word: 'noun'})
-  }
+  // if(list.length == 0) {
+  //   list.push({word: 'noun'})
+  // }
   return list.splice(0,1)[0].word;
 }
 
