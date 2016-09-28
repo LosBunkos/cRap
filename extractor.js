@@ -43,7 +43,7 @@ class Word {
   }
 }
 
-defWords = {
+const defWords = {
   nouns: [
     'playa', 'hood', 'homie', 'bling', 'dope', 
     'dough', 'ice', 'crib', 'momma', 'ride',
