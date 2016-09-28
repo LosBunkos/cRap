@@ -38,7 +38,7 @@ app.post('/getRap', (req, res, next) => {
       }
     // ex.getMissingWords(Words, (Words2) => {
       let constructor = new cs.Sentencer(
-        Words, sa.IUsedToBeANoun, ()=>'but now', sa.IVerbTheNoun
+         Words, sa.IUsedToBeANoun, ()=>'but now', sa.IVerbTheNoun
         );
       let sen1 = constructor.make();
       let sen2 = constructor.make();
@@ -62,6 +62,8 @@ app.post('/getRap', (req, res, next) => {
           })
         })
       })
+
+      
       // })
     })
   }
