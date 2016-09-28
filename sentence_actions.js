@@ -15,6 +15,18 @@ let selectWordAndRemove = (list) => {
 }
 
 module.exports = {
+  dontYouVerb: function(Words) => {
+    let verb = selectWordAndRemove(Words.verbs);
+    return `don't you ${verb}`
+  },
+  
+  yoMamaCanVerbMyAdjNoun: (Words) => {
+    let verb = selectWordAndRemove(Words.verbs);
+    let noun = selectWordAndRemove(Words.nouns);
+    let adj = selectWordAndRemove(Words.adjectives);
+    return `yo mama can ${verb} my ${adj} ${noun}`
+  },
+
   IUsedToBeANoun: (Words) => {
     let pron = POS.randPron();
     let noun = selectWordAndRemove(Words.nouns);
