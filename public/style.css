@@ -5,9 +5,6 @@ textarea {
     resize: none;
 }
 
-html, body {
-  max-height: 100vh;
-}
 
 @font-face {
 font-family: "Painterz";
