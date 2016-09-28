@@ -36,9 +36,9 @@ body {
 .allContainer {
   background: rgba(100,114,114,0.8);
   position: relative;
-  /*margin-top: 50px;*/
   width: 80%;
-  height: 430px;
+  min-height: 500px;
+  overflow: hidden;
   z-index: 15;
   border: rgba(100,114,114,0.8);
 }
@@ -174,4 +174,19 @@ span {
 }
 .lib-icon:nth-child(2), .lib-icon:nth-child(3) {
   padding: 0 70px;
+}
+
+.list {
+  /*text-align:center;*/
+  list-style-position: outside !important;
+  /*margin-left: 16.666667% !important;*/
+  overflow:  hidden;
+  /*height: 200px;*/
+}
+
+.list ul, .list li{
+  list-style: none;
+  margin: 0; 
+  padding: 0;
+
 }
