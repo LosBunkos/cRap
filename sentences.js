@@ -8,6 +8,7 @@ exports.init = (Words)=> {
     DontUVerbMyNoun: new cs.Sentencer(Words, sa.dontYouVerb, sa.myNoun),
     yoMama: new cs.Sentencer(Words, sa.yoMamaCanVerbMyAdjNoun),
     cantBeNoNoun: new cs.Sentencer(Words, sa.cantBeNoNoun, ()=>"on", sa.myNoun),
-    myNounIsLikeMyNoun: new cs.Sentencer(Words, sa.myNoun, ()=>"is like", sa.myNoun)
+    myNounIsLikeMyNoun: new cs.Sentencer(Words, sa.myNoun, ()=>"is like", sa.myNoun),
+    IReachedForMyNoun: new cs.Sentencer(Words, sa.pronReachedFor, sa.myNoun),
   }
 };

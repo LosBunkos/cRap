@@ -10,6 +10,12 @@ const allPos = ["nouns", "verbs", "adjectives"];
 const typeFromArrName = (arr)=> arr.substr(0, arr.length - 1);
 const stopWords = stopwords.toString();
 
+let shuffleWords = (Words)=> {
+  allPos.forEach((pos)=> {
+    Words[pos] = shuffleArray(Words[pos]);
+  })
+}
+
 class Word {
   constructor(word) {
     this.word = word
@@ -260,5 +266,6 @@ module.exports = {
   getMissingWords: getMissingWords,
   _joinWithoutDupes: _joinWithoutDupes,
   Word: Word,
-  getRhymesForAll: getRhymesForAll
+  getRhymesForAll: getRhymesForAll,
+  shuffleWords: shuffleWords
 }
