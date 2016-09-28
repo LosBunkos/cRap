@@ -8,9 +8,9 @@ var toPast = require('tensify');
 var POS = require('./parts_of_speech');
 
 let selectWordAndRemove = (list) => {
-  if(list.length == 0) {
-    list.push({word: 'noun'})
-  }
+  // if(list.length == 0) {
+  //   list.push({word: 'noun'})
+  // }
   return list.splice(0,1)[0].word;
 }
 
@@ -19,7 +19,8 @@ let aOrAn = (word) => {
     aWord = `a ${word}`
   } else {
     aWord = `an ${word}`
-  }   
+  }
+  return aWord;
 }
 
 module.exports = {
@@ -40,7 +41,7 @@ module.exports = {
   aintNoParty: (Words) => {
     let noun = selectWordAndRemove(Words.nouns);
     let verb = selectWordAndRemove(Words.verbs);
-    return `ain't no party like a ${aOrAn(noun)} party cuz ${aOrAn(noun)} party don't ${verb}`    
+    return `ain't no party like ${aOrAn(noun)} party cuz ${aOrAn(noun)} party don't ${verb}`    
   },
 
   itAintNuthinButANounThang: (Words) => {
@@ -124,11 +125,10 @@ module.exports = {
     let nounList = Words.nouns;
     let adjList = Words.adjectives;
     let pron = POS.randPron();
-    let noun = Words.nouns.splice(0,1)[0].word;
-    let adj = Words.adjectives.splice(0,1)[0].word;
+    let noun = selectWordAndRemove(Words.nouns);
+    let adj = selectWordAndRemove(Words.adjectives);
     // add adjective
-    noun = adj + ' ' + noun;
-    return `${pron["my"]} ${noun}`
+    return `${pron["my"]} ${adj} ${noun}`
   },
 
   // I gots ghetto shit right here

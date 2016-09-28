@@ -10,6 +10,12 @@ const allPos = ["nouns", "verbs", "adjectives"];
 const typeFromArrName = (arr)=> arr.substr(0, arr.length - 1);
 const stopWords = stopwords.toString();
 
+let shuffleWords = (Words)=> {
+  allPos.forEach((pos)=> {
+    Words[pos] = shuffleArray(Words[pos]);
+  })
+}
+
 class Word {
   constructor(word) {
     this.word = word
@@ -49,15 +55,17 @@ const defWords = {
     'playa', 'hood', 'homie', 'bling', 'dope', 
     'dough', 'ice', 'crib', 'momma', 'ride',
     'daddy', 'pad', 'glock', 'bud', 'menace',
-    'fiend', 'product',
+    'fiend', 'product', 'rims', 
   ],
   verbs: [
     'sling', 'bail', 'smack', 'hit', 'flex',
-    'carry', 'celebrate', 'smell', 
+    'carry', 'celebrate', 'smell', 'shout', 'roll',
+    'crawl'
   ],
   adjectives: [
     'pimping', 'dopest', 'ugly', 'fearless', 'broke-ass',
-    'damn', 'fresh', 'little', 'special'
+    'damn', 'fresh', 'little', 'special', 'crooked', 'blunt',
+    'creepy', 'sneaky', 'trippy', 'picky'
   ]
 }
 
@@ -260,5 +268,6 @@ module.exports = {
   getMissingWords: getMissingWords,
   _joinWithoutDupes: _joinWithoutDupes,
   Word: Word,
-  getRhymesForAll: getRhymesForAll
+  getRhymesForAll: getRhymesForAll,
+  shuffleWords: shuffleWords
 }
