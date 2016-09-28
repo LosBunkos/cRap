@@ -260,6 +260,12 @@ span {
 
 /*STYLES FOR LIBRARY.HTML*/
 
+.innerrow{
+  margin: 10% 0;
+}
+.abouttext{
+  padding: 15px 0;
+}
 
 /*screen size adjustments*/
 
