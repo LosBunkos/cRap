@@ -5,6 +5,10 @@ textarea {
     resize: none;
 }
 
+html, body {
+  max-height: 100vh;
+}
+
 @font-face {
 font-family: "Painterz";
 src: url(Painterz.ttf) format("truetype");
@@ -20,6 +24,7 @@ body {
   font-family: 'Comfortaa', cursive;
   font-size: 1.5em;
   background-attachment: fixed;
+  overflow: hidden;
 }
 
 .navigation {
@@ -37,7 +42,7 @@ body {
 }
 
 .navlinks{
-  padding-top: 5px !important;
+  padding-top: 0.5% !important;
 }
 
 ul.share-buttons{
