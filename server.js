@@ -61,7 +61,7 @@ app.post('/getRap', (req, res, next) => {
           console.log('\n  ===<tokens>===\n  ' + input + '\n  ===</tokens>===\n')
           console.log('===</Generated>===\n')
           res.json({
-            sentences: [sen1.text, sen3.text, sen2.text, sen4.text],
+            sentences: [sen1.text, sen2.text, sen3.text, sen4.text],
             tokens: input,
             took: time + 'ms'
           })
