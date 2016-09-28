@@ -7,7 +7,12 @@ const toSimple = require('verbutils')();
 var toPast = require('tensify');
 var POS = require('./parts_of_speech');
 
-let selectWordAndRemove = (list) => list.splice(0,1)[0].word;
+let selectWordAndRemove = (list) => {
+  if(list.length == 0) {
+    list.push({word: 'noun'})
+  }
+  return list.splice(0,1)[0].word;
+}
 
 module.exports = {
   IUsedToBeANoun: (Words) => {

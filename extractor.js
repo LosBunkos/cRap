@@ -43,7 +43,7 @@ class Word {
   }
 }
 
-const defWords = {
+defWords = {
   nouns: [
     'playa', 'hood', 'homie', 'bling', 'dope', 
     'dough', 'ice', 'crib', 'momma', 'ride',
@@ -52,11 +52,11 @@ const defWords = {
   ],
   verbs: [
     'sling', 'bail', 'smack', 'hit', 'flex',
-    'carry', 'celebrate', 'special',
+    'carry', 'celebrate', 'smell', 
   ],
   adjectives: [
     'pimping', 'dopest', 'ugly', 'fearless', 'broke-ass',
-    'damn', 'fresh', 'little', 
+    'damn', 'fresh', 'little', 'special'
   ]
 }
 
@@ -70,9 +70,9 @@ allPos.forEach((pos)=> {
 
 class WordsObj {
   constructor() {
-    this.nouns = defWords.nouns,
-    this.adjectives = defWords.adjectives,
-    this.verbs = defWords.verbs,
+    this.nouns = shuffleArray(defWords.nouns),
+    this.adjectives = shuffleArray(defWords.adjectives),
+    this.verbs = shuffleArray(defWords.verbs),
     this.rest = []
   }
 }
@@ -107,17 +107,19 @@ function init(str) {
 
 function extractWords(str, fn) {
   let Words = new WordsObj();
+  console.log('Words', Words)
   let posCounts = {
     nouns: 0,
     adjectives: 0,
     verbs: 0
   }
   wordpos.getPOS(str, function(result) {
-    let rest = result.rest 
+    let rest = result.rest;
     //dont forget to deal with rest later!!!
     allPos.forEach((pos) => {
       result[pos].forEach((word) => {
         word = new Word(word.toLowerCase());
+        // console.log('adding', word, 'to', pos);
         Words[pos][posCounts[pos]] = word;
         posCounts[pos]++;
       }) 
@@ -126,6 +128,7 @@ function extractWords(str, fn) {
       word = toSimple.toBaseForm(word);
       wordpos.isVerb(word, function(result) {
         if (result) {
+          // console.log('moving', word, 'from rest to verbs');
           word = new Word(word);
           Words.verbs[posCounts.verbs] = word;
           posCounts.verbs++;
@@ -136,7 +139,7 @@ function extractWords(str, fn) {
       })
     }) 
   })
-  setTimeout(function(){fn(Words)}, 50);
+  setTimeout(function(){fn(Words)}, 250);
 }
 
 function _getAmountOfMissing (Words, needed = 10) {
@@ -238,6 +241,16 @@ function getRhymesForAll(Words, fn){
   }, 1000)
 }
 
+
+function shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+    return array;
+}
 
 module.exports = {
   init: init,

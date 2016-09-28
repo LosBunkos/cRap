@@ -24,14 +24,18 @@ app.use(function(req, res, next) {
 }); 
 
 app.post('/getRap', (req, res, next) => {
-  if(!(req && req.body && req.body.text)) {
-    next('Error - Please make sure you\'re sending some text!');
-  }
-  let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-  let start = new Date().getTime();
-  let input = req.body.text;
-  input = ex.init(input);
-  ex.extractWords(input, (Words) => {
+  if(!(req && req.body && req.body.text) || req.body.text.trim().length === 0) {
+    res.status(400).json('Error - Please make sure you\'re sending some text!');
+  } else {
+    let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    let start = new Date().getTime();
+    let input = req.body.text;
+    input = ex.init(input);
+    ex.extractWords(input, (Words) => {
+      if(input.length === 0) {
+        console.warn('> Warning: generating generic rap (input empty)');
+        input = 'No tokens found (got only stopwords)';
+      }
     // ex.getMissingWords(Words, (Words2) => {
       let constructor = new cs.Sentencer(
         Words, sa.IUsedToBeANoun, ()=>'but now', sa.IVerbTheNoun
@@ -39,16 +43,17 @@ app.post('/getRap', (req, res, next) => {
       let sen1 = constructor.make();
       let sen2 = constructor.make();
       sen1.fillRhymes(()=> {
-          sen2.fillRhymes(() => {
+        sen2.fillRhymes(() => {
           let sen3 = constructor.rhyme(sen1);
           let sen4 = constructor.rhyme(sen2);
           let end = new Date().getTime();
           let time = end - start;
-          console.log('\n===<Generated in |'+time+'ms| for ip |'+ip+'|>===')
+          console.log('\n===<Generated in |'+time+'ms| for ip |'+ip+'|>===\n')
           console.log(sen1.text)
           console.log(sen2.text)
           console.log(sen3.text)
           console.log(sen4.text)
+          console.log('\n  ===<tokens>===\n  ' + input + '\n  ===</tokens>===\n')
           console.log('===</Generated>===\n')
           res.json({
             sentences: [sen1.text, sen3.text, sen2.text, sen4.text],
@@ -57,9 +62,9 @@ app.post('/getRap', (req, res, next) => {
           })
         })
       })
-    // })
-  })
-
+      // })
+    })
+  }
 })
 // app.get('/', function(req, res){
 //   res.sendFile(__dirname + "/public/index.html");
