@@ -55,15 +55,17 @@ const defWords = {
     'playa', 'hood', 'homie', 'bling', 'dope', 
     'dough', 'ice', 'crib', 'momma', 'ride',
     'daddy', 'pad', 'glock', 'bud', 'menace',
-    'fiend', 'product',
+    'fiend', 'product', 'rims', 
   ],
   verbs: [
     'sling', 'bail', 'smack', 'hit', 'flex',
-    'carry', 'celebrate', 'smell', 
+    'carry', 'celebrate', 'smell', 'shout', 'roll',
+    'crawl'
   ],
   adjectives: [
     'pimping', 'dopest', 'ugly', 'fearless', 'broke-ass',
-    'damn', 'fresh', 'little', 'special'
+    'damn', 'fresh', 'little', 'special', 'crooked', 'blunt',
+    'creepy', 'sneaky', 'trippy', 'picky'
   ]
 }
 
