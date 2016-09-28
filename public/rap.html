@@ -39,11 +39,14 @@
       </center>
     </div>
 
-
+<!-- ng-show="rapbox" -->
     <div class = "col-md-5 intext">
       <div class="panel panel-default rapbox" ng-show="rapbox">
         <div class="panel-body rappify">
-          <div ng-repeat = "text in texts">{{text}}</div>
+          <div ng-repeat = "text in texts" ng-model = "sentence">{{text}}</div>
+          <div  class = "sharebtn">
+            <button class = "btn myButton" ng-click = "collectSentence()"><b>Share It!</b></button>
+          </div>
         </div>
       </div>
       

@@ -203,6 +203,14 @@ span {
 
 .rappify {
   padding-top:18%;
+  position:relative;
+  height: 481px !important;
+}
+
+.sharebtn {
+  position:absolute;
+  top: 76%;
+  left:40%;
 }
 
 /* END OF RAP.HTML STYLE */
