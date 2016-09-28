@@ -144,9 +144,9 @@ span {
 .sk-cube-grid .sk-cube {
   width: 33%;
   height: 33%;
-  background-color: white;
+  background-color: black;
   float: left;
-  border: white 1px solid;
+  border: black 1px solid;
   -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
           animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out; 
 }
@@ -198,6 +198,11 @@ span {
     -webkit-transform: scale3D(0, 0, 1);
             transform: scale3D(0, 0, 1);
   } 
+}
+
+
+.rappify {
+  padding-top:18%;
 }
 
 /* END OF RAP.HTML STYLE */
