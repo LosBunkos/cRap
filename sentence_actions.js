@@ -15,9 +15,9 @@ let selectWordAndRemove = (list) => {
 }
 
 module.exports = {
-  dontYouVerb: function(Words) => {
+  dontYouVerb: (Words) => {
     let verb = selectWordAndRemove(Words.verbs);
-    return `don't you ${verb}`
+    return `don't you ${verb}`;
   },
   
   yoMamaCanVerbMyAdjNoun: (Words) => {
