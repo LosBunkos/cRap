@@ -8,11 +8,29 @@ var toPast = require('tensify');
 var POS = require('./parts_of_speech');
 
 module.exports = {
+  IUsedToBeANoun: (Words) => {
+    let pron = POS.randPron();
+    let noun = POS.randFrom(Words.nouns).word;
+    let aNoun;
+    if (['a', 'e', 'i', 'o', 'u'].indexOf(noun.charAt(0)) === -1) {
+      aNoun = `a ${noun}`
+    } else {
+      aNoun = `an ${noun}`
+    }
+    return `${pron.I} used to be ${aNoun}`;
+  },
+
+  IVerbTheNoun: (Words) => {
+    let pron = POS.randPron();
+    let noun = POS.randFrom(Words.nouns).word;
+    let verb = POS.randFrom(Words.verbs).word;
+    return `${pron.I} ${verb} the ${noun}`
+  },
+
   myNoun: (Words) => {
     let nounList = Words.nouns;
     let adjList = Words.adjectives;
-    let pronList = POS.pronounList;
-    let pron = POS.randPron(POS.pronList);
+    let pron = POS.randPron();
     let noun = Words.nouns.splice(0,1)[0].word;
     let adj = Words.adjectives.splice(0,1)[0].word;
     // add adjective
@@ -24,9 +42,8 @@ module.exports = {
   IAuxVerb: function (Words) {
     const nounList = Words.list;
     const verbList = Words.verbs;
-    const pronList = POS.pronounList;
     let verb = Words.verbs.splice(0,1)[0].word;
-    let pron = POS.randPron(pronList);
+    let pron = POS.randPron();
     let aux = pron.getRandomAuxiliary();
     // lol
     let l = console.log;
