@@ -9,17 +9,6 @@ const allPos = ["nouns", "verbs", "adjectives"];
 const typeFromArrName = (arr)=> arr.substr(0, arr.length - 1);
 const stopWords = stopwords.toString();
 
-class WordsObj {
-  constructor() {
-    this.nouns = [],
-    this.adjectives = [],
-    this.verbs = [],
-    this.rest = []
-  }
-}
-// declare i with value 0
-let i = 0;
-
 class Word {
   constructor(word) {
     this.word = word
@@ -54,6 +43,41 @@ class Word {
   }
 }
 
+const defWords = {
+  nouns: [
+    'playa', 'hood', 'homie', 'bling', 'dope', 
+    'dough', 'ice', 'crib', 'momma', 'ride',
+    'daddy', 'pad', 'glock', 'bud', 'menace',
+    'fiend', 'product',
+  ],
+  verbs: [
+    'sling', 'bail', 'smack', 'hit', 'flex',
+    'carry', 'celebrate', 'special',
+  ],
+  adjectives: [
+    'pimping', 'dopest', 'ugly', 'fearless', 'broke-ass',
+    'damn', 'fresh', 'little', 
+  ]
+}
+
+// create word obj for every word in defWords
+allPos.forEach((pos)=> {
+  for(let i = 0; i < defWords[pos].length; i++) {
+    defWords[pos][i] = new Word(defWords[pos][i]);
+  }
+})
+
+
+class WordsObj {
+  constructor() {
+    this.nouns = defWords.nouns,
+    this.adjectives = defWords.adjectives,
+    this.verbs = defWords.verbs,
+    this.rest = []
+  }
+}
+
+
 String.isStopWord = function(word) {
   let regex = new RegExp("\\b"+word+"\\b","i");
   let badWordsArr = ["isn't", "aren't", "wasn't","weren't", "haven't", "hasn't", "hadn't",
@@ -82,14 +106,20 @@ function init(str) {
 }
 
 function extractWords(str, fn) {
-  const Words = new WordsObj();
+  let Words = new WordsObj();
+  let posCounts = {
+    nouns: 0,
+    adjectives: 0,
+    verbs: 0
+  }
   wordpos.getPOS(str, function(result) {
     let rest = result.rest 
     //dont forget to deal with rest later!!!
     allPos.forEach((pos) => {
       result[pos].forEach((word) => {
         word = new Word(word.toLowerCase());
-        Words[pos].push(word);
+        Words[pos][posCounts[pos]] = word;
+        posCounts[pos]++;
       }) 
     });
     rest.forEach((word) => {
@@ -97,7 +127,8 @@ function extractWords(str, fn) {
       wordpos.isVerb(word, function(result) {
         if (result) {
           word = new Word(word);
-          Words.verbs.push(word);
+          Words.verbs[posCounts.verbs] = word;
+          posCounts.verbs++;
         } else {
           word = new Word(word);
           Words.rest.push(word);

@@ -7,10 +7,12 @@ const toSimple = require('verbutils')();
 var toPast = require('tensify');
 var POS = require('./parts_of_speech');
 
+let selectWordAndRemove = (list) => list.splice(0,1)[0].word;
+
 module.exports = {
   IUsedToBeANoun: (Words) => {
     let pron = POS.randPron();
-    let noun = POS.randFrom(Words.nouns).word;
+    let noun = selectWordAndRemove(Words.nouns);
     let aNoun;
     if (['a', 'e', 'i', 'o', 'u'].indexOf(noun.charAt(0)) === -1) {
       aNoun = `a ${noun}`
@@ -22,8 +24,9 @@ module.exports = {
 
   IVerbTheNoun: (Words) => {
     let pron = POS.randPron();
-    let noun = POS.randFrom(Words.nouns).word;
-    let verb = POS.randFrom(Words.verbs).word;
+    let noun = selectWordAndRemove(Words.nouns);
+    let verb = selectWordAndRemove(Words.verbs);
+    verb = (["he", "she", "it"].indexOf(pron.I) === -1 ? verb : verb + 's');
     return `${pron.I} ${verb} the ${noun}`
   },
 
