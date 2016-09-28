@@ -10,11 +10,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: 'rap.html',
       controller: 'crapCtrl'
       })
-    .state('rap', {
-      url: '/rap',
-      templateUrl: 'rap.html',
-      controller: 'crapCtrl'      
-      })
     .state('about', {
       url: '/about',
       templateUrl: 'about.html',
