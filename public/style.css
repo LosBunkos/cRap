@@ -159,7 +159,14 @@ span {
 
 /* STYLES FOR LIBRARY.HTML */
 
-.libclass li {
-  list-style: none;
-  margin-top: 3%;
+.lib-icon-wrap{
+  padding-top: 19px !important;
+  padding-bottom: 0px !important;
+}
+
+.lib-icon{
+  border: none;
+}
+.lib-icon:nth-child(2), .lib-icon:nth-child(3) {
+  padding: 0 70px;
 }
