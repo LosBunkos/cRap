@@ -15,7 +15,84 @@ let selectWordAndRemove = (list) => {
 }
 
 module.exports = {
-  dontYouVerb: function(Words) => {
+  pronDownWithNouns: (Words) => {
+    let pron = POS.randPron();
+    let noun = selectWordAndRemove(Words.nouns);
+    let adj = selectWordAndRemove(Words.adjectives);    
+    let aNoun;
+    if (['a', 'e', 'i', 'o', 'u'].indexOf(noun.charAt(0)) === -1) {
+      aNoun = `a ${noun}`
+    } else {
+      aNoun = `an ${noun}`
+    }    
+    return `${pron.I} down with ${adj} ${noun}`
+  },
+
+  nounBetterHaveMyNoun: (Words) => {
+    let noun = selectWordAndRemove(Words.nouns);
+    let noun2 = selectWordAndRemove(Words.nouns);
+    let adj = selectWordAndRemove(Words.adjectives);
+    return `${noun} better have my ${adj} ${noun2}`
+  },
+
+  aintNoParty: (Words) => {
+    let noun = selectWordAndRemove(Words.nouns);
+    let verb = selectWordAndRemove(Words.verbs);
+    return `ain't no party like a ${noun} party cuz a ${noun} party don't ${verb}`    
+  },
+
+  itAintNuthinButANounThang: (Words) => {
+    let noun = selectWordAndRemove(Words.nouns);
+    return `it ain't nuthin' but a ${noun} thang, baby`    
+  },
+
+  withMyNounOnMyNounAndViceVersa: (Words) => {
+    let noun = selectWordAndRemove(Words.nouns);
+    let noun2 = selectWordAndRemove(Words.nouns)
+    return `with my ${noun} on my ${noun2} and my ${noun2} on my ${noun}`    
+  },
+
+  pronReachedForMyNoun: (Words) => {
+    let noun = selectWordAndRemove(Words.nouns);
+    let pron = POS.randPron();
+    let aNoun;
+    if (['a', 'e', 'i', 'o', 'u'].indexOf(noun.charAt(0)) === -1) {
+      aNoun = `a ${noun}`
+    } else {
+      aNoun = `an ${noun}`
+    }
+    return `${pron.I} reached for ${pron["my"]} ${aNoun}`    
+  },
+
+  pronDontVerbLikeThat: (Words) => {
+    let pron = POS.randPron();
+    let verb = selectWordAndRemove(Words.verbs);
+    return `${pron.I} don't ${verb} like that`    
+  },
+
+  suckasWannaVerbMyNoun: (Words) => {
+    let verb = selectWordAndRemove(Words.verbs);
+    let noun = selectWordAndRemove(Words.nouns);
+    return `suckas wanna ${verb} my ${noun}`    
+  },
+
+  whenISayVerbYouSayNoun: (Words) => {
+    let verb = selectWordAndRemove(Words.verbs);
+    let noun = selectWordAndRemove(Words.nouns);
+    return `when I say ${verb}, you say ${noun}`    
+  },
+
+  cantBeNoNoun: (Words) => {
+    let noun = selectWordAndRemove(Words.nouns);
+    return `can't be no ${noun}`
+  },
+
+  rollingWithMyNoun: (Words) => {
+    let noun = selectWordAndRemove(Words.nouns);
+    return `rollin' with my ${noun}`
+  },
+
+  dontYouVerb: (Words) => {
     let verb = selectWordAndRemove(Words.verbs);
     return `don't you ${verb}`
   },
