@@ -44,12 +44,12 @@ app.post('/getRap', (req, res, next) => {
           let sen4 = constructor.rhyme(sen2);
           let end = new Date().getTime();
           let time = end - start;
-          console.log('===<Generated in='+time+'ms>===')
+          console.log('===<Generated in |'+time+'ms| for ip |'+ip+'|>===')
           console.log(sen1.text)
           console.log(sen2.text)
           console.log(sen3.text)
           console.log(sen4.text)
-          console.log('===</Generated ip='+ip+'>===')
+          console.log('===</Generated>===')
           res.json({
             sentences: [sen1.text, sen3.text, sen2.text, sen4.text],
             tokens: input,
