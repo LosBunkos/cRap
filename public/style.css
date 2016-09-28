@@ -103,9 +103,9 @@ span {
 .sk-cube-grid .sk-cube {
   width: 33%;
   height: 33%;
-  background-color: #c2d1f0;
+  background-color: white;
   float: left;
-  border: #5c5c3d 1px solid;
+  border: white 1px solid;
   -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
           animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out; 
 }
