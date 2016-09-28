@@ -1,5 +1,6 @@
-const WordPOS = require('wordpos'),
-    wordpos = new WordPOS();
+const WordPOS = require('wordpos');
+wordpos = new WordPOS();
+
 const request = require('request');
 const stopwords = require('stopwords').english;
 const toSimple = require('verbutils')();
@@ -107,7 +108,6 @@ function init(str) {
 
 function extractWords(str, fn) {
   let Words = new WordsObj();
-  console.log('Words', Words)
   let posCounts = {
     nouns: 0,
     adjectives: 0,
