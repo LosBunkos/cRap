@@ -22,8 +22,9 @@ module.exports = {
 
   IVerbTheNoun: (Words) => {
     let pron = POS.randPron();
-    let noun = POS.randFrom(Words.nouns).word;
-    let verb = POS.randFrom(Words.verbs).word;
+    let noun = Words.nouns.splice(0,1)[0].word;
+    let verb = Words.verbs.splice(0,1)[0].word;
+    verb = (["he", "she", "it"].indexOf(pron.I) === -1 ? verb : verb + 's');
     return `${pron.I} ${verb} the ${noun}`
   },
 
