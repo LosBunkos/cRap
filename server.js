@@ -27,13 +27,14 @@ app.post('/getRap', (req, res, next) => {
   if(!(req && req.body && req.body.text)) {
     next('Error - Please make sure you\'re sending some text!');
   }
+  let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
   let start = new Date().getTime();
   let input = req.body.text;
   input = ex.init(input);
   ex.extractWords(input, (Words) => {
-    ex.getMissingWords(Words, (Words2) => {
+    // ex.getMissingWords(Words, (Words2) => {
       let constructor = new cs.Sentencer(
-        Words2, sa.IUsedToBeANoun, ()=>'but now', sa.IVerbTheNoun
+        Words, sa.IUsedToBeANoun, ()=>'but now', sa.IVerbTheNoun
         );
       let sen1 = constructor.make();
       let sen2 = constructor.make();
@@ -43,6 +44,12 @@ app.post('/getRap', (req, res, next) => {
           let sen4 = constructor.rhyme(sen2);
           let end = new Date().getTime();
           let time = end - start;
+          console.log('===<Generated in='+time+'ms>===')
+          console.log(sen1.text)
+          console.log(sen2.text)
+          console.log(sen3.text)
+          console.log(sen4.text)
+          console.log('===</Generated ip='+ip+'>===')
           res.json({
             sentences: [sen1.text, sen3.text, sen2.text, sen4.text],
             tokens: input,
@@ -50,7 +57,7 @@ app.post('/getRap', (req, res, next) => {
           })
         })
       })
-    })
+    // })
   })
 
 })
