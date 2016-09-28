@@ -121,7 +121,6 @@ span {
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: gray;
   margin: auto;  
-  /*margin: 0 auto;*/
   left:0;
   right: 0;
   top: 50%;
@@ -138,7 +137,6 @@ span {
 .sk-cube-grid {
   width: 60px;
   height: 60px;
-/*  margin: 100px auto;*/
 }
 
 .sk-cube-grid .sk-cube {
@@ -215,6 +213,7 @@ span {
 
 /* END OF RAP.HTML STYLE */
 
+/*////////////////////////*/
 
 /* STYLES FOR LIBRARY.HTML */
 
@@ -242,5 +241,15 @@ span {
   list-style: none;
   margin: 0; 
   padding: 0;
+}
 
+/*STYLES FOR LIBRARY.HTML*/
+
+
+/*screen size adjustments*/
+
+@media only screen and (max-width: 1000px){
+  body {
+    overflow: auto;
+  }
 }
