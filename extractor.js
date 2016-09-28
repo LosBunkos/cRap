@@ -63,7 +63,7 @@ const defWords = {
     'crawl'
   ],
   adjectives: [
-    'pimping', 'dopest', 'ugly', 'fearless', 'broke-ass',
+    'pimping', 'dopest', 'ugly', 'fearless',
     'damn', 'fresh', 'little', 'special', 'crooked', 'blunt',
     'creepy', 'sneaky', 'trippy', 'picky'
   ]
