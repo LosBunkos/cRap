@@ -10,5 +10,7 @@ exports.init = (Words)=> {
     cantBeNoNoun: new cs.Sentencer(Words, sa.cantBeNoNoun, ()=>"on", sa.myNoun),
     myNounIsLikeMyNoun: new cs.Sentencer(Words, sa.myNoun, ()=>"is like", sa.myNoun),
     IReachedForMyNoun: new cs.Sentencer(Words, sa.pronReachedFor, sa.myNoun),
+    IUsedToBeANoun: new cs.Sentencer(Words, sa.IUsedToBeANoun, ()=>"\b, now", sa.suckasWannaVerb),
+    nounThang: new cs.Sentencer(Words, sa.itAintNuthinButANounThang)
   }
 };

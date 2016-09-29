@@ -13,7 +13,7 @@ app.controller('crapCtrl', function($scope, crapService){
   }
 
   $scope.collectSentence = function() {
-    let sentences = $scope.texts
+    var sentences = $scope.texts
     console.log(sentences)
   }
 
