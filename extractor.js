@@ -147,7 +147,7 @@ function extractWords(str, fn) {
       })
     }) 
   })
-  setTimeout(function(){fn(Words)}, 6000);
+  setTimeout(function(){fn(Words)}, 600);
 }
 
 function _getAmountOfMissing (Words, needed = 10) {
