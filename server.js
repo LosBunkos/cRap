@@ -52,7 +52,7 @@ app.post('/getRap', (req, res, next) => {
             let sen7 = Sentencer.IReachedForMyNoun.rhyme(sen5);
             let sen8 = Sentencer.nounThang.rhyme(sen5);
             sen2.body = 'cuz ' + sen2.body;
-            sen4.body = 'but ' + sen4.body;
+            sen4.body = 'cuz ' + sen4.body;
             sen5.body = 'and ' + sen5.body;
             sen6.body = 'brotha, ' + sen6.body;
 
