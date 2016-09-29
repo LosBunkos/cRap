@@ -283,7 +283,7 @@ span {
 /*screen size adjustments*/
 
 @media only screen and (max-width: 1000px){
-  body {
-    overflow: auto;
+  .allContainer {
+    overflow: scroll;
   }
 }
