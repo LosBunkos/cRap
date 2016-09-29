@@ -86,7 +86,7 @@ module.exports = {
 
   rollingWith: (Words) => {
     let noun = selectWordAndRemove(Words.nouns);
-    return `rollin' with`
+    return `rollin' with ${noun}`
   },
 
   dontYouVerb: (Words) => {
