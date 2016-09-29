@@ -21,7 +21,7 @@ class Sentence {
     let word = new we.Word(self.lastWord);
     word.getRhymes(()=> {
       self.rhymes = word.rhymes;
-      fn()
+      fn();
     })
   }
 }

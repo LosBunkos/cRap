@@ -11,7 +11,9 @@ let selectWordAndRemove = (list) => {
   // if(list.length == 0) {
   //   list.push({word: 'noun'})
   // }
-  return list.splice(0,1)[0].word;
+  let toReturn = list.splice(0,1)[0];
+  list.push(toReturn);
+  return toReturn.word;
 }
 
 let aOrAn = (word) => {
