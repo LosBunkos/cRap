@@ -1,0 +1,15 @@
+Async handling:
+  *async
+  *bluebird(awesome promises)
+
+
+Analyzing Resources:
+  *wordpos.lookup (check out lex.name)
+
+DataMuse:
+  *Specify context, sorts results acoording to relevance:
+    **https://api.datamuse.com/words?rel_rhy=patient&topics=war
+    **topics (up to 5), lc (left-context), rc (right-context)
+  *Make better use of datamuse.
+    **http://www.datamuse.com/api/
+
